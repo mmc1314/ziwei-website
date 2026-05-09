@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>紫微命盤 | Zi Wei Astrology</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700;900&family=Noto+Sans+TC:wght@300;400;500&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#D4A843;--gold2:#F0C96A;--gold3:#FFE8A0;
+  --deep:#0A0818;--panel:#100E24;--card:#16132E;
+  --accent:#9B7FE8;--accent2:#C4A8FF;
+  --text:#F0EBE0;--muted:#8A7FA0;--border:rgba(212,168,67,0.2);
+  --red:#E85555;--green:#4CAF7D;--blue:#5B9BD5;
+  --white:#FFFFFF;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans TC',sans-serif;background:var(--deep);color:var(--text);overflow-x:hidden}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--deep)}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px}
+
+/* LANG SWITCHER */
+.lang-bar{background:rgba(16,14,36,0.95);border-bottom:0.5px solid var(--border);padding:8px 40px;display:flex;justify-content:flex-end;gap:16px;align-items:center;position:sticky;top:0;z-index:100;backdrop-filter:blur(10px)}
+.lang-btn{font-size:12px;color:var(--muted);cursor:pointer;padding:4px 10px;border-radius:12px;border:0.5px solid transparent;transition:all 0.2s;background:none}
+.lang-btn.active,.lang-btn:hover{color:var(--gold);border-color:var(--border)}
+.lang-sep{color:var(--border);font-size:10px}
+
+/* NAV */
+nav{display:flex;align-items:center;justify-content:space-between;padding:20px 40px;border-bottom:0.5px solid var(--border);background:rgba(10,8,24,0.9);backdrop-filter:blur(20px);position:sticky;top:37px;z-index:99}
+.logo{display:flex;flex-direction:column}
+.logo-main{font-family:'Noto Serif TC',serif;font-size:22px;font-weight:900;background:linear-gradient(135deg,var(--gold),var(--gold2),var(--gold3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:4px}
+.logo-sub{font-family:'Cinzel',serif;font-size:10px;color:var(--muted);letter-spacing:3px;margin-top:2px}
+.nav-links{display:flex;gap:28px}
+.nav-links a{font-size:13px;color:var(--muted);cursor:pointer;text-decoration:none;transition:color 0.2s;letter-spacing:1px}
+.nav-links a:hover{color:var(--gold)}
+.nav-right{display:flex;gap:10px;align-items:center}
+.btn-login{font-size:13px;color:var(--gold);border:0.5px solid var(--gold);padding:8px 20px;border-radius:20px;cursor:pointer;background:transparent;transition:all 0.2s;font-family:'Noto Sans TC',sans-serif}
+.btn-login:hover{background:rgba(212,168,67,0.1)}
+.btn-join{font-size:13px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#0A0818;padding:8px 20px;border-radius:20px;cursor:pointer;border:none;font-weight:700;font-family:'Noto Sans TC',sans-serif;letter-spacing:1px}
+
+/* HERO */
+.hero{min-height:85vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:80px 40px}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(155,127,232,0.08) 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(212,168,67,0.06) 0%,transparent 50%),radial-gradient(ellipse at 60% 80%,rgba(91,155,213,0.05) 0%,transparent 50%)}
+.star-field{position:absolute;inset:0;overflow:hidden}
+.star{position:absolute;border-radius:50%;animation:twinkle linear infinite}
+@keyframes twinkle{0%,100%{opacity:0.1}50%{opacity:0.8}}
+.hero-content{text-align:center;position:relative;z-index:2;max-width:800px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:24px;padding:6px 16px;border:0.5px solid var(--border);border-radius:20px;background:rgba(212,168,67,0.05)}
+.hero-title{font-family:'Noto Serif TC',serif;font-size:52px;font-weight:900;line-height:1.3;margin-bottom:20px}
+.hero-title .line1{display:block;background:linear-gradient(135deg,var(--gold),var(--gold2),var(--gold3));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-title .line2{display:block;color:#fff;font-size:36px;margin-top:8px}
+.hero-sub{font-size:15px;color:var(--muted);line-height:1.9;margin-bottom:40px;max-width:580px;margin-left:auto;margin-right:auto}
+.hero-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#0A0818;padding:14px 36px;border-radius:30px;font-size:15px;font-weight:700;cursor:pointer;border:none;font-family:'Noto Sans TC',sans-serif;letter-spacing:1px;transition:all 0.3s;box-shadow:0 4px 20px rgba(212,168,67,0.3)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(212,168,67,0.4)}
+.btn-outline{background:transparent;color:var(--text);padding:14px 32px;border-radius:30px;font-size:15px;cursor:pointer;border:0.5px solid var(--border);font-family:'Noto Sans TC',sans-serif;transition:all 0.2s}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+.scroll-hint{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--muted);font-size:11px;letter-spacing:2px;animation:bounce 2s infinite}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+/* STATS BAR */
+.stats-bar{background:var(--panel);border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border);padding:24px 40px;display:flex;justify-content:center;gap:0}
+.stat{text-align:center;padding:0 48px;border-right:0.5px solid var(--border)}
+.stat:last-child{border-right:none}
+.stat-num{font-family:'Cinzel',serif;font-size:28px;font-weight:700;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-label{font-size:12px;color:var(--muted);margin-top:4px;letter-spacing:1px}
+
+/* SECTIONS */
+.section{padding:80px 40px}
+.section-header{text-align:center;margin-bottom:56px}
+.section-tag{font-size:11px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:12px}
+.section-tag::before,.section-tag::after{content:'';height:0.5px;width:40px;background:var(--gold);opacity:0.4}
+.section-title{font-family:'Noto Serif TC',serif;font-size:32px;font-weight:700;color:#fff;margin-bottom:12px}
+.section-sub{font-size:14px;color:var(--muted);line-height:1.8;max-width:500px;margin:0 auto}
+
+/* FREE VS PAID */
+.services-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;max-width:900px;margin:0 auto;border:0.5px solid var(--border);border-radius:16px;overflow:hidden}
+.service-col{background:var(--card);padding:36px 32px}
+.service-col.paid{background:linear-gradient(160deg,#16132E,#1E1640)}
+.service-col-header{display:flex;align-items:center;gap:10px;margin-bottom:24px}
+.service-col-icon{font-size:20px}
+.service-col-title{font-family:'Noto Serif TC',serif;font-size:18px;font-weight:700;color:#fff}
+.service-col-badge{font-size:10px;padding:3px 10px;border-radius:10px;letter-spacing:1px}
+.badge-free{background:rgba(76,175,125,0.15);color:#4CAF7D;border:0.5px solid rgba(76,175,125,0.3)}
+.badge-paid{background:rgba(212,168,67,0.15);color:var(--gold);border:0.5px solid var(--border)}
+.service-items{display:flex;flex-direction:column;gap:14px}
+.service-item{display:flex;gap:12px;align-items:flex-start}
+.service-dot{width:6px;height:6px;border-radius:50%;margin-top:6px;flex-shrink:0}
+.dot-free{background:#4CAF7D}
+.dot-paid{background:var(--gold)}
+.service-text{font-size:13px;color:var(--text);line-height:1.6}
+.service-text span{color:var(--muted);font-size:12px;display:block;margin-top:2px}
+
+/* COLOUR DEMO */
+.colour-section{background:var(--panel);border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border)}
+.colour-demo{max-width:900px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.colour-left h3{font-family:'Noto Serif TC',serif;font-size:24px;color:#fff;margin-bottom:8px}
+.colour-left p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:24px}
+.date-display{background:var(--card);border:0.5px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center}
+.date-main{font-family:'Noto Serif TC',serif;font-size:16px;color:#fff}
+.date-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.date-ganzhi{text-align:right;font-size:13px;color:var(--gold)}
+.colour-card{background:var(--card);border:0.5px solid var(--border);border-radius:16px;padding:24px}
+.colour-card-title{font-size:11px;letter-spacing:3px;color:var(--gold);margin-bottom:20px;text-align:center}
+.colour-good{margin-bottom:20px}
+.colour-label{font-size:11px;color:var(--muted);letter-spacing:1px;margin-bottom:10px}
+.colour-chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{display:flex;flex-direction:column;align-items:center;gap:6px}
+.chip-circle{width:44px;height:44px;border-radius:50%;border:2px solid rgba(255,255,255,0.1);position:relative}
+.chip-circle.shimmer{background:linear-gradient(135deg,var(--c1,#fff),var(--c2,#eee))}
+.chip-name{font-size:10px;color:var(--muted);text-align:center;max-width:44px}
+.divider{height:0.5px;background:var(--border);margin:16px 0}
+.colour-avoid{display:flex;gap:10px;align-items:center}
+.avoid-chips{display:flex;gap:8px}
+.chip-x{position:relative}
+.chip-x::after{content:'✕';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:14px;color:#fff;font-weight:700}
+.colour-reason{font-size:11px;color:var(--muted);line-height:1.6;margin-top:16px;padding-top:16px;border-top:0.5px solid var(--border)}
+.colour-reason strong{color:var(--gold)}
+
+/* FENGSHUI */
+.fengshui-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:900px;margin:0 auto}
+.fs-card{background:var(--card);border:0.5px solid var(--border);border-radius:14px;padding:24px;transition:border-color 0.2s,transform 0.2s}
+.fs-card:hover{border-color:rgba(212,168,67,0.4);transform:translateY(-3px)}
+.fs-icon{font-size:28px;margin-bottom:12px}
+.fs-title{font-family:'Noto Serif TC',serif;font-size:16px;color:#fff;margin-bottom:8px}
+.fs-desc{font-size:12px;color:var(--muted);line-height:1.7}
+.fs-badge{display:inline-block;font-size:10px;padding:3px 10px;border-radius:10px;margin-top:12px;background:rgba(212,168,67,0.1);color:var(--gold);border:0.5px solid var(--border)}
+.warning-box{background:rgba(212,168,67,0.05);border:0.5px solid rgba(212,168,67,0.2);border-radius:10px;padding:14px 18px;display:flex;gap:10px;align-items:flex-start;max-width:900px;margin:24px auto 0}
+.warning-box span{font-size:13px;color:var(--muted);line-height:1.7}
+.warning-box strong{color:var(--gold)}
+
+/* PRICING */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:960px;margin:0 auto}
+.plan{background:var(--card);border:0.5px solid var(--border);border-radius:16px;padding:32px 28px;position:relative;transition:transform 0.2s}
+.plan:hover{transform:translateY(-4px)}
+.plan.featured{border-color:var(--gold);background:linear-gradient(160deg,#1E1A38,#241D40)}
+.plan-glow{position:absolute;top:-1px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--gold),var(--gold2));color:#0A0818;font-size:10px;padding:4px 16px;border-radius:0 0 10px 10px;font-weight:700;letter-spacing:1px;white-space:nowrap}
+.plan-name{font-family:'Noto Serif TC',serif;font-size:20px;color:#fff;margin-bottom:6px}
+.plan-name-en{font-family:'Cinzel',serif;font-size:11px;color:var(--muted);letter-spacing:2px;margin-bottom:16px;display:block}
+.plan-price{font-family:'Cinzel',serif;font-size:36px;font-weight:700;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px}
+.plan-period{font-size:12px;color:var(--muted);margin-bottom:6px}
+.plan-equiv{font-size:11px;color:var(--muted);margin-bottom:20px;padding-bottom:20px;border-bottom:0.5px solid var(--border)}
+.plan-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
+.plan-features li{font-size:12px;color:var(--text);display:flex;gap:8px;align-items:flex-start;line-height:1.5}
+.plan-features li::before{content:'✦';color:var(--gold);font-size:8px;margin-top:4px;flex-shrink:0}
+.plan-features li.muted::before{color:var(--muted)}
+.plan-features li.muted{color:var(--muted)}
+.plan-btn{width:100%;padding:12px;border-radius:25px;font-size:13px;cursor:pointer;font-family:'Noto Sans TC',sans-serif;font-weight:500;letter-spacing:1px;transition:all 0.2s}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;color:#0A0818;font-weight:700}
+.btn-gold:hover{box-shadow:0 4px 20px rgba(212,168,67,0.4)}
+.btn-ghost{background:transparent;border:0.5px solid var(--border);color:var(--text)}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.currency-note{text-align:center;margin-top:20px;font-size:12px;color:var(--muted)}
+.currency-note span{color:var(--gold)}
+
+/* CONSULT */
+.consult-section{background:var(--panel);border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border)}
+.consult-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;max-width:900px;margin:0 auto;align-items:center}
+.consult-left h3{font-family:'Noto Serif TC',serif;font-size:26px;color:#fff;margin-bottom:12px}
+.consult-left p{font-size:13px;color:var(--muted);line-height:1.9;margin-bottom:24px}
+.contact-options{display:flex;flex-direction:column;gap:12px}
+.contact-item{display:flex;gap:14px;align-items:center;background:var(--card);border:0.5px solid var(--border);border-radius:10px;padding:14px 18px;cursor:pointer;transition:border-color 0.2s}
+.contact-item:hover{border-color:rgba(212,168,67,0.4)}
+.contact-icon{font-size:20px;flex-shrink:0}
+.contact-text strong{font-size:13px;color:#fff;display:block}
+.contact-text span{font-size:11px;color:var(--muted)}
+.complex-note{background:rgba(155,127,232,0.05);border:0.5px solid rgba(155,127,232,0.2);border-radius:12px;padding:20px}
+.complex-note h4{font-family:'Noto Serif TC',serif;font-size:15px;color:var(--accent2);margin-bottom:10px}
+.complex-note p{font-size:12px;color:var(--muted);line-height:1.8}
+.complex-examples{margin-top:12px;display:flex;flex-direction:column;gap:6px}
+.complex-ex{font-size:11px;color:var(--muted);display:flex;gap:8px;align-items:flex-start}
+.complex-ex::before{content:'◈';color:var(--accent);font-size:9px;margin-top:2px;flex-shrink:0}
+
+/* FOOTER */
+footer{padding:48px 40px 32px;border-top:0.5px solid var(--border)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+.footer-brand .logo-main{font-family:'Noto Serif TC',serif;font-size:20px;font-weight:900;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:3px;display:block;margin-bottom:8px}
+.footer-brand p{font-size:12px;color:var(--muted);line-height:1.8;margin-top:8px;max-width:200px}
+.footer-col h4{font-size:12px;color:var(--gold);letter-spacing:2px;margin-bottom:16px}
+.footer-col a{display:block;font-size:12px;color:var(--muted);text-decoration:none;margin-bottom:10px;transition:color 0.2s;cursor:pointer}
+.footer-col a:hover{color:var(--text)}
+.footer-bottom{border-top:0.5px solid var(--border);padding-top:24px;display:flex;justify-content:space-between;align-items:center}
+.footer-copy{font-size:11px;color:var(--muted)}
+.footer-langs{display:flex;gap:16px}
+.footer-langs span{font-size:11px;color:var(--muted);cursor:pointer}
+.footer-langs span:hover{color:var(--gold)}
+
+/* ANIMATIONS */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.hero-content>*{animation:fadeInUp 0.8s ease forwards;opacity:0}
+.hero-badge{animation-delay:0.1s}
+.hero-title{animation-delay:0.3s}
+.hero-sub{animation-delay:0.5s}
+.hero-actions{animation-delay:0.7s}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  nav{padding:16px 20px}
+  .nav-links{display:none}
+  .hero{padding:60px 20px}
+  .hero-title{font-size:32px}
+  .hero-title .line2{font-size:24px}
+  .section{padding:60px 20px}
+  .services-grid,.colour-demo,.consult-grid,.footer-grid{grid-template-columns:1fr}
+  .pricing-grid{grid-template-columns:1fr}
+  .stats-bar{flex-wrap:wrap;gap:20px;padding:24px 20px}
+  .stat{border-right:none;padding:0 20px}
+  .fengshui-grid{grid-template-columns:1fr}
+  .lang-bar{padding:8px 20px}
+}
+</style>
+</head>
+<body>
+
+<!-- LANGUAGE BAR -->
+<div class="lang-bar">
+  <button class="lang-btn active" onclick="setLang('zh-TW')">繁體</button>
+  <span class="lang-sep">|</span>
+  <button class="lang-btn" onclick="setLang('zh-CN')">简体</button>
+  <span class="lang-sep">|</span>
+  <button class="lang-btn" onclick="setLang('en')">English</button>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    <span class="logo-main">紫微命盤</span>
+    <span class="logo-sub">ZI WEI ASTROLOGY</span>
+  </div>
+  <div class="nav-links">
+    <a data-key="nav_chart">免費起盤</a>
+    <a data-key="nav_reading">命盤解說</a>
+    <a data-key="nav_colour">每日色彩</a>
+    <a data-key="nav_fengshui">風水指引</a>
+    <a data-key="nav_member">會員中心</a>
+    <a data-key="nav_contact">聯絡我們</a>
+  </div>
+  <div class="nav-right">
+    <button class="btn-login" data-key="btn_login">登入</button>
+    <button class="btn-join" data-key="btn_join">立即加入</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="star-field" id="starField"></div>
+  <div class="hero-content">
+    <div class="hero-badge">✦ <span data-key="hero_badge">千年命理智慧 · 現代精準解析</span> ✦</div>
+    <h1 class="hero-title">
+      <span class="line1" data-key="hero_title1">紫微斗數命盤</span>
+      <span class="line2" data-key="hero_title2">探索您的星曜密碼</span>
+    </h1>
+    <p class="hero-sub" data-key="hero_sub">以正統紫微斗數為核心，為您精準起盤、深度解盤、每日色彩穿搭指引、風水方位建議。讓古老星曜智慧，引領您的現代生活。</p>
+    <div class="hero-actions">
+      <button class="btn-primary" data-key="hero_btn1">✦ 免費起盤</button>
+      <button class="btn-outline" data-key="hero_btn2">了解服務</button>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span data-key="scroll_hint">向下探索</span>
+    <span>↓</span>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat"><div class="stat-num">14</div><div class="stat-label" data-key="stat1">主星分析</div></div>
+  <div class="stat"><div class="stat-num">12</div><div class="stat-label" data-key="stat2">宮位解說</div></div>
+  <div class="stat"><div class="stat-num">365</div><div class="stat-label" data-key="stat3">每日色彩指引</div></div>
+  <div class="stat"><div class="stat-num">∞</div><div class="stat-label" data-key="stat4">星曜組合</div></div>
+</div>
+
+<!-- SERVICES -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-tag" data-key="svc_tag">服務內容</div>
+    <h2 class="section-title" data-key="svc_title">免費與付費服務</h2>
+    <p class="section-sub" data-key="svc_sub">基礎起盤免費提供，深度解析、色彩指引及風水建議為付費服務</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-col">
+      <div class="service-col-header">
+        <span class="service-col-icon">☯</span>
+        <span class="service-col-title" data-key="free_title">免費服務</span>
+        <span class="service-col-badge badge-free" data-key="free_badge">FREE</span>
+      </div>
+      <div class="service-items">
+        <div class="service-item"><div class="service-dot dot-free"></div><div class="service-text" data-key="free1">線上起盤<span>輸入出生年月日時，即時生成命盤</span></div></div>
+        <div class="service-item"><div class="service-dot dot-free"></div><div class="service-text" data-key="free2">十二宮位顯示<span>命宮、財帛、事業等宮位星曜</span></div></div>
+        <div class="service-item"><div class="service-dot dot-free"></div><div class="service-text" data-key="free3">命宮主星基本介紹<span>主星特性簡介</span></div></div>
+        <div class="service-item"><div class="service-dot dot-free"></div><div class="service-text" data-key="free4">四化星顯示<span>生年祿權科忌標示</span></div></div>
+      </div>
+    </div>
+    <div class="service-col paid">
+      <div class="service-col-header">
+        <span class="service-col-icon">✦</span>
+        <span class="service-col-title" data-key="paid_title">付費服務</span>
+        <span class="service-col-badge badge-paid" data-key="paid_badge">PREMIUM</span>
+      </div>
+      <div class="service-items">
+        <div class="service-item"><div class="service-dot dot-paid"></div><div class="service-text" data-key="paid1">深度命盤解說<span>十二宮位完整分析，格局判斷</span></div></div>
+        <div class="service-item"><div class="service-dot dot-paid"></div><div class="service-text" data-key="paid2">每日色彩穿搭指引（月費）<span>流月流日四化推算，每天最佳穿搭色</span></div></div>
+        <div class="service-item"><div class="service-dot dot-paid"></div><div class="service-text" data-key="paid3">風水方位建議<span>命盤對應方位，植物擺放指引</span></div></div>
+        <div class="service-item"><div class="service-dot dot-paid"></div><div class="service-text" data-key="paid4">如何找出家中方位<span>配合羅盤，精準定位吉方</span></div></div>
+        <div class="service-item"><div class="service-dot dot-paid"></div><div class="service-text" data-key="paid5">命理師一對一諮詢<span>複雜命盤、人生規劃深度解析</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COLOUR DEMO -->
+<section class="section colour-section">
+  <div class="section-header">
+    <div class="section-tag" data-key="colour_tag">每日色彩指引</div>
+    <h2 class="section-title" data-key="colour_title">今日穿搭建議示例</h2>
+    <p class="section-sub" data-key="colour_sub">根據您的命盤、流月流日四化，每天推算最有利的穿搭顏色</p>
+  </div>
+  <div class="colour-demo">
+    <div class="colour-left">
+      <h3 data-key="colour_how_title">計算邏輯</h3>
+      <p data-key="colour_how_desc">綜合三層分析：命宮主星代表色、流月四化忌色、流日四化忌色，找出今日最有利於您的顏色組合。若當天要見客戶、談生意、約會，可針對對應宮位選色。</p>
+      <div class="date-display">
+        <div>
+          <div class="date-main">2026年5月8日</div>
+          <div class="date-sub">農曆三月廿二</div>
+        </div>
+        <div class="date-ganzhi">壬日 · 癸月<br><span style="font-size:10px;color:var(--muted)">丙午年</span></div>
+      </div>
+      <p style="font-size:12px;color:var(--muted);line-height:1.8" data-key="colour_note">⚠️ <span data-key="colour_note_text">每日色彩指引為會員付費功能，以下為示例</span></p>
+    </div>
+    <div class="colour-card">
+      <div class="colour-card-title" data-key="colour_card_title">◈ 今日色彩分析 · 示例命盤 ◈</div>
+      <div class="colour-good">
+        <div class="colour-label" data-key="colour_good_label">✦ 今日有利穿搭色</div>
+        <div class="colour-chips">
+          <div class="chip"><div class="chip-circle" style="background:#1A3A6B"></div><div class="chip-name" data-key="c1">深藍</div></div>
+          <div class="chip"><div class="chip-circle" style="background:#4A7C59"></div><div class="chip-name" data-key="c2">深綠</div></div>
+          <div class="chip"><div class="chip-circle" style="background:#D4A843"></div><div class="chip-name" data-key="c3">金黃</div></div>
+          <div class="chip"><div class="chip-circle" style="background:#2C1F5E"></div><div class="chip-name" data-key="c4">深紫</div></div>
+          <div class="chip"><div class="chip-circle" style="background:#1A1A1A"></div><div class="chip-name" data-key="c5">黑色</div></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="colour-label" data-key="colour_avoid_label">✗ 今日忌穿色</div>
+        <div class="avoid-chips">
+          <div class="chip chip-x"><div class="chip-circle" style="background:#C0392B;opacity:0.6"></div><div class="chip-name" data-key="ca1">紅色</div></div>
+          <div class="chip chip-x"><div class="chip-circle" style="background:#F5F5F5;border:1px solid #666;opacity:0.6"></div><div class="chip-name" data-key="ca2">白色</div></div>
+          <div class="chip chip-x"><div class="chip-circle" style="background:#8B6914;opacity:0.6"></div><div class="chip-name" data-key="ca3">啡色</div></div>
+        </div>
+      </div>
+      <div class="colour-reason">
+        <strong data-key="reason_label">原因：</strong><span data-key="reason_text">壬日武曲化忌（忌紅+白）· 癸月貪狼化忌（忌淺藍+紅）· 命宮巨門（忌啡）→ 今日見工作夥伴，事業宮天同，建議加入啡色配件</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FENGSHUI -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-tag" data-key="fs_tag">風水指引</div>
+    <h2 class="section-title" data-key="fs_title">命盤對應風水建議</h2>
+    <p class="section-sub" data-key="fs_sub">根據命宮主星及輔星，提供植物擺放、方位佈局、日常改運建議</p>
+  </div>
+  <div class="fengshui-grid">
+    <div class="fs-card">
+      <div class="fs-icon">🌿</div>
+      <div class="fs-title" data-key="fs1_title">植物風水</div>
+      <div class="fs-desc" data-key="fs1_desc">依命宮主星推薦專屬植物及盆色。例如天機星：紅盆土種無刺植物；破軍星：綠盆土種無刺植物（3、6、9盆）</div>
+      <span class="fs-badge" data-key="fs1_badge">付費解鎖</span>
+    </div>
+    <div class="fs-card">
+      <div class="fs-icon">🧭</div>
+      <div class="fs-title" data-key="fs2_title">方位指引</div>
+      <div class="fs-desc" data-key="fs2_desc">十二地支對應方位角，找出財位、事業位、貴人位。教您如何用羅盤在家中精準定位，擺放風水物品</div>
+      <span class="fs-badge" data-key="fs2_badge">付費解鎖</span>
+    </div>
+    <div class="fs-card">
+      <div class="fs-icon">💡</div>
+      <div class="fs-title" data-key="fs3_title">特殊解法</div>
+      <div class="fs-desc" data-key="fs3_desc">陀羅星：放日曆用紅筆每天劃。擎羊星：放木製品。巨門星：開長明燈愈光愈好。七殺福德宮：魚缸養單數魚</div>
+      <span class="fs-badge" data-key="fs3_badge">付費解鎖</span>
+    </div>
+  </div>
+  <div class="warning-box">
+    <span>⚠️</span>
+    <span data-key="fs_warning"><strong>重要提示：</strong>風水植物必須養得好才有效。盆栽死了要立即更換，枯死的植物留著反而帶來負面影響。</span>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" style="background:var(--panel)">
+  <div class="section-header">
+    <div class="section-tag" data-key="price_tag">收費方案</div>
+    <h2 class="section-title" data-key="price_title">選擇您的命理之旅</h2>
+    <p class="section-sub" data-key="price_sub">所有方案均以加拿大元（CAD）計算，並提供港幣及台幣參考</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="plan">
+      <div class="plan-name" data-key="plan1_name">探索版</div>
+      <span class="plan-name-en">EXPLORER</span>
+      <div class="plan-price">FREE</div>
+      <div class="plan-period" data-key="plan1_period">永久免費</div>
+      <div class="plan-equiv" data-key="plan1_equiv">— 無需信用卡 —</div>
+      <ul class="plan-features">
+        <li data-key="p1f1">線上起盤（每月3次）</li>
+        <li data-key="p1f2">命宮主星基本介紹</li>
+        <li data-key="p1f3">十二宮位星曜顯示</li>
+        <li data-key="p1f4">生年四化標示</li>
+        <li class="muted" data-key="p1f5">詳細解盤（需升級）</li>
+        <li class="muted" data-key="p1f6">每日色彩指引（需升級）</li>
+      </ul>
+      <button class="plan-btn btn-ghost" data-key="plan1_btn">免費開始</button>
+    </div>
+    <div class="plan featured">
+      <div class="plan-glow" data-key="plan2_glow">✦ 最受歡迎</div>
+      <div class="plan-name" data-key="plan2_name">星命版</div>
+      <span class="plan-name-en">STELLAR</span>
+      <div class="plan-price">CAD $19</div>
+      <div class="plan-period" data-key="plan2_period">每月</div>
+      <div class="plan-equiv" data-key="plan2_equiv">約 HKD $110 / TWD $420</div>
+      <ul class="plan-features">
+        <li data-key="p2f1">無限次命盤起盤</li>
+        <li data-key="p2f2">完整命盤深度解說</li>
+        <li data-key="p2f3">每日色彩穿搭指引</li>
+        <li data-key="p2f4">流月流日四化分析</li>
+        <li data-key="p2f5">風水方位基礎建議</li>
+        <li data-key="p2f6">植物風水建議</li>
+      </ul>
+      <button class="plan-btn btn-gold" data-key="plan2_btn">立即訂閱</button>
+    </div>
+    <div class="plan">
+      <div class="plan-name" data-key="plan3_name">紫微尊享</div>
+      <span class="plan-name-en">IMPERIAL</span>
+      <div class="plan-price">CAD $68</div>
+      <div class="plan-period" data-key="plan3_period">每月</div>
+      <div class="plan-equiv" data-key="plan3_equiv">約 HKD $390 / TWD $1,500</div>
+      <ul class="plan-features">
+        <li data-key="p3f1">星命版全部功能</li>
+        <li data-key="p3f2">命理師一對一諮詢（每季1次）</li>
+        <li data-key="p3f3">詳細風水佈局方案</li>
+        <li data-key="p3f4">如何找出家中方位教學</li>
+        <li data-key="p3f5">流年大限深度解析</li>
+        <li data-key="p3f6">複雜命盤專屬解說</li>
+      </ul>
+      <button class="plan-btn btn-ghost" data-key="plan3_btn">了解詳情</button>
+    </div>
+  </div>
+  <div class="currency-note" data-key="currency_note">
+    <span>💳 支援 Stripe 信用卡付款 · 自動扣款 · 隨時取消</span><br>
+    <span style="margin-top:6px;display:block">匯率參考：<span>CAD $1 ≈ HKD $5.8 / TWD $22</span>（每日更新）</span>
+  </div>
+</section>
+
+<!-- CONSULT -->
+<section class="section consult-section">
+  <div class="section-header">
+    <div class="section-tag" data-key="consult_tag">專業支援</div>
+    <h2 class="section-title" data-key="consult_title">命盤複雜？有問題？</h2>
+    <p class="section-sub" data-key="consult_sub">命理學問博大精深，有時需要專業解說</p>
+  </div>
+  <div class="consult-grid">
+    <div>
+      <h3 class="consult-left" style="font-family:'Noto Serif TC',serif;font-size:20px;color:#fff;margin-bottom:12px" data-key="contact_title">聯絡我們</h3>
+      <p style="font-size:13px;color:var(--muted);line-height:1.9;margin-bottom:20px" data-key="contact_desc">無論是命盤疑問、服務查詢，還是想預約命理師一對一諮詢，我們都在這裡幫助您。</p>
+      <div class="contact-options">
+        <div class="contact-item">
+          <span class="contact-icon">💬</span>
+          <div class="contact-text"><strong data-key="contact1_title">WhatsApp / 即時通訊</strong><span data-key="contact1_desc">快速回覆，一般問題24小時內答覆</span></div>
+        </div>
+        <div class="contact-item">
+          <span class="contact-icon">📧</span>
+          <div class="contact-text"><strong data-key="contact2_title">電郵查詢</strong><span data-key="contact2_desc">詳細問題或命盤解說預約</span></div>
+        </div>
+        <div class="contact-item">
+          <span class="contact-icon">📅</span>
+          <div class="contact-text"><strong data-key="contact3_title">預約命理師諮詢</strong><span data-key="contact3_desc">視訊或文字一對一深度解析（尊享會員）</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="complex-note">
+      <h4 data-key="complex_title">🔮 關於複雜命盤</h4>
+      <p data-key="complex_desc">有些命盤的星曜組合較為特殊，或涉及多層四化飛星邏輯，需要專業命理師配合解說。以下情況建議預約諮詢：</p>
+      <div class="complex-examples">
+        <div class="complex-ex" data-key="cx1">命宮有多顆主星疊加</div>
+        <div class="complex-ex" data-key="cx2">化忌入命宮或疾厄宮</div>
+        <div class="complex-ex" data-key="cx3">陀羅、擎羊、火星、鈴星同宮</div>
+        <div class="complex-ex" data-key="cx4">流年四化與本命四化互相衝突</div>
+        <div class="complex-ex" data-key="cx5">不明白命盤邏輯或解讀方式</div>
+        <div class="complex-ex" data-key="cx6">想了解大限流年對人生的影響</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <span class="logo-main">紫微命盤</span>
+      <span style="font-family:'Cinzel',serif;font-size:10px;color:var(--muted);letter-spacing:2px">ZI WEI ASTROLOGY</span>
+      <p data-key="footer_desc">以正統紫微斗數為核心，融合現代技術，為全球華人提供精準命理服務。</p>
+    </div>
+    <div class="footer-col">
+      <h4 data-key="footer_col1">服務</h4>
+      <a data-key="fc1_1">免費起盤</a>
+      <a data-key="fc1_2">命盤解說</a>
+      <a data-key="fc1_3">每日色彩</a>
+      <a data-key="fc1_4">風水指引</a>
+    </div>
+    <div class="footer-col">
+      <h4 data-key="footer_col2">會員</h4>
+      <a data-key="fc2_1">登入</a>
+      <a data-key="fc2_2">立即加入</a>
+      <a data-key="fc2_3">方案比較</a>
+      <a data-key="fc2_4">常見問題</a>
+    </div>
+    <div class="footer-col">
+      <h4 data-key="footer_col3">關於</h4>
+      <a data-key="fc3_1">關於我們</a>
+      <a data-key="fc3_2">命理師團隊</a>
+      <a data-key="fc3_3">私隱政策</a>
+      <a data-key="fc3_4">使用條款</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy" data-key="footer_copy">© 2026 紫微命盤 · Zi Wei Astrology · 版權所有</span>
+    <div class="footer-langs">
+      <span onclick="setLang('zh-TW')">繁體中文</span>
+      <span onclick="setLang('zh-CN')">简体中文</span>
+      <span onclick="setLang('en')">English</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// STAR FIELD
+const sf=document.getElementById('starField');
+for(let i=0;i<80;i++){
+  const s=document.createElement('div');
+  s.className='star';
+  const size=Math.random()*2+1;
+  s.style.cssText=`width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*100}%;background:#fff;animation-duration:${Math.random()*4+2}s;animation-delay:${Math.random()*4}s`;
+  sf.appendChild(s);
+}
+
+// TRANSLATIONS
+const T={
+  'zh-TW':{
+    nav_chart:'免費起盤',nav_reading:'命盤解說',nav_colour:'每日色彩',nav_fengshui:'風水指引',nav_member:'會員中心',nav_contact:'聯絡我們',
+    btn_login:'登入',btn_join:'立即加入',
+    hero_badge:'千年命理智慧 · 現代精準解析',hero_title1:'紫微斗數命盤',hero_title2:'探索您的星曜密碼',
+    hero_sub:'以正統紫微斗數為核心，為您精準起盤、深度解盤、每日色彩穿搭指引、風水方位建議。讓古老星曜智慧，引領您的現代生活。',
+    hero_btn1:'✦ 免費起盤',hero_btn2:'了解服務',scroll_hint:'向下探索',
+    stat1:'主星分析',stat2:'宮位解說',stat3:'每日色彩指引',stat4:'星曜組合',
+    svc_tag:'服務內容',svc_title:'免費與付費服務',svc_sub:'基礎起盤免費提供，深度解析、色彩指引及風水建議為付費服務',
+    free_title:'免費服務',free_badge:'FREE',
+    free1:'線上起盤',free2:'十二宮位顯示',free3:'命宮主星基本介紹',free4:'四化星顯示',
+    paid_title:'付費服務',paid_badge:'PREMIUM',
+    paid1:'深度命盤解說',paid2:'每日色彩穿搭指引（月費）',paid3:'風水方位建議',paid4:'如何找出家中方位',paid5:'命理師一對一諮詢',
+    colour_tag:'每日色彩指引',colour_title:'今日穿搭建議示例',colour_sub:'根據您的命盤、流月流日四化，每天推算最有利的穿搭顏色',
+    colour_how_title:'計算邏輯',colour_how_desc:'綜合三層分析：命宮主星代表色、流月四化忌色、流日四化忌色，找出今日最有利於您的顏色組合。若當天要見客戶、談生意、約會，可針對對應宮位選色。',
+    colour_note_text:'每日色彩指引為會員付費功能，以下為示例',
+    colour_card_title:'◈ 今日色彩分析 · 示例命盤 ◈',
+    colour_good_label:'✦ 今日有利穿搭色',colour_avoid_label:'✗ 今日忌穿色',
+    c1:'深藍',c2:'深綠',c3:'金黃',c4:'深紫',c5:'黑色',ca1:'紅色',ca2:'白色',ca3:'啡色',
+    reason_label:'原因：',reason_text:'壬日武曲化忌（忌紅+白）· 癸月貪狼化忌（忌淺藍+紅）· 命宮巨門（忌啡）→ 今日見工作夥伴，事業宮天同，建議加入啡色配件',
+    fs_tag:'風水指引',fs_title:'命盤對應風水建議',fs_sub:'根據命宮主星及輔星，提供植物擺放、方位佈局、日常改運建議',
+    fs1_title:'植物風水',fs1_desc:'依命宮主星推薦專屬植物及盆色。例如天機星：紅盆土種無刺植物；破軍星：綠盆土種無刺植物（3、6、9盆）',fs1_badge:'付費解鎖',
+    fs2_title:'方位指引',fs2_desc:'十二地支對應方位角，找出財位、事業位、貴人位。教您如何用羅盤在家中精準定位，擺放風水物品',fs2_badge:'付費解鎖',
+    fs3_title:'特殊解法',fs3_desc:'陀羅星：放日曆用紅筆每天劃。擎羊星：放木製品。巨門星：開長明燈愈光愈好。七殺福德宮：魚缸養單數魚',fs3_badge:'付費解鎖',
+    fs_warning:'<strong>重要提示：</strong>風水植物必須養得好才有效。盆栽死了要立即更換，枯死的植物留著反而帶來負面影響。',
+    price_tag:'收費方案',price_title:'選擇您的命理之旅',price_sub:'所有方案均以加拿大元（CAD）計算，並提供港幣及台幣參考',
+    plan1_name:'探索版',plan1_period:'永久免費',plan1_equiv:'— 無需信用卡 —',plan1_btn:'免費開始',
+    p1f1:'線上起盤（每月3次）',p1f2:'命宮主星基本介紹',p1f3:'十二宮位星曜顯示',p1f4:'生年四化標示',p1f5:'詳細解盤（需升級）',p1f6:'每日色彩指引（需升級）',
+    plan2_name:'星命版',plan2_period:'每月',plan2_equiv:'約 HKD $110 / TWD $420',plan2_btn:'立即訂閱',plan2_glow:'✦ 最受歡迎',
+    p2f1:'無限次命盤起盤',p2f2:'完整命盤深度解說',p2f3:'每日色彩穿搭指引',p2f4:'流月流日四化分析',p2f5:'風水方位基礎建議',p2f6:'植物風水建議',
+    plan3_name:'紫微尊享',plan3_period:'每月',plan3_equiv:'約 HKD $390 / TWD $1,500',plan3_btn:'了解詳情',
+    p3f1:'星命版全部功能',p3f2:'命理師一對一諮詢（每季1次）',p3f3:'詳細風水佈局方案',p3f4:'如何找出家中方位教學',p3f5:'流年大限深度解析',p3f6:'複雜命盤專屬解說',
+    currency_note:'💳 支援 Stripe 信用卡付款 · 自動扣款 · 隨時取消',
+    consult_tag:'專業支援',consult_title:'命盤複雜？有問題？',consult_sub:'命理學問博大精深，有時需要專業解說',
+    contact_title:'聯絡我們',contact_desc:'無論是命盤疑問、服務查詢，還是想預約命理師一對一諮詢，我們都在這裡幫助您。',
+    contact1_title:'WhatsApp / 即時通訊',contact1_desc:'快速回覆，一般問題24小時內答覆',
+    contact2_title:'電郵查詢',contact2_desc:'詳細問題或命盤解說預約',
+    contact3_title:'預約命理師諮詢',contact3_desc:'視訊或文字一對一深度解析（尊享會員）',
+    complex_title:'🔮 關於複雜命盤',complex_desc:'有些命盤的星曜組合較為特殊，或涉及多層四化飛星邏輯，需要專業命理師配合解說。以下情況建議預約諮詢：',
+    cx1:'命宮有多顆主星疊加',cx2:'化忌入命宮或疾厄宮',cx3:'陀羅、擎羊、火星、鈴星同宮',cx4:'流年四化與本命四化互相衝突',cx5:'不明白命盤邏輯或解讀方式',cx6:'想了解大限流年對人生的影響',
+    footer_desc:'以正統紫微斗數為核心，融合現代技術，為全球華人提供精準命理服務。',
+    footer_col1:'服務',fc1_1:'免費起盤',fc1_2:'命盤解說',fc1_3:'每日色彩',fc1_4:'風水指引',
+    footer_col2:'會員',fc2_1:'登入',fc2_2:'立即加入',fc2_3:'方案比較',fc2_4:'常見問題',
+    footer_col3:'關於',fc3_1:'關於我們',fc3_2:'命理師團隊',fc3_3:'私隱政策',fc3_4:'使用條款',
+    footer_copy:'© 2026 紫微命盤 · Zi Wei Astrology · 版權所有'
+  },
+  'zh-CN':{
+    nav_chart:'免费起盘',nav_reading:'命盘解说',nav_colour:'每日色彩',nav_fengshui:'风水指引',nav_member:'会员中心',nav_contact:'联系我们',
+    btn_login:'登录',btn_join:'立即加入',
+    hero_badge:'千年命理智慧 · 现代精准解析',hero_title1:'紫微斗数命盘',hero_title2:'探索您的星曜密码',
+    hero_sub:'以正统紫微斗数为核心，为您精准起盘、深度解盘、每日色彩穿搭指引、风水方位建议。让古老星曜智慧，引领您的现代生活。',
+    hero_btn1:'✦ 免费起盘',hero_btn2:'了解服务',scroll_hint:'向下探索',
+    stat1:'主星分析',stat2:'宫位解说',stat3:'每日色彩指引',stat4:'星曜组合',
+    svc_tag:'服务内容',svc_title:'免费与付费服务',svc_sub:'基础起盘免费提供，深度解析、色彩指引及风水建议为付费服务',
+    free_title:'免费服务',free_badge:'FREE',
+    free1:'在线起盘',free2:'十二宫位显示',free3:'命宫主星基本介绍',free4:'四化星显示',
+    paid_title:'付费服务',paid_badge:'PREMIUM',
+    paid1:'深度命盘解说',paid2:'每日色彩穿搭指引（月费）',paid3:'风水方位建议',paid4:'如何找出家中方位',paid5:'命理师一对一咨询',
+    colour_tag:'每日色彩指引',colour_title:'今日穿搭建议示例',colour_sub:'根据您的命盘、流月流日四化，每天推算最有利的穿搭颜色',
+    colour_how_title:'计算逻辑',colour_how_desc:'综合三层分析：命宫主星代表色、流月四化忌色、流日四化忌色，找出今日最有利于您的颜色组合。若当天要见客户、谈生意、约会，可针对对应宫位选色。',
+    colour_note_text:'每日色彩指引为会员付费功能，以下为示例',
+    colour_card_title:'◈ 今日色彩分析 · 示例命盘 ◈',
+    colour_good_label:'✦ 今日有利穿搭色',colour_avoid_label:'✗ 今日忌穿色',
+    c1:'深蓝',c2:'深绿',c3:'金黄',c4:'深紫',c5:'黑色',ca1:'红色',ca2:'白色',ca3:'棕色',
+    reason_label:'原因：',reason_text:'壬日武曲化忌（忌红+白）· 癸月贪狼化忌（忌浅蓝+红）· 命宫巨门（忌棕）→ 今日见工作伙伴，事业宫天同，建议加入棕色配件',
+    fs_tag:'风水指引',fs_title:'命盘对应风水建议',fs_sub:'根据命宫主星及辅星，提供植物摆放、方位布局、日常改运建议',
+    fs1_title:'植物风水',fs1_desc:'依命宫主星推荐专属植物及盆色。例如天机星：红盆土种无刺植物；破军星：绿盆土种无刺植物（3、6、9盆）',fs1_badge:'付费解锁',
+    fs2_title:'方位指引',fs2_desc:'十二地支对应方位角，找出财位、事业位、贵人位。教您如何用罗盘在家中精准定位，摆放风水物品',fs2_badge:'付费解锁',
+    fs3_title:'特殊解法',fs3_desc:'陀罗星：放日历用红笔每天划。擎羊星：放木制品。巨门星：开长明灯越亮越好。七杀福德宫：鱼缸养单数鱼',fs3_badge:'付费解锁',
+    fs_warning:'<strong>重要提示：</strong>风水植物必须养得好才有效。盆栽死了要立即更换，枯死的植物留着反而带来负面影响。',
+    price_tag:'收费方案',price_title:'选择您的命理之旅',price_sub:'所有方案均以加拿大元（CAD）计算，并提供港币及台币参考',
+    plan1_name:'探索版',plan1_period:'永久免费',plan1_equiv:'— 无需信用卡 —',plan1_btn:'免费开始',
+    p1f1:'在线起盘（每月3次）',p1f2:'命宫主星基本介绍',p1f3:'十二宫位星曜显示',p1f4:'生年四化标示',p1f5:'详细解盘（需升级）',p1f6:'每日色彩指引（需升级）',
+    plan2_name:'星命版',plan2_period:'每月',plan2_equiv:'约 HKD $110 / TWD $420',plan2_btn:'立即订阅',plan2_glow:'✦ 最受欢迎',
+    p2f1:'无限次命盘起盘',p2f2:'完整命盘深度解说',p2f3:'每日色彩穿搭指引',p2f4:'流月流日四化分析',p2f5:'风水方位基础建议',p2f6:'植物风水建议',
+    plan3_name:'紫微尊享',plan3_period:'每月',plan3_equiv:'约 HKD $390 / TWD $1,500',plan3_btn:'了解详情',
+    p3f1:'星命版全部功能',p3f2:'命理师一对一咨询（每季1次）',p3f3:'详细风水布局方案',p3f4:'如何找出家中方位教学',p3f5:'流年大限深度解析',p3f6:'复杂命盘专属解说',
+    currency_note:'💳 支持 Stripe 信用卡付款 · 自动扣款 · 随时取消',
+    consult_tag:'专业支持',consult_title:'命盘复杂？有问题？',consult_sub:'命理学问博大精深，有时需要专业解说',
+    contact_title:'联系我们',contact_desc:'无论是命盘疑问、服务查询，还是想预约命理师一对一咨询，我们都在这里帮助您。',
+    contact1_title:'WhatsApp / 即时通讯',contact1_desc:'快速回复，一般问题24小时内答复',
+    contact2_title:'电邮查询',contact2_desc:'详细问题或命盘解说预约',
+    contact3_title:'预约命理师咨询',contact3_desc:'视频或文字一对一深度解析（尊享会员）',
+    complex_title:'🔮 关于复杂命盘',complex_desc:'有些命盘的星曜组合较为特殊，或涉及多层四化飞星逻辑，需要专业命理师配合解说。以下情况建议预约咨询：',
+    cx1:'命宫有多颗主星叠加',cx2:'化忌入命宫或疾厄宫',cx3:'陀罗、擎羊、火星、铃星同宫',cx4:'流年四化与本命四化互相冲突',cx5:'不明白命盘逻辑或解读方式',cx6:'想了解大限流年对人生的影响',
+    footer_desc:'以正统紫微斗数为核心，融合现代技术，为全球华人提供精准命理服务。',
+    footer_col1:'服务',fc1_1:'免费起盘',fc1_2:'命盘解说',fc1_3:'每日色彩',fc1_4:'风水指引',
+    footer_col2:'会员',fc2_1:'登录',fc2_2:'立即加入',fc2_3:'方案比较',fc2_4:'常见问题',
+    footer_col3:'关于',fc3_1:'关于我们',fc3_2:'命理师团队',fc3_3:'隐私政策',fc3_4:'使用条款',
+    footer_copy:'© 2026 紫微命盘 · Zi Wei Astrology · 版权所有'
+  },
+  'en':{
+    nav_chart:'Free Chart',nav_reading:'Readings',nav_colour:'Daily Colours',nav_fengshui:'Feng Shui',nav_member:'Members',nav_contact:'Contact',
+    btn_login:'Login',btn_join:'Join Now',
+    hero_badge:'Ancient Wisdom · Modern Precision',hero_title1:'Zi Wei Dou Shu',hero_title2:'Discover Your Star Chart',
+    hero_sub:'Rooted in authentic Zi Wei Dou Shu astrology — precise chart generation, in-depth readings, daily colour guidance, and feng shui advice. Let ancient star wisdom guide your modern life.',
+    hero_btn1:'✦ Free Chart',hero_btn2:'Learn More',scroll_hint:'Scroll Down',
+    stat1:'Main Stars',stat2:'Palace Analysis',stat3:'Daily Colour Guides',stat4:'Star Combinations',
+    svc_tag:'Services',svc_title:'Free & Premium Services',svc_sub:'Basic chart generation is free. Deep analysis, colour guides, and feng shui are premium features',
+    free_title:'Free Services',free_badge:'FREE',
+    free1:'Online Chart Generation',free2:'12 Palace Display',free3:'Main Star Introduction',free4:'4-Transformation Display',
+    paid_title:'Premium Services',paid_badge:'PREMIUM',
+    paid1:'In-Depth Chart Reading',paid2:'Daily Colour Guide (Monthly)',paid3:'Feng Shui Direction Advice',paid4:'How to Find Home Directions',paid5:'1-on-1 Astrologer Consultation',
+    colour_tag:'Daily Colour Guide',colour_title:'Sample Daily Colour Advice',colour_sub:'Based on your chart and daily 4-transformations, we calculate your most beneficial colours each day',
+    colour_how_title:'How It Works',colour_how_desc:'Three-layer analysis: main star colours, monthly transformation colours, daily transformation colours. Find the best combination for your goals — meeting clients, business deals, or romance.',
+    colour_note_text:'Daily Colour Guide is a premium member feature. Below is a sample.',
+    colour_card_title:'◈ Today\'s Colour Analysis · Sample Chart ◈',
+    colour_good_label:'✦ Today\'s Beneficial Colours',colour_avoid_label:'✗ Colours to Avoid Today',
+    c1:'Navy',c2:'Forest Green',c3:'Gold',c4:'Deep Purple',c5:'Black',ca1:'Red',ca2:'White',ca3:'Brown',
+    reason_label:'Why: ',reason_text:'Ren day — Wu Qu transforms to Obstruction (avoid red+white) · Gui month — Tan Lang transforms to Obstruction (avoid light blue+red) · Ming Palace: Ju Men (avoid brown) → Meeting a work partner today: Tian Tong in Career Palace, add brown accessories',
+    fs_tag:'Feng Shui',fs_title:'Chart-Based Feng Shui Advice',fs_sub:'Plant placement, directional layout, and daily remedies based on your main and auxiliary stars',
+    fs1_title:'Plant Feng Shui',fs1_desc:'Star-specific plant recommendations. E.g. Tian Ji: red pot, soil, thornless plant. Po Jun: green pot, 3/6/9 thornless plants',fs1_badge:'Premium',
+    fs2_title:'Direction Guide',fs2_desc:'12 Earthly Branches map to compass degrees. Find your wealth, career, and benefactor directions. Learn to use a compass to position items precisely',fs2_badge:'Premium',
+    fs3_title:'Special Remedies',fs3_desc:'Tuo Luo: place a calendar and cross off each day in red. Qing Yang: place wooden objects. Ju Men: keep bright lights on. Qi Sha in Fortune Palace: aquarium with odd number of fish',fs3_badge:'Premium',
+    fs_warning:'<strong>Important:</strong> Feng shui plants only work when healthy. Replace dead or dying plants immediately — dead plants have the opposite effect.',
+    price_tag:'Pricing',price_title:'Choose Your Journey',price_sub:'All prices in Canadian Dollars (CAD) with HKD and TWD reference',
+    plan1_name:'Explorer',plan1_period:'Forever Free',plan1_equiv:'— No credit card required —',plan1_btn:'Start Free',
+    p1f1:'Chart Generation (3/month)',p1f2:'Main Star Introduction',p1f3:'12 Palace Star Display',p1f4:'Birth Year Transformations',p1f5:'Deep Reading (Upgrade Required)',p1f6:'Daily Colour Guide (Upgrade Required)',
+    plan2_name:'Stellar',plan2_period:'per month',plan2_equiv:'≈ HKD $110 / TWD $420',plan2_btn:'Subscribe Now',plan2_glow:'✦ Most Popular',
+    p2f1:'Unlimited Chart Generation',p2f2:'Full In-Depth Chart Reading',p2f3:'Daily Colour & Outfit Guide',p2f4:'Monthly & Daily 4-Trans. Analysis',p2f5:'Basic Feng Shui Direction Advice',p2f6:'Plant Feng Shui Recommendations',
+    plan3_name:'Imperial',plan3_period:'per month',plan3_equiv:'≈ HKD $390 / TWD $1,500',plan3_btn:'Learn More',
+    p3f1:'All Stellar Features',p3f2:'Astrologer 1-on-1 (Quarterly)',p3f3:'Detailed Feng Shui Layout',p3f4:'Home Direction Tutorial',p3f5:'Decade & Annual Cycle Analysis',p3f6:'Complex Chart Specialist Reading',
+    currency_note:'💳 Stripe payments accepted · Auto-renewal · Cancel anytime',
+    consult_tag:'Support',consult_title:'Complex Chart? Have Questions?',consult_sub:'Zi Wei Dou Shu is a deep art — sometimes professional guidance is needed',
+    contact_title:'Contact Us',contact_desc:'Whether you have chart questions, service inquiries, or want to book a 1-on-1 astrologer session, we\'re here to help.',
+    contact1_title:'WhatsApp / Instant Message',contact1_desc:'Quick responses, general questions answered within 24 hours',
+    contact2_title:'Email Inquiry',contact2_desc:'Detailed questions or booking chart reading appointments',
+    contact3_title:'Book Astrologer Consultation',contact3_desc:'Video or text 1-on-1 deep analysis (Imperial members)',
+    complex_title:'🔮 About Complex Charts',complex_desc:'Some charts have unusual star combinations or multi-layer flying star logic that require professional explanation. Consider booking a consultation if:',
+    cx1:'Multiple main stars overlap in the Ming Palace',cx2:'Obstruction transformation enters Ming or Health Palace',cx3:'Tuo Luo, Qing Yang, Fire Star, Bell Star in same palace',cx4:'Annual transformations conflict with birth chart transformations',cx5:'You don\'t understand the chart logic or interpretation',cx6:'You want to understand how decade/annual cycles affect your life',
+    footer_desc:'Rooted in authentic Zi Wei Dou Shu, powered by modern technology, serving the global Chinese community.',
+    footer_col1:'Services',fc1_1:'Free Chart',fc1_2:'Readings',fc1_3:'Daily Colours',fc1_4:'Feng Shui',
+    footer_col2:'Members',fc2_1:'Login',fc2_2:'Join Now',fc2_3:'Compare Plans',fc2_4:'FAQ',
+    footer_col3:'About',fc3_1:'About Us',fc3_2:'Our Astrologers',fc3_3:'Privacy Policy',fc3_4:'Terms of Use',
+    footer_copy:'© 2026 Zi Wei Astrology · All Rights Reserved'
+  }
+};
+
+function setLang(lang){
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
+  const t=T[lang];
+  document.querySelectorAll('[data-key]').forEach(el=>{
+    const k=el.getAttribute('data-key');
+    if(t[k]!==undefined) el.innerHTML=t[k];
+  });
+  document.documentElement.lang=lang==='en'?'en':lang;
+}
+</script>
+</body>
+</html>
