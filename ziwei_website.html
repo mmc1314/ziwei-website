@@ -312,7 +312,7 @@ footer{padding:48px 40px 32px;border-top:1px solid var(--border);background:var(
     <span class="logo-sub">ZI WEI ASTROLOGY</span>
   </div>
   <div class="nav-links">
-    <a onclick="showPage('chartPage')" data-key="nav_chart">免費起盤</a>
+    <a onclick="window.location.href='ziwei_chart.html'" data-key="nav_chart">免費起盤</a>
     <a data-key="nav_reading">命盤解說</a>
     <a data-key="nav_colour">每日色彩</a>
     <a data-key="nav_fengshui">風水指引</a>
@@ -336,7 +336,7 @@ footer{padding:48px 40px 32px;border-top:1px solid var(--border);background:var(
     </h1>
     <p class="hero-sub" data-key="hero_sub">以正統紫微斗數為核心，為您精準起盤、深度解盤、每日色彩穿搭指引、風水方位建議。讓古老星曜智慧，引領您的現代生活。</p>
     <div class="hero-actions">
-      <button class="btn-primary" onclick="showPage('chartPage')" data-key="hero_btn1">✦ 免費起盤</button>
+      <button class="btn-primary" onclick="window.location.href='ziwei_chart.html'" data-key="hero_btn1">✦ 免費起盤</button>
       <button class="btn-outline" data-key="hero_btn2">了解服務</button>
     </div>
   </div>
@@ -455,41 +455,50 @@ footer{padding:48px 40px 32px;border-top:1px solid var(--border);background:var(
   </div>
   <div class="pricing-grid">
     <div class="plan">
-      <div class="plan-name" data-key="plan1_name">探索版</div><span class="plan-name-en">EXPLORER</span>
-      <div class="plan-price">FREE</div><div class="plan-period" data-key="plan1_period">永久免費</div>
-      <div class="plan-equiv" data-key="plan1_equiv">— 無需信用卡 —</div>
+      <div class="plan-name">免費起盤</div><span class="plan-name-en">FREE CHART</span>
+      <div class="plan-price">FREE</div><div class="plan-period">永久免費</div>
+      <div class="plan-equiv">— 無需信用卡 —</div>
       <ul class="plan-features">
-        <li data-key="p1f1">線上起盤（每月3次）</li><li data-key="p1f2">命宮主星基本介紹</li>
-        <li data-key="p1f3">十二宮位星曜顯示</li><li data-key="p1f4">生年四化標示</li>
-        <li class="muted-li" data-key="p1f5">詳細解盤（需升級）</li><li class="muted-li" data-key="p1f6">每日色彩指引（需升級）</li>
+        <li>線上即時起盤</li>
+        <li>十二宮位星曜顯示</li>
+        <li>命宮主星基本介紹</li>
+        <li>生年四化標示</li>
+        <li>命主代表色預覽</li>
+        <li class="muted-li">深度解盤（需付費）</li>
       </ul>
-      <button class="plan-btn btn-ghost" data-key="plan1_btn">免費開始</button>
+      <button class="plan-btn btn-ghost" onclick="window.location.href='ziwei_chart.html'">✦ 立即免費起盤</button>
     </div>
     <div class="plan featured">
-      <div class="plan-glow" data-key="plan2_glow">✦ 最受歡迎</div>
-      <div class="plan-name" data-key="plan2_name">星命版</div><span class="plan-name-en">STELLAR</span>
-      <div class="plan-price">CAD $19</div><div class="plan-period" data-key="plan2_period">每月</div>
-      <div class="plan-equiv" data-key="plan2_equiv">約 HKD $110 / TWD $420</div>
+      <div class="plan-glow">✦ 深度解析</div>
+      <div class="plan-name">深度解盤</div><span class="plan-name-en">DEEP READING</span>
+      <div class="plan-price">CAD $68</div><div class="plan-period">一次性付款</div>
+      <div class="plan-equiv">約 HKD $395 / TWD $1,500</div>
       <ul class="plan-features">
-        <li data-key="p2f1">無限次命盤起盤</li><li data-key="p2f2">完整命盤深度解說</li>
-        <li data-key="p2f3">每日色彩穿搭指引</li><li data-key="p2f4">流月流日四化分析</li>
-        <li data-key="p2f5">風水方位基礎建議</li><li data-key="p2f6">植物風水建議</li>
+        <li>完整十二宮位逐一解析</li>
+        <li>格局判斷與星曜組合</li>
+        <li>流年大限分析</li>
+        <li>命宮主星深度解說</li>
+        <li>複雜命盤專屬解說</li>
+        <li>化忌影響詳解</li>
       </ul>
-      <button class="plan-btn btn-gold" data-key="plan2_btn">立即訂閱</button>
+      <button class="plan-btn btn-gold">立即購買</button>
     </div>
     <div class="plan">
-      <div class="plan-name" data-key="plan3_name">紫微尊享</div><span class="plan-name-en">IMPERIAL</span>
-      <div class="plan-price">CAD $68</div><div class="plan-period" data-key="plan3_period">每月</div>
-      <div class="plan-equiv" data-key="plan3_equiv">約 HKD $390 / TWD $1,500</div>
+      <div class="plan-name">每日穿搭</div><span class="plan-name-en">DAILY COLOURS</span>
+      <div class="plan-price">CAD $19</div><div class="plan-period">每月</div>
+      <div class="plan-equiv">約 HKD $110 / TWD $420</div>
       <ul class="plan-features">
-        <li data-key="p3f1">星命版全部功能</li><li data-key="p3f2">命理師一對一諮詢（每季1次）</li>
-        <li data-key="p3f3">詳細風水佈局方案</li><li data-key="p3f4">如何找出家中方位教學</li>
-        <li data-key="p3f5">流年大限深度解析</li><li data-key="p3f6">複雜命盤專屬解說</li>
+        <li>每日有利色彩推算</li>
+        <li>流月流日四化分析</li>
+        <li>今日忌穿色提示</li>
+        <li>命宮代表色參考</li>
+        <li class="muted-li" style="margin-top:8px;border-top:1px solid var(--border);padding-top:8px">風水方位建議</li>
+        <li style="font-weight:600;color:var(--gold)">CAD $48 一次性付款</li>
       </ul>
-      <button class="plan-btn btn-ghost" data-key="plan3_btn">了解詳情</button>
+      <button class="plan-btn btn-ghost">了解詳情</button>
     </div>
   </div>
-  <div class="currency-note">💳 支援 Stripe 信用卡付款 · 自動扣款 · 隨時取消<br><span style="margin-top:6px;display:block">匯率參考：<span>CAD $1 ≈ HKD $5.8 / TWD $22</span>（每日更新）</span></div>
+  <div class="currency-note">💳 支援 Stripe 信用卡付款 · 隨時取消訂閱<br><span style="margin-top:6px;display:block">匯率參考：<span>CAD $1 ≈ HKD $5.8 / TWD $22</span></span></div>
 </section>
 
 <section class="section">
@@ -1072,10 +1081,10 @@ function getHourName(h){
 }
 
 // ===== TRANSLATIONS =====
-const T={'zh-TW':{nav_chart:'免費起盤',nav_reading:'命盤解說',nav_colour:'每日色彩',nav_fengshui:'風水指引',nav_member:'會員中心',nav_contact:'聯絡我們',nav_home:'首頁',btn_login:'登入',btn_join:'立即加入',hero_badge:'千年命理智慧 · 現代精準解析',hero_title1:'紫微斗數命盤',hero_title2:'探索您的星曜密碼',hero_sub:'以正統紫微斗數為核心，為您精準起盤、深度解盤、每日色彩穿搭指引、風水方位建議。讓古老星曜智慧，引領您的現代生活。',hero_btn1:'✦ 免費起盤',hero_btn2:'了解服務',stat1:'主星分析',stat2:'宮位解說',stat3:'每日色彩指引',stat4:'星曜組合',svc_tag:'服務內容',svc_title:'免費與付費服務',svc_sub:'基礎起盤免費提供，深度解析、色彩指引及風水建議為付費服務',free_title:'免費服務',free1:'線上起盤',free2:'十二宮位顯示',free3:'命宮主星基本介紹',free4:'四化星顯示',paid_title:'付費服務',paid1:'深度命盤解說',paid2:'每日色彩穿搭指引（月費）',paid3:'風水方位建議',paid4:'如何找出家中方位',paid5:'命理師一對一諮詢',colour_tag:'每日色彩指引',colour_title:'今日穿搭建議示例',colour_sub:'根據您的命盤、流月流日四化，每天推算最有利的穿搭顏色',colour_how_title:'計算邏輯',colour_how_desc:'綜合三層分析：命宮主星代表色、流月四化忌色、流日四化忌色，找出今日最有利於您的顏色組合。',colour_note_text:'⚠️ 每日色彩指引為會員付費功能，以下為示例',colour_card_title:'◈ 今日色彩分析 · 示例命盤 ◈',colour_good_label:'✦ 今日有利穿搭色',colour_avoid_label:'✗ 今日忌穿色',c1:'藍+綠',c2:'黑+紫+黃',c3:'黃',c4:'紅',c5:'紅+白',ca1:'紅色',ca2:'白色',ca3:'啡色',reason_label:'原因：',reason_text:'壬日武曲化忌（忌紅+白）· 癸月貪狼化忌（忌淺藍+紅）· 命宮巨門（忌啡）',fs_tag:'風水指引',fs_title:'命盤對應風水建議',fs_sub:'根據命宮主星及輔星，提供植物擺放、方位佈局、日常改運建議',fs1_title:'植物風水',fs1_desc:'依命宮主星推薦專屬植物及盆色',fs1_badge:'付費解鎖',fs2_title:'方位指引',fs2_desc:'十二地支對應方位角，找出財位、事業位、貴人位',fs2_badge:'付費解鎖',fs3_title:'特殊解法',fs3_desc:'陀羅：日曆紅筆每天劃。擎羊：木製品。巨門：開長明燈。七殺福德宮：單數魚',fs3_badge:'付費解鎖',fs_warning:'<strong>重要提示：</strong>風水植物必須養得好才有效。盆栽死了要立即更換。',price_tag:'收費方案',price_title:'選擇您的命理之旅',price_sub:'所有方案均以加拿大元（CAD）計算',plan1_name:'探索版',plan1_period:'永久免費',plan1_equiv:'— 無需信用卡 —',plan1_btn:'免費開始',p1f1:'線上起盤（每月3次）',p1f2:'命宮主星基本介紹',p1f3:'十二宮位星曜顯示',p1f4:'生年四化標示',p1f5:'詳細解盤（需升級）',p1f6:'每日色彩指引（需升級）',plan2_name:'星命版',plan2_period:'每月',plan2_equiv:'約 HKD $110 / TWD $420',plan2_btn:'立即訂閱',plan2_glow:'✦ 最受歡迎',p2f1:'無限次命盤起盤',p2f2:'完整命盤深度解說',p2f3:'每日色彩穿搭指引',p2f4:'流月流日四化分析',p2f5:'風水方位基礎建議',p2f6:'植物風水建議',plan3_name:'紫微尊享',plan3_period:'每月',plan3_equiv:'約 HKD $390 / TWD $1,500',plan3_btn:'了解詳情',consult_tag:'專業支援',consult_title:'命盤複雜？有問題？',consult_sub:'命理學問博大精深，有時需要專業解說',contact_desc:'無論是命盤疑問、服務查詢，我們都在這裡幫助您。',contact1_title:'WhatsApp / 即時通訊',contact1_desc:'快速回覆，24小時內答覆',contact2_title:'電郵查詢',contact2_desc:'詳細問題或命盤解說預約',contact3_title:'預約命理師諮詢',contact3_desc:'視訊或文字一對一深度解析',complex_title:'🔮 關於複雜命盤',complex_desc:'有些命盤需要專業命理師配合解說：',cx1:'命宮有多顆主星疊加',cx2:'化忌入命宮或疾厄宮',cx3:'陀羅、擎羊、火星、鈴星同宮',cx4:'流年四化與本命四化互相衝突',cx5:'不明白命盤邏輯或解讀方式',footer_desc:'以正統紫微斗數為核心，為全球華人提供精準命理服務。',footer_col1:'服務',footer_col2:'會員',footer_col3:'關於',back_home:'返回首頁',chart_title:'免費起盤',chart_sub:'請輸入出生資料，系統將為您即時生成紫微斗數命盤',form_title:'✦ 出生資料 · Birth Information',label_name:'姓名 / Name',label_gender:'性別 / Gender',label_caltype:'曆法 / Calendar',cal_lunar:'農曆 Lunar',cal_solar:'西曆 Solar',label_year:'出生年份 / Year',label_month:'出生月份 / Month',label_day:'出生日期 / Day',label_hour:'出生時辰 / Hour',hint_hour:'⚠️ 時辰對命盤影響極大，請盡量確認準確時間',btn_generate:'✦ 立即起盤 · Generate Chart',reading_main:'命宮主星解說',colour_preview_title:'✦ 命主代表色 · Your Star Colours',avoid_title:'✗ 命主忌色 (年份)',lock_title:'深度解盤 · 付費解鎖',lock_desc:'升級至星命版，解鎖完整分析：',lf1:'十二宮位逐一深度解析',lf2:'格局判斷',lf3:'每日穿搭顏色指引',lf4:'風水方位完整建議',lf5:'流年大限分析',lf6:'改運植物擺放建議',lock_btn:'✦ 立即升級 CAD $19/月'}};
+const T={'zh-TW':{nav_chart:'免費起盤',nav_reading:'命盤解說',nav_colour:'每日色彩',nav_fengshui:'風水指引',nav_member:'會員中心',nav_contact:'聯絡我們',nav_home:'首頁',btn_login:'登入',btn_join:'立即加入',hero_badge:'千年命理智慧 · 現代精準解析',hero_title1:'紫微斗數命盤',hero_title2:'探索您的星曜密碼',hero_sub:'以正統紫微斗數為核心，為您精準起盤、深度解盤、每日色彩穿搭指引、風水方位建議。讓古老星曜智慧，引領您的現代生活。',hero_btn1:'✦ 免費起盤',hero_btn2:'了解服務',stat1:'主星分析',stat2:'宮位解說',stat3:'每日色彩指引',stat4:'星曜組合',svc_tag:'服務內容',svc_title:'免費與付費服務',svc_sub:'基礎起盤免費提供，深度解析、色彩指引及風水建議為付費服務',free_title:'免費服務',free1:'線上起盤',free2:'十二宮位顯示',free3:'命宮主星基本介紹',free4:'四化星顯示',paid_title:'付費服務',paid1:'深度命盤解說',paid2:'每日色彩穿搭指引（月費）',paid3:'風水方位建議',paid4:'如何找出家中方位',paid5:'命理師一對一諮詢',colour_tag:'每日色彩指引',colour_title:'今日穿搭建議示例',colour_sub:'根據您的命盤、流月流日四化，每天推算最有利的穿搭顏色',colour_how_title:'計算邏輯',colour_how_desc:'綜合三層分析：命宮主星代表色、流月四化忌色、流日四化忌色，找出今日最有利於您的顏色組合。',colour_note_text:'⚠️ 每日色彩指引為會員付費功能，以下為示例',colour_card_title:'◈ 今日色彩分析 · 示例命盤 ◈',colour_good_label:'✦ 今日有利穿搭色',colour_avoid_label:'✗ 今日忌穿色',c1:'藍+綠',c2:'黑+紫+黃',c3:'黃',c4:'紅',c5:'紅+白',ca1:'紅色',ca2:'白色',ca3:'啡色',reason_label:'原因：',reason_text:'壬日武曲化忌（忌紅+白）· 癸月貪狼化忌（忌淺藍+紅）· 命宮巨門（忌啡）',fs_tag:'風水指引',fs_title:'命盤對應風水建議',fs_sub:'根據命宮主星及輔星，提供植物擺放、方位佈局、日常改運建議',fs1_title:'植物風水',fs1_desc:'依命宮主星推薦專屬植物及盆色',fs1_badge:'付費解鎖',fs2_title:'方位指引',fs2_desc:'十二地支對應方位角，找出財位、事業位、貴人位',fs2_badge:'付費解鎖',fs3_title:'特殊解法',fs3_desc:'陀羅：日曆紅筆每天劃。擎羊：木製品。巨門：開長明燈。七殺福德宮：單數魚',fs3_badge:'付費解鎖',fs_warning:'<strong>重要提示：</strong>風水植物必須養得好才有效。盆栽死了要立即更換。',price_tag:'收費方案',price_title:'選擇您的命理之旅',price_sub:'所有方案均以加拿大元（CAD）計算',plan1_name:'探索版',plan1_period:'永久免費',plan1_equiv:'— 無需信用卡 —',plan1_btn:'免費開始',p1f1:'線上起盤（每月3次）',p1f2:'命宮主星基本介紹',p1f3:'十二宮位星曜顯示',p1f4:'生年四化標示',p1f5:'詳細解盤（需升級）',p1f6:'每日色彩指引（需升級）',plan2_name:'星命版',plan2_period:'一次性付款',plan2_equiv:'約 HKD $395 / TWD $1,500',plan2_btn:'立即訂閱',plan2_glow:'✦ 最受歡迎',p2f1:'無限次命盤起盤',p2f2:'完整命盤深度解說',p2f3:'每日色彩穿搭指引',p2f4:'流月流日四化分析',p2f5:'風水方位基礎建議',p2f6:'植物風水建議',plan3_name:'紫微尊享',plan3_period:'每月',plan3_equiv:'約 HKD $110 / TWD $420',plan3_btn:'了解詳情',consult_tag:'專業支援',consult_title:'命盤複雜？有問題？',consult_sub:'命理學問博大精深，有時需要專業解說',contact_desc:'無論是命盤疑問、服務查詢，我們都在這裡幫助您。',contact1_title:'WhatsApp / 即時通訊',contact1_desc:'快速回覆，24小時內答覆',contact2_title:'電郵查詢',contact2_desc:'詳細問題或命盤解說預約',contact3_title:'預約命理師諮詢',contact3_desc:'視訊或文字一對一深度解析',complex_title:'🔮 關於複雜命盤',complex_desc:'有些命盤需要專業命理師配合解說：',cx1:'命宮有多顆主星疊加',cx2:'化忌入命宮或疾厄宮',cx3:'陀羅、擎羊、火星、鈴星同宮',cx4:'流年四化與本命四化互相衝突',cx5:'不明白命盤邏輯或解讀方式',footer_desc:'以正統紫微斗數為核心，為全球華人提供精準命理服務。',footer_col1:'服務',footer_col2:'會員',footer_col3:'關於',back_home:'返回首頁',chart_title:'免費起盤',chart_sub:'請輸入出生資料，系統將為您即時生成紫微斗數命盤',form_title:'✦ 出生資料 · Birth Information',label_name:'姓名 / Name',label_gender:'性別 / Gender',label_caltype:'曆法 / Calendar',cal_lunar:'農曆 Lunar',cal_solar:'西曆 Solar',label_year:'出生年份 / Year',label_month:'出生月份 / Month',label_day:'出生日期 / Day',label_hour:'出生時辰 / Hour',hint_hour:'⚠️ 時辰對命盤影響極大，請盡量確認準確時間',btn_generate:'✦ 立即起盤 · Generate Chart',reading_main:'命宮主星解說',colour_preview_title:'✦ 命主代表色 · Your Star Colours',avoid_title:'✗ 命主忌色 (年份)',lock_title:'深度解盤 · 付費解鎖',lock_desc:'升級至星命版，解鎖完整分析：',lf1:'十二宮位逐一深度解析',lf2:'格局判斷',lf3:'每日穿搭顏色指引',lf4:'風水方位完整建議',lf5:'流年大限分析',lf6:'改運植物擺放建議',lock_btn:'✦ 了解付費服務'}};
 
-T['zh-CN']={...T['zh-TW'],nav_chart:'免费起盘',nav_reading:'命盘解说',nav_colour:'每日色彩',nav_fengshui:'风水指引',nav_member:'会员中心',nav_contact:'联系我们',btn_login:'登录',btn_join:'立即加入',hero_title1:'紫微斗数命盘',hero_title2:'探索您的星曜密码',chart_title:'免费起盘',chart_sub:'请输入出生资料，系统将为您即时生成紫微斗数命盘',back_home:'返回首页',lock_title:'深度解盘 · 付费解锁',lock_btn:'✦ 立即升级 CAD $19/月'};
-T['en']={...T['zh-TW'],nav_chart:'Free Chart',nav_reading:'Readings',nav_colour:'Daily Colours',nav_fengshui:'Feng Shui',nav_member:'Members',nav_contact:'Contact',nav_home:'Home',btn_login:'Login',btn_join:'Join Now',hero_badge:'Ancient Wisdom · Modern Precision',hero_title1:'Zi Wei Dou Shu',hero_title2:'Discover Your Star Chart',hero_sub:'Rooted in authentic Zi Wei Dou Shu — precise chart generation, in-depth readings, daily colour guidance, and feng shui advice.',hero_btn1:'✦ Free Chart',hero_btn2:'Learn More',stat1:'Main Stars',stat2:'Palace Analysis',stat3:'Daily Colour Guides',stat4:'Combinations',back_home:'Back to Home',chart_title:'Free Chart',chart_sub:'Enter your birth details to generate your Zi Wei Dou Shu chart instantly',form_title:'✦ Birth Information',label_name:'Name',label_gender:'Gender',label_caltype:'Calendar Type',cal_lunar:'Lunar Calendar',cal_solar:'Solar Calendar',label_year:'Birth Year',label_month:'Birth Month',label_day:'Birth Day',label_hour:'Birth Hour',hint_hour:'⚠️ Birth hour greatly affects your chart — please confirm as accurately as possible',btn_generate:'✦ Generate My Chart',reading_main:'Main Star Reading',colour_preview_title:'✦ Your Star Colours',avoid_title:'✗ Colours to Avoid',lock_title:'Full Reading · Premium',lock_desc:'Upgrade to Stellar to unlock:',lock_btn:'✦ Upgrade Now CAD $19/mo'};
+T['zh-CN']={...T['zh-TW'],nav_chart:'免费起盘',nav_reading:'命盘解说',nav_colour:'每日色彩',nav_fengshui:'风水指引',nav_member:'会员中心',nav_contact:'联系我们',btn_login:'登录',btn_join:'立即加入',hero_title1:'紫微斗数命盘',hero_title2:'探索您的星曜密码',chart_title:'免费起盘',chart_sub:'请输入出生资料，系统将为您即时生成紫微斗数命盘',back_home:'返回首页',lock_title:'深度解盘 · 付费解锁',lock_btn:'✦ 了解付费服务'};
+T['en']={...T['zh-TW'],nav_chart:'Free Chart',nav_reading:'Readings',nav_colour:'Daily Colours',nav_fengshui:'Feng Shui',nav_member:'Members',nav_contact:'Contact',nav_home:'Home',btn_login:'Login',btn_join:'Join Now',hero_badge:'Ancient Wisdom · Modern Precision',hero_title1:'Zi Wei Dou Shu',hero_title2:'Discover Your Star Chart',hero_sub:'Rooted in authentic Zi Wei Dou Shu — precise chart generation, in-depth readings, daily colour guidance, and feng shui advice.',hero_btn1:'✦ Free Chart',hero_btn2:'Learn More',stat1:'Main Stars',stat2:'Palace Analysis',stat3:'Daily Colour Guides',stat4:'Combinations',back_home:'Back to Home',chart_title:'Free Chart',chart_sub:'Enter your birth details to generate your Zi Wei Dou Shu chart instantly',form_title:'✦ Birth Information',label_name:'Name',label_gender:'Gender',label_caltype:'Calendar Type',cal_lunar:'Lunar Calendar',cal_solar:'Solar Calendar',label_year:'Birth Year',label_month:'Birth Month',label_day:'Birth Day',label_hour:'Birth Hour',hint_hour:'⚠️ Birth hour greatly affects your chart — please confirm as accurately as possible',btn_generate:'✦ Generate My Chart',reading_main:'Main Star Reading',colour_preview_title:'✦ Your Star Colours',avoid_title:'✗ Colours to Avoid',lock_title:'Full Reading · Premium',lock_desc:'Upgrade to Stellar to unlock:',lock_btn:'✦ View Paid Services'};
 
 function setLang(lang){
   document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
