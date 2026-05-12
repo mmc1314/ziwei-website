@@ -38,7 +38,7 @@ select:focus,input:focus{border-color:var(--gold)}
 .chart-wrap{border:2px solid var(--gold);border-radius:0 0 10px 10px;background:var(--card);overflow:hidden;box-shadow:0 4px 24px rgba(216,184,74,0.1)}
 
 /* 4x4 GRID */
-.mingpan{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:auto auto auto auto}
+.mingpan{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,minmax(105px,auto))}
 .palace{border:1px solid rgba(216,184,74,0.2);padding:7px 6px;min-height:105px;position:relative;background:var(--card);font-size:10px}
 .palace.ming-pal{background:#FFFBEE;border-color:var(--gold)}
 .center-info{grid-column:2/4;grid-row:2/4;border:1px solid var(--gold);background:linear-gradient(135deg,#FFFBF0,#F5EEFF);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 12px;text-align:center}
@@ -454,6 +454,13 @@ function generateChart(p){
 function renderChart(r){
   const{mg,mgGan,sg,ju,zwDZ,tfDZ,pal,dxArr,yg,mingZhu,shenZhu,name,ytg,ydz,lm,ld,h,gender}=r;
   let html='';
+  // Grid positions: explicit placement for correct 4x4 layout
+  const GRID_POS={
+    '巳':{c:1,r:1},'午':{c:2,r:1},'未':{c:3,r:1},'申':{c:4,r:1},
+    '辰':{c:1,r:2},'酉':{c:4,r:2},
+    '卯':{c:1,r:3},'戌':{c:4,r:3},
+    '寅':{c:1,r:4},'丑':{c:2,r:4},'子':{c:3,r:4},'亥':{c:4,r:4},
+  };
   GRID.forEach((d,idx)=>{
     if(d===null&&idx===5){
       const shHTML=['化祿','化權','化科','化忌'].map(sh=>{
@@ -481,7 +488,8 @@ function renderChart(r){
         const badge=sh?`<span class="sh-badge sh-${sh==='化祿'?'lu':sh==='化權'?'quan':sh==='化科'?'ke':'ji'}">${sh.slice(1)}</span>`:'';
         return`<span class="star ${scls}">${s}${badge}</span>`;
       }).join(' ');
-      html+=`<div class="palace${isMing?' ming-pal':''}">
+      const pos=GRID_POS[d]||{c:1,r:1};
+      html+=`<div class="palace${isMing?' ming-pal':''}" style="grid-column:${pos.c};grid-row:${pos.r}">
         <div class="p-top"><span class="p-dz">${d}</span><span class="p-name">${p.name}</span></div>
         <div class="p-stars">${mainHTML}</div>
         <div class="p-sub">${p.sub.join(' ')}</div>
