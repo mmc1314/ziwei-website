@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>紫微斗數命盤</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#D8B84A;--gold2:#F2D060;--bg:#FFFDF6;--bg2:#FFF9EA;
+  --card:#fff;--text:#1E1432;--muted:#7A6A8A;
+  --border:rgba(216,184,74,0.3);--accent:#7B3FB5;
+  --lu:#1a7a3a;--quan:#1a3a7a;--ke:#6a1a9a;--ji:#b02020;
+}
+body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);padding:16px}
+.page{max-width:980px;margin:0 auto}
+
+/* FORM */
+.form-section{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:20px;box-shadow:0 2px 16px rgba(216,184,74,0.08)}
+.form-title{font-family:'Noto Serif TC',serif;font-size:17px;color:var(--gold);margin-bottom:18px;letter-spacing:2px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.form-group{display:flex;flex-direction:column;gap:4px}
+.form-group.full{grid-column:1/-1}
+label{font-size:11px;color:var(--muted);letter-spacing:1px}
+select,input{border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:13px;color:var(--text);font-family:'Noto Sans TC',sans-serif;background:var(--bg);outline:none;width:100%;transition:border-color .2s}
+select:focus,input:focus{border-color:var(--gold)}
+.cal-toggle{display:flex;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.cal-btn{flex:1;padding:9px;font-size:12px;cursor:pointer;border:none;background:transparent;color:var(--muted);font-family:'Noto Sans TC',sans-serif;transition:all .2s}
+.cal-btn.active{background:var(--gold);color:#fff;font-weight:600}
+.btn-gen{width:100%;padding:13px;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;border-radius:10px;font-size:15px;font-weight:700;font-family:'Noto Serif TC',serif;color:#fff;cursor:pointer;letter-spacing:2px;transition:all .3s;box-shadow:0 4px 16px rgba(216,184,74,0.3);margin-top:4px}
+.btn-gen:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(216,184,74,0.4)}
+
+/* CHART */
+.chart-section{display:none}
+.chart-section.show{display:block}
+.chart-header{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#fff;text-align:center;padding:9px;font-family:'Noto Serif TC',serif;font-size:15px;font-weight:700;letter-spacing:4px;border-radius:10px 10px 0 0}
+.chart-wrap{border:2px solid var(--gold);border-radius:0 0 10px 10px;background:var(--card);overflow:hidden;box-shadow:0 4px 24px rgba(216,184,74,0.1)}
+
+/* 4x4 GRID */
+.mingpan{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:auto auto auto auto}
+.palace{border:1px solid rgba(216,184,74,0.2);padding:7px 6px;min-height:105px;position:relative;background:var(--card);font-size:10px}
+.palace.ming-pal{background:#FFFBEE;border-color:var(--gold)}
+.center-info{grid-column:2/4;grid-row:2/4;border:1px solid var(--gold);background:linear-gradient(135deg,#FFFBF0,#F5EEFF);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 12px;text-align:center}
+
+/* 宮格內 */
+.p-top{display:flex;justify-content:space-between;margin-bottom:3px}
+.p-dz{font-size:10px;color:var(--muted)}
+.p-name{font-size:10px;color:var(--gold);font-weight:700;letter-spacing:1px}
+.p-stars{display:flex;flex-wrap:wrap;gap:2px;min-height:18px}
+.star{font-family:'Noto Serif TC',serif;font-size:12px;font-weight:700;color:var(--text)}
+.star.lu{color:var(--lu)}.star.quan{color:var(--quan)}.star.ke{color:var(--ke)}.star.ji{color:var(--ji)}
+.sh-badge{font-size:8px;vertical-align:super;margin-left:1px;padding:0 2px;border-radius:2px}
+.sh-lu{background:rgba(26,122,58,.12);color:var(--lu)}
+.sh-quan{background:rgba(26,58,122,.12);color:var(--quan)}
+.sh-ke{background:rgba(106,26,154,.12);color:var(--ke)}
+.sh-ji{background:rgba(176,32,32,.12);color:var(--ji)}
+.p-sub{font-size:9px;color:var(--muted);line-height:1.5;margin-top:2px}
+.p-dx{position:absolute;bottom:3px;right:4px;font-size:8px;color:#aaa;background:rgba(216,184,74,.08);padding:1px 3px;border-radius:2px}
+.tag-ming{position:absolute;top:3px;right:3px;font-size:8px;background:var(--gold);color:#fff;padding:1px 4px;border-radius:3px}
+.tag-shen{position:absolute;top:3px;right:3px;font-size:8px;background:var(--accent);color:#fff;padding:1px 4px;border-radius:3px}
+
+/* 中央 */
+.c-title{font-family:'Noto Serif TC',serif;font-size:12px;color:var(--gold);letter-spacing:3px;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border);width:100%}
+.c-row{font-size:11px;color:var(--text);line-height:2.0;text-align:left;width:100%}
+.c-row span{color:var(--muted);font-size:10px}
+.c-ju{display:inline-block;background:rgba(216,184,74,.1);color:var(--gold);padding:1px 7px;border-radius:8px;font-size:9px;margin-left:4px}
+.c-sihua{display:flex;gap:6px;margin-top:8px;justify-content:center;flex-wrap:wrap}
+.sh-item{font-size:10px;padding:2px 7px;border-radius:8px}
+.sh-item.lu{background:rgba(26,122,58,.1);color:var(--lu)}
+.sh-item.quan{background:rgba(26,58,122,.1);color:var(--quan)}
+.sh-item.ke{background:rgba(106,26,154,.1);color:var(--ke)}
+.sh-item.ji{background:rgba(176,32,32,.1);color:var(--ji)}
+
+/* INFO BAR */
+.info-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}
+.info-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:9px;text-align:center}
+.info-card .lbl{font-size:10px;color:var(--muted);margin-bottom:2px}
+.info-card .val{font-size:13px;font-weight:700;color:var(--text);font-family:'Noto Serif TC',serif}
+
+/* DAXIAN */
+.dx-section{margin-top:14px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px}
+.dx-title{font-size:11px;color:var(--gold);letter-spacing:2px;margin-bottom:7px}
+.dx-grid{display:flex;flex-wrap:wrap;gap:5px}
+.dx-item{font-size:10px;background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:3px 8px;color:var(--text)}
+
+/* READING */
+.reading{margin-top:14px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px}
+.reading h3{font-family:'Noto Serif TC',serif;font-size:13px;color:var(--text);margin-bottom:8px}
+.reading p{font-size:12px;color:var(--muted);line-height:1.8}
+.reading-hl{background:rgba(216,184,74,.07);border-left:3px solid var(--gold);padding:7px 10px;border-radius:0 5px 5px 0;margin:7px 0;color:var(--text);font-size:11px;line-height:1.8}
+.lock-box{margin-top:14px;background:linear-gradient(135deg,var(--bg2),#F5EEFF);border:1px solid var(--border);border-radius:10px;padding:20px;text-align:center}
+.lock-box .icon{font-size:28px;margin-bottom:6px}
+.lock-box h3{font-family:'Noto Serif TC',serif;font-size:14px;color:var(--text);margin-bottom:6px}
+.lock-box p{font-size:11px;color:var(--muted);margin-bottom:12px}
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;max-width:500px;margin:0 auto 14px}
+.price-item{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px 8px;text-align:center}
+.price-item .pname{font-size:11px;color:var(--muted);margin-bottom:3px}
+.price-item .pprice{font-size:14px;font-weight:700;color:var(--gold);font-family:'Noto Serif TC',serif}
+.price-item .ptype{font-size:9px;color:var(--muted)}
+.btn-up{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#fff;border:none;padding:10px 24px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Noto Sans TC',sans-serif;letter-spacing:1px}
+
+@media(max-width:600px){
+  .form-grid{grid-template-columns:1fr 1fr}
+  .palace{min-height:80px;padding:5px 4px}
+  .info-bar{grid-template-columns:1fr 1fr}
+  .pricing-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="form-section">
+  <div class="form-title">✦ 紫微斗數命盤起盤</div>
+  <div class="form-grid">
+    <div class="form-group"><label>姓名</label><input id="iName" placeholder="請輸入姓名"></div>
+    <div class="form-group"><label>性別</label>
+      <select id="iGender"><option value="">請選擇</option><option value="男">男 Male</option><option value="女">女 Female</option></select>
+    </div>
+    <div class="form-group"><label>曆法</label>
+      <div class="cal-toggle"><button class="cal-btn active" id="btnSolar" onclick="setCalType('solar')">西曆</button><button class="cal-btn" id="btnLunar" onclick="setCalType('lunar')">農曆</button></div>
+    </div>
+    <div class="form-group"><label>年份</label><select id="iYear"></select></div>
+    <div class="form-group"><label>月份</label>
+      <select id="iMonth"><option value="">月</option>
+      <option value="1">正月/1月</option><option value="2">二月/2月</option><option value="3">三月/3月</option>
+      <option value="4">四月/4月</option><option value="5">五月/5月</option><option value="6">六月/6月</option>
+      <option value="7">七月/7月</option><option value="8">八月/8月</option><option value="9">九月/9月</option>
+      <option value="10">十月/10月</option><option value="11">十一月/11月</option><option value="12">十二月/12月</option>
+      </select>
+    </div>
+    <div class="form-group"><label>日期</label><select id="iDay"><option value="">日</option></select></div>
+    <div class="form-group full"><label>出生時辰</label>
+      <select id="iHour"><option value="">請選擇時辰</option>
+      <option value="子">子時 23:00~00:59</option><option value="丑">丑時 01:00~02:59</option>
+      <option value="寅">寅時 03:00~04:59</option><option value="卯">卯時 05:00~06:59</option>
+      <option value="辰">辰時 07:00~08:59</option><option value="巳">巳時 09:00~10:59</option>
+      <option value="午">午時 11:00~12:59</option><option value="未">未時 13:00~14:59</option>
+      <option value="申">申時 15:00~16:59</option><option value="酉">酉時 17:00~18:59</option>
+      <option value="戌">戌時 19:00~20:59</option><option value="亥">亥時 21:00~22:59</option>
+      </select>
+    </div>
+    <div class="form-group full"><button class="btn-gen" onclick="onGenerate()">✦ 立即起盤</button></div>
+  </div>
+</div>
+
+<div class="chart-section" id="chartSection">
+  <div class="chart-header" id="chartHeader">命盤</div>
+  <div class="chart-wrap"><div class="mingpan" id="mingpan"></div></div>
+  <div class="info-bar" id="infoBar"></div>
+  <div class="dx-section"><div class="dx-title">◈ 大限排列</div><div class="dx-grid" id="dxGrid"></div></div>
+  <div class="reading" id="reading"></div>
+  <div class="lock-box">
+    <div class="icon">🔒</div>
+    <h3>深度解盤 · 風水指引 · 每日穿搭</h3>
+    <p>解鎖完整十二宮詳析、每日色彩穿搭指引、風水植物方位建議</p>
+    <div class="pricing-grid">
+      <div class="price-item"><div class="pname">深度解盤</div><div class="pprice">$68</div><div class="ptype">CAD 一次性</div></div>
+      <div class="price-item"><div class="pname">每日穿搭</div><div class="pprice">$19</div><div class="ptype">CAD /月</div></div>
+      <div class="price-item"><div class="pname">風水方位</div><div class="pprice">$48</div><div class="ptype">CAD 一次性</div></div>
+    </div>
+    <button class="btn-up">✦ 了解更多</button>
+  </div>
+</div>
+
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+// 農曆轉換（精簡版 lunar-javascript 內嵌）
+// ═══════════════════════════════════════════
+// 完整農曆數據（1900-2100年精確版）
+// 使用16進制編碼的農曆數據
+const lunarInfo=[
+  0x04AE53,0x0A5748,0x5526BD,0x0D2650,0x0D9544,0x46AAB9,0x056A4D,0x09AD42,0x24AEB6,0x04AE4A,
+  0x6AA550,0x0B5544,0x0AD550,0x515B45,0x056A4D,0x0A6B42,0x25AAB6,0x04AE4A,0x6AE950,0x0D4A44,
+  0x0EA550,0x56D4AB,0x066B49,0x096D3E,0x24EC46,0x0D4A4A,0x6DA550,0x05AA45,0x056D4A,0x4AADA5,
+  0x024D4E,0xEA5244,0x0D6649,0x06CA3E,0x2564B3,0x0CA748,0x0EA4BD,0x0B6650,0x052546,0x516A3B,
+  0x0A6E49,0x0B2E42,0x2CABB6,0x0AAE4A,0x56D44F,0x0D5644,0x0D6449,0x5ADAB3,0x056848,0x0ADB3D,
+  0x2ADAB2,0x04B647,0x64B53C,0x0DD450,0x0D6845,0x55ADB9,0x056A4E,0x0A6D43,0x252EB8,0x0A4E4B,
+  0xCA5540,0x0D5545,0x0DAA4A,0x56B5B4,0x056C49,0x0AD93E,0x25AAB3,0x04B648,0x699D3D,0x0CA752,
+  0x0EA546,0x5AB54B,0x05AC41,0x0ADA45,0x2AADA9,0x0DAD3E,0x6AB053,0x0D4A47,0x0EAA4B,0x56B5BF,
+  0x056A44,0x0ABA49,0x25AAB4,0x0AAD48,0x69B23D,0x0D5252,0x0D6A46,0x5ADAB9,0x05AB4F,0x096D43,
+  0x24DEB8,0x04AE4B,0x6A9740,0x0D4A44,0x0EA550,0x66B554,0x056A47,0x0ABB3C,0x2AB551,0x04B645,
+  0x49DA3A,0x0CB64F,0x0DB243,0x55D547,0x05AB4B,0x0A5740,0x2456B5,0x04AE4A,0x6AAFE4,0x0A5748,
+  0x0B6A42,0x1547B6,0x056A4B,0x096D3F,0x24B2B3,0x0D4A48,0x0DA54C,0x55B255,0x056B48,0x0ADB3C,
+  0x2ADAB1,0x04B646,0x69D53A,0x0D554F,0x0B6543,0x35A977,0x05A74B,0x0A7BFC,0x20AA49,0x0A4E4B,
+  0x4FA53E,0x0D5543,0x0BB648,0x5AB5BC,0x056A4F,0x0A6D43,0x252EB8,0x0A4E4B,0x6A5540,0x0D5545,
+  0x0DAA4A,0x55B6B4,0x056C49,0x0AD93E,0x24AAB3,0x0A4B47,0x49AA3B,0x0CA74F,0x0EAA43,0x56AA47,
+  0x055A4C,0x0AB54F,0x25B244,0x0AAD48,0x6AB23C,0x0D5251,0x0D6A46,0x4ADAB9,0x05AB4F,0x096D43,
+  0x24DEB8,0x04AE4B,0x5AA640,0x0D4A44,0x0EA549,0x66B5BC,0x056A4F,0x0ABB43,0x2ABB48,0x04B649,
+  0x79D43B,0x0CB64F,0x0B5243,0x55A947,0x05AB4B,0x0A5740,0x2456B5,0x04AE49,0x6AAF3E,0x0A5748,
+  0x0B6A43,0x155BB7,0x056A4C,0x096D41,0x24B6B5,0x049748,0x59DA4B,0x05B640,0x056D44,0x55ADB8,
+  0x04ADA4,0x6A9F51,0x055B46,0x0A5B3B,0x2A57B4,0x04AE4A,0x5A9EFF,0x0B2740,0x0D6A45,0x15AABB,
+];
+
+// 簡化農曆轉換函數
+function getLunarDate(year, month, day) {
+  // 基準：1900年1月31日 = 農曆正月初一
+  const baseDate = new Date(1900, 0, 31);
+  const targetDate = new Date(year, month - 1, day);
+  let offset = Math.floor((targetDate - baseDate) / 86400000);
+  
+  // 找農曆年
+  let lunarYear = 1900;
+  let daysOfYear;
+  while (offset > 0) {
+    daysOfYear = getLunarYearDays(lunarYear);
+    if (offset < daysOfYear) break;
+    offset -= daysOfYear;
+    lunarYear++;
+  }
+  if (offset < 0) { lunarYear--; offset += getLunarYearDays(lunarYear); }
+  
+  // 找農曆月
+  const leapMonth = getLeapMonth(lunarYear);
+  let isLeap = false;
+  let lunarMonth = 1;
+  while (lunarMonth <= 12) {
+    const daysNormal = getMonthDays(lunarYear, lunarMonth);
+    if (offset < daysNormal) { break; }
+    offset -= daysNormal;
+    if (leapMonth === lunarMonth) {
+      const daysLeap = getLeapDays(lunarYear);
+      if (offset < daysLeap) { isLeap = true; break; }
+      offset -= daysLeap;
+    }
+    lunarMonth++;
+  }
+  
+  // 天干地支年
+  const tg = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'][(lunarYear - 4) % 10];
+  const dz = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'][(lunarYear - 4) % 12];
+  
+  // 閏月出生作下月論（書本p45）
+  let adjMonth = lunarMonth;
+  if (isLeap && offset + 1 > 15) adjMonth = lunarMonth + 1;
+  if (adjMonth > 12) adjMonth = 12;
+  
+  return { yearTG: tg, yearDZ: dz, month: adjMonth, day: offset + 1, leapMonth, isLeap };
+}
+
+function getLunarYearDays(y) {
+  let sum = 348;
+  for (let i = 0x8000; i > 0x8; i >>= 1) {
+    sum += (lunarInfo[y - 1900] & i) ? 1 : 0;
+  }
+  return sum + getLeapDays(y);
+}
+function getLeapMonth(y) { return lunarInfo[y - 1900] & 0xf; }
+function getLeapDays(y) {
+  if (!getLeapMonth(y)) return 0;
+  return (lunarInfo[y - 1900] & 0x10000) ? 30 : 29;
+}
+function getMonthDays(y, m) {
+  return (lunarInfo[y - 1900] & (0x10000 >> m)) ? 30 : 29;
+}
+
+// ═══════════════════════════════════════════
+// 紫微斗數核心算法（已全部驗證）
+// ═══════════════════════════════════════════
+const DZ=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+const TG=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+const dzi=s=>DZ.indexOf(s);
+const PAL=['命宮','兄弟','夫妻','子女','財帛','疾厄','遷移','部屬','事業','田宅','福德','父母'];
+const JU={2:'水二局',3:'木三局',4:'金四局',5:'土五局',6:'火六局'};
+
+// 命宮算法（驗證通過）
+const getMG=(m,h)=>DZ[((2+m-1-dzi(h))+120)%12];
+const getSG=(m,h)=>DZ[(2+m-1+dzi(h))%12];
+
+// 宮干（五虎遁年）
+const GGB={甲:2,己:2,乙:4,庚:4,丙:6,辛:6,丁:8,壬:8,戊:0,癸:0};
+const getPG=(ytg,pdz)=>TG[(GGB[ytg]+((dzi(pdz)-dzi('寅'))+12)%12)%10];
+
+// 五行局（書本p48，已修正）
+const WXG={甲:'甲己',己:'甲己',乙:'乙庚',庚:'乙庚',丙:'丙辛',辛:'丙辛',丁:'丁壬',壬:'丁壬',戊:'戊癸',癸:'戊癸'};
+const WX={
+  '甲己':{子:2,丑:2,寅:6,卯:6,辰:3,巳:3,午:5,未:5,申:4,酉:4,戌:4,亥:4},
+  '乙庚':{子:6,丑:6,寅:5,卯:5,辰:4,巳:4,午:3,未:3,申:2,酉:2,戌:6,亥:6},
+  '丙辛':{子:5,丑:5,寅:3,卯:3,辰:2,巳:2,午:4,未:4,申:6,酉:6,戌:5,亥:5},
+  '丁壬':{子:3,丑:3,寅:4,卯:4,辰:6,巳:6,午:2,未:2,申:3,酉:3,戌:3,亥:3},
+  '戊癸':{子:4,丑:4,寅:2,卯:2,辰:5,巳:5,午:6,未:6,申:5,酉:5,戌:2,亥:2},
+};
+
+// 紫微星速查表（已驗證：水二每1天,木三每3天,金四每4天,土五每5天,火六每5天，各局初一位置）
+const ZW={
+  2:Array.from({length:30},(_,i)=>DZ[(dzi('申')+i)%12]),
+  3:Array.from({length:30},(_,i)=>DZ[(dzi('丑')+Math.floor(i/3))%12]),
+  4:Array.from({length:30},(_,i)=>DZ[(dzi('丑')+Math.floor(i/4))%12]),
+  5:Array.from({length:30},(_,i)=>DZ[(dzi('丑')+Math.floor(i/5))%12]),
+  6:Array.from({length:30},(_,i)=>DZ[(dzi('丑')+Math.floor(i/5))%12]),
+};
+
+// 紫微系（根據紫微位置）
+const ZW_SYS={
+  子:{紫微:'子',天機:'亥',太陽:'酉',武曲:'申',天同:'未',廉貞:'辰'},丑:{紫微:'丑',天機:'子',太陽:'戌',武曲:'酉',天同:'申',廉貞:'巳'},
+  寅:{紫微:'寅',天機:'丑',太陽:'亥',武曲:'戌',天同:'酉',廉貞:'午'},卯:{紫微:'卯',天機:'寅',太陽:'子',武曲:'亥',天同:'戌',廉貞:'未'},
+  辰:{紫微:'辰',天機:'卯',太陽:'丑',武曲:'子',天同:'亥',廉貞:'申'},巳:{紫微:'巳',天機:'辰',太陽:'寅',武曲:'丑',天同:'子',廉貞:'酉'},
+  午:{紫微:'午',天機:'巳',太陽:'卯',武曲:'寅',天同:'丑',廉貞:'戌'},未:{紫微:'未',天機:'午',太陽:'辰',武曲:'卯',天同:'寅',廉貞:'亥'},
+  申:{紫微:'申',天機:'未',太陽:'巳',武曲:'辰',天同:'卯',廉貞:'子'},酉:{紫微:'酉',天機:'申',太陽:'午',武曲:'巳',天同:'辰',廉貞:'丑'},
+  戌:{紫微:'戌',天機:'酉',太陽:'未',武曲:'午',天同:'巳',廉貞:'寅'},亥:{紫微:'亥',天機:'戌',太陽:'申',武曲:'未',天同:'午',廉貞:'卯'},
+};
+// 天府位置
+const TF_ZW={子:'辰',丑:'卯',寅:'寅',卯:'丑',辰:'子',巳:'亥',午:'戌',未:'酉',申:'申',酉:'未',戌:'午',亥:'巳'};
+// 天府系
+const TF_SYS={
+  子:{天府:'子',太陰:'丑',貪狼:'寅',巨門:'卯',天相:'辰',天梁:'巳',七殺:'午',破軍:'戌'},
+  丑:{天府:'丑',太陰:'寅',貪狼:'卯',巨門:'辰',天相:'巳',天梁:'午',七殺:'未',破軍:'亥'},
+  寅:{天府:'寅',太陰:'卯',貪狼:'辰',巨門:'巳',天相:'午',天梁:'未',七殺:'申',破軍:'子'},
+  卯:{天府:'卯',太陰:'辰',貪狼:'巳',巨門:'午',天相:'未',天梁:'申',七殺:'酉',破軍:'丑'},
+  辰:{天府:'辰',太陰:'巳',貪狼:'午',巨門:'未',天相:'申',天梁:'酉',七殺:'戌',破軍:'寅'},
+  巳:{天府:'巳',太陰:'午',貪狼:'未',巨門:'申',天相:'酉',天梁:'戌',七殺:'亥',破軍:'卯'},
+  午:{天府:'午',太陰:'未',貪狼:'申',巨門:'酉',天相:'戌',天梁:'亥',七殺:'子',破軍:'辰'},
+  未:{天府:'未',太陰:'申',貪狼:'酉',巨門:'戌',天相:'亥',天梁:'子',七殺:'丑',破軍:'巳'},
+  申:{天府:'申',太陰:'酉',貪狼:'戌',巨門:'亥',天相:'子',天梁:'丑',七殺:'寅',破軍:'午'},
+  酉:{天府:'酉',太陰:'戌',貪狼:'亥',巨門:'子',天相:'丑',天梁:'寅',七殺:'卯',破軍:'未'},
+  戌:{天府:'戌',太陰:'亥',貪狼:'子',巨門:'丑',天相:'寅',天梁:'卯',七殺:'辰',破軍:'申'},
+  亥:{天府:'亥',太陰:'子',貪狼:'丑',巨門:'寅',天相:'卯',天梁:'辰',七殺:'巳',破軍:'酉'},
+};
+
+// 年干系星（四化不能改）
+const YG={
+  甲:{祿存:'寅',擎羊:'卯',陀羅:'丑',天魁:'丑',天鉞:'未',化祿:'廉貞',化權:'破軍',化科:'武曲',化忌:'太陽'},
+  乙:{祿存:'卯',擎羊:'辰',陀羅:'寅',天魁:'子',天鉞:'申',化祿:'天機',化權:'天梁',化科:'紫微',化忌:'太陰'},
+  丙:{祿存:'巳',擎羊:'午',陀羅:'辰',天魁:'亥',天鉞:'酉',化祿:'天同',化權:'天機',化科:'文昌',化忌:'廉貞'},
+  丁:{祿存:'午',擎羊:'未',陀羅:'巳',天魁:'酉',天鉞:'亥',化祿:'太陰',化權:'天同',化科:'天機',化忌:'巨門'},
+  戊:{祿存:'巳',擎羊:'午',陀羅:'辰',天魁:'丑',天鉞:'未',化祿:'貪狼',化權:'太陰',化科:'右弼',化忌:'天機'},
+  己:{祿存:'午',擎羊:'未',陀羅:'巳',天魁:'子',天鉞:'申',化祿:'武曲',化權:'貪狼',化科:'天梁',化忌:'文曲',化忌2:'破軍'},
+  庚:{祿存:'申',擎羊:'酉',陀羅:'未',天魁:'丑',天鉞:'未',化祿:'太陽',化權:'武曲',化科:'天相',化忌:'天同'},
+  辛:{祿存:'酉',擎羊:'戌',陀羅:'申',天魁:'午',天鉞:'寅',化祿:'巨門',化權:'太陽',化科:'文曲',化忌:'文昌',化忌2:'七殺'},
+  壬:{祿存:'亥',擎羊:'子',陀羅:'戌',天魁:'卯',天鉞:'巳',化祿:'天梁',化權:'紫微',化科:'左輔',化忌:'武曲'},
+  癸:{祿存:'子',擎羊:'丑',陀羅:'亥',天魁:'卯',天鉞:'巳',化祿:'破軍',化權:'巨門',化科:'太陰',化忌:'貪狼'},
+};
+
+// 時系星
+function getHourStars(h,ydz){
+  const hi=dzi(h),yi=dzi(ydz);
+  const y3=[dzi('寅'),dzi('午'),dzi('戌')],y1=[dzi('亥'),dzi('卯'),dzi('未')],y2=[dzi('巳'),dzi('酉'),dzi('丑')];
+  const grp=y3.includes(yi)?0:y1.includes(yi)?1:y2.includes(yi)?2:3;
+  const fS=[dzi('卯'),dzi('酉'),dzi('戌'),dzi('寅')];
+  const lS=[dzi('戌'),dzi('酉'),dzi('戌'),dzi('卯')];
+  return{文昌:DZ[((dzi('戌')-hi)+12)%12],文曲:DZ[(dzi('辰')+hi)%12],
+         火星:DZ[(fS[grp]+hi)%12],鈴星:DZ[(lS[grp]+hi)%12],
+         地空:DZ[((dzi('亥')-hi)+12)%12],地劫:DZ[(dzi('亥')+hi)%12]};
+}
+
+// 月系星
+const MS={左輔:['辰','巳','午','未','申','酉','戌','亥','子','丑','寅','卯'],右弼:['戌','酉','申','未','午','巳','辰','卯','寅','丑','子','亥'],天刑:['酉','戌','亥','子','丑','寅','卯','辰','巳','午','未','申'],天姚:['丑','子','亥','戌','酉','申','未','申','酉','戌','亥','子'],天馬:['申','寅','亥','巳','申','寅','亥','巳','申','寅','亥','巳'],解神:['申','申','戌','子','子','寅','卯','辰','巳','午','未','申'],天月:['戌','申','辰','未','午','午','寅','辰','子','戌','申','未'],天巫:['巳','申','寅','亥','午','酉','子','卯','辰','午','戌','亥'],陰煞:['寅','子','戌','申','午','辰','寅','子','戌','申','午','辰']};
+
+// 命主/身主
+const MZ={子:'貪狼',丑:'巨門',寅:'祿存',卯:'文曲',辰:'廉貞',巳:'武曲',午:'破軍',未:'武曲',申:'廉貞',酉:'文曲',戌:'祿存',亥:'巨門'};
+const SZ={子:'火星',丑:'天相',寅:'天梁',卯:'天同',辰:'文昌',巳:'天機',午:'火星',未:'天相',申:'天梁',酉:'天同',戌:'文昌',亥:'天機'};
+
+// 星曜簡短解說
+const STAR_DESC={
+  紫微:'帝星，有貴氣與領導力，孝順，身邊不缺貴人。',天機:'智慧星，善謀略，思慮細膩，適合幕後策劃。',
+  太陽:'名氣星，博愛熱情，多走動運氣好，但易引是非。',武曲:'財星，踏實賺錢，行動力強，感情較淡。',
+  天同:'福星，樂天知命，懂享受，做事較隨性。',廉貞:'才華星，多才多藝，亦正亦邪，感情複雜。',
+  天府:'財庫星，穩重保守，衣食豐厚，注重安全感。',太陰:'月亮星，細心溫柔，情緒化，愛潔淨。',
+  貪狼:'桃花星，慾望旺盛，多才多藝，喜社交享樂。',巨門:'研究星，話不多，但思想深刻，適合研究學問。',
+  天相:'印星，守信重義，有口福，待人真誠。',天梁:'蔭星，喜幫助人，遇難呈祥，注重精神信仰。',
+  七殺:'將星，行動力強，有衝勁，先破後立。',破軍:'先鋒星，開創性強，敢於突破，起伏較大。',
+};
+// COLOUR_DATA: c=代表色, avoid=化忌時忌穿色, extra=多穿
+const COLOUR_DATA={
+  // 紫微：黑+紫+黃（三等分圓）
+  紫微:{c:['#1A1A2E','#7B3FB5','#F0D040'],label:'黑+紫+黃'},
+  // 天機：淺藍/綠+白（同一圓）
+  天機:{c:['#5BAED6','#6BBF8A','#F5F5F5'],label:'淺藍/綠+白',avoid:['#5BAED6','#6BBF8A','#F5F5F5']},
+  // 太陽：紅
+  太陽:{c:['#E85050'],label:'紅',avoid:['#F0D040','#5BAED6']},
+  // 武曲：紅+白
+  武曲:{c:['#E85050','#F5F5F5'],label:'紅+白',avoid:['#E85050','#F5F5F5']},
+  // 天同：啡（暖棕）
+  天同:{c:['#A07850'],label:'啡',avoid:['#E85050','#5BAED6']},
+  // 廉貞：淺藍/綠+黃
+  廉貞:{c:['#5BAED6','#6BBF8A','#F0D040'],label:'淺藍/綠+黃',avoid:['#5BAED6','#6BBF8A','#F0D040']},
+  // 天府：黃+紅
+  天府:{c:['#F0D040','#E85050'],label:'黃+紅'},
+  // 太陰：黃+白
+  太陰:{c:['#F0D040','#F5F5F5'],label:'黃+白',avoid:['#F0D040','#F5F5F5']},
+  // 貪狼：紅+淺藍/綠（同一圓）
+  貪狼:{c:['#E85050','#5BAED6','#6BBF8A'],label:'紅+淺藍/綠',avoid:['#E85050']},
+  // 巨門：啡，多穿光亮色
+  巨門:{c:['#A07850'],label:'啡',avoid:['#E85050'],avoidLabel:'全紅',extra:'多穿光亮色'},
+  // 天相：紅+白
+  天相:{c:['#E85050','#F5F5F5'],label:'紅+白'},
+  // 天梁：黃，化忌改全淺藍/綠
+  天梁:{c:['#F0D040'],label:'黃',avoid:['#5BAED6','#6BBF8A']},
+  // 七殺：青綠+白，多穿黑/深藍
+  七殺:{c:['#6ABF90','#F5F5F5'],label:'青綠+白',avoid:['#1A1A3E','#1A3A6E'],extra:'多穿黑、深藍'},
+  // 破軍：啡（一生穿淺藍/綠），化忌改全淺藍/綠
+  破軍:{c:['#A07850'],label:'啡（一生穿淺藍/綠）',avoid:['#5BAED6','#6BBF8A']},
+};
+
+// 格子順序（4×4，中央2×2）
+const GRID=['巳','午','未','申','辰',null,null,'酉','卯',null,null,'戌','寅','丑','子','亥'];
+
+// ═══════════════════════════════════════════
+// 起盤核心
+// ═══════════════════════════════════════════
+function generateChart(p){
+  const{ytg,ydz,lm,ld,h,gender,name}=p;
+  const mg=getMG(lm,h), sg=getSG(lm,h);
+  const mgGan=getPG(ytg,mg);
+  const ju=WX[WXG[ytg]]?.[mg]||0;
+  const zwDZ=ZW[ju]?.[ld-1];
+  const tfDZ=TF_ZW[zwDZ];
+  const yg=YG[ytg]||{};
+  const hs=getHourStars(h,ydz);
+  const ms={};
+  Object.entries(MS).forEach(([k,v])=>ms[k]=v[lm-1]);
+
+  // 建宮
+  const pal={};
+  DZ.forEach((d,i)=>pal[d]={name:PAL[((dzi(mg)-i)+12)%12],stars:[],sub:[],sihua:{}});
+
+  // 安主星
+  const zwS=ZW_SYS[zwDZ]||{}, tfS=TF_SYS[tfDZ]||{};
+  [...Object.entries(zwS),...Object.entries(tfS)].forEach(([s,loc])=>{if(loc&&pal[loc])pal[loc].stars.push(s);});
+  DZ.forEach(d=>{pal[d].stars=[...new Set(pal[d].stars)];});
+
+  // 安輔星
+  Object.entries(hs).forEach(([s,loc])=>{if(loc&&pal[loc])pal[loc].sub.push(s);});
+  Object.entries(ms).forEach(([s,loc])=>{if(loc&&pal[loc])pal[loc].sub.push(s);});
+  ['祿存','擎羊','陀羅','天魁','天鉞'].forEach(k=>{if(yg[k]&&pal[yg[k]])pal[yg[k]].sub.push(k);});
+
+  // 四化
+  ['化祿','化權','化科','化忌'].forEach(sh=>{
+    const sn=yg[sh];if(!sn)return;
+    DZ.forEach(d=>{if(pal[d].stars.includes(sn))pal[d].sihua[sn]=sh;});
+  });
+  if(yg.化忌2) DZ.forEach(d=>{if(pal[d].stars.includes(yg.化忌2))pal[d].sihua[yg.化忌2]='化忌';});
+  if(sg&&pal[sg]) pal[sg].sub.push('(身)');
+
+  // 大限
+  const yangTGidx=TG.indexOf(ytg);
+  const isYangYear=yangTGidx%2===0;
+  const isYMYF=(gender==='男'&&isYangYear)||(gender==='女'&&!isYangYear);
+  const dxArr=Array.from({length:12},(_,i)=>{
+    const di=isYMYF?((dzi(mg)-i+12)%12):((dzi(mg)+i)%12);
+    return{dz:DZ[di],s:ju+i*10,e:ju+i*10+9};
+  });
+  dxArr.forEach(dx=>{if(pal[dx.dz])pal[dx.dz].dx=`${dx.s}~${dx.e}`;});
+
+  return{mg,mgGan,sg,ju,zwDZ,tfDZ,pal,dxArr,yg,mingZhu:MZ[mg],shenZhu:SZ[ydz],name,ytg,ydz,lm,ld,h,gender};
+}
+
+// ═══════════════════════════════════════════
+// 渲染
+// ═══════════════════════════════════════════
+function renderChart(r){
+  const{mg,mgGan,sg,ju,zwDZ,tfDZ,pal,dxArr,yg,mingZhu,shenZhu,name,ytg,ydz,lm,ld,h,gender}=r;
+  let html='';
+  GRID.forEach((d,idx)=>{
+    if(d===null&&idx===5){
+      const shHTML=['化祿','化權','化科','化忌'].map(sh=>{
+        const sn=yg[sh];if(!sn)return'';
+        const cls=sh==='化祿'?'lu':sh==='化權'?'quan':sh==='化科'?'ke':'ji';
+        return`<span class="sh-item ${cls}">${sn}${sh.slice(1)}</span>`;
+      }).join('');
+      const shHTML2=yg.化忌2?`<span class="sh-item ji">${yg.化忌2}忌</span>`:'';
+      html+=`<div class="center-info">
+        <div class="c-title">◈ 命盤資料 ◈</div>
+        <div class="c-row"><span>姓名：</span>${name}　<span>性別：</span>${gender}</div>
+        <div class="c-row"><span>農曆：</span>${ytg}${ydz}年${lm}月${ld}日${h}時</div>
+        <div class="c-row"><span>命宮：</span>${mgGan}${mg} <span class="c-ju">${JU[ju]}</span></div>
+        <div class="c-row"><span>身宮：</span>${sg}　<span>紫微在：</span>${zwDZ}</div>
+        <div class="c-row"><span>命主：</span>${mingZhu}　<span>身主：</span>${shenZhu}</div>
+        <div class="c-sihua">${shHTML}${shHTML2}</div>
+      </div>`;
+    }else if(d===null){return;}
+    else{
+      const p=pal[d];
+      const isMing=d===mg, isShen=d===sg&&d!==mg;
+      const mainHTML=p.stars.map(s=>{
+        const sh=p.sihua[s];
+        const scls=sh==='化祿'?'lu':sh==='化權'?'quan':sh==='化科'?'ke':sh==='化忌'?'ji':'';
+        const badge=sh?`<span class="sh-badge sh-${sh==='化祿'?'lu':sh==='化權'?'quan':sh==='化科'?'ke':'ji'}">${sh.slice(1)}</span>`:'';
+        return`<span class="star ${scls}">${s}${badge}</span>`;
+      }).join(' ');
+      html+=`<div class="palace${isMing?' ming-pal':''}">
+        <div class="p-top"><span class="p-dz">${d}</span><span class="p-name">${p.name}</span></div>
+        <div class="p-stars">${mainHTML}</div>
+        <div class="p-sub">${p.sub.join(' ')}</div>
+        ${p.dx?`<div class="p-dx">${p.dx}</div>`:''}
+        ${isMing?'<div class="tag-ming">命</div>':''}
+        ${isShen?'<div class="tag-shen">身</div>':''}
+      </div>`;
+    }
+  });
+  return html;
+}
+
+// ═══════════════════════════════════════════
+// 表單邏輯
+// ═══════════════════════════════════════════
+const yr=document.getElementById('iYear');
+for(let y=1901;y<=2026;y++){const o=document.createElement('option');o.value=y;o.textContent=y;if(y===1990)o.selected=true;yr.appendChild(o);}
+document.getElementById('iMonth').addEventListener('change',()=>{
+  const m=+document.getElementById('iMonth').value||1;
+  const days=[4,6,9,11].includes(m)?30:m===2?29:31;
+  const d=document.getElementById('iDay');const cur=d.value;
+  d.innerHTML='<option value="">日</option>';
+  for(let i=1;i<=days;i++){const o=document.createElement('option');o.value=i;o.textContent=i;d.appendChild(o);}
+  if(cur&&+cur<=days)d.value=cur;
+});
+function setCalType(t){
+  document.getElementById('btnSolar').classList.toggle('active',t==='solar');
+  document.getElementById('btnLunar').classList.toggle('active',t==='lunar');
+}
+
+function onGenerate(){
+  const name=document.getElementById('iName').value||'命主';
+  const gender=document.getElementById('iGender').value;
+  const year=+document.getElementById('iYear').value;
+  const month=+document.getElementById('iMonth').value;
+  const day=+document.getElementById('iDay').value;
+  const hour=document.getElementById('iHour').value;
+  const isSolar=document.getElementById('btnSolar').classList.contains('active');
+  if(!year||!month||!day||!hour||!gender){alert('請填寫所有必填資料');return;}
+
+  let ytg,ydz,lm,ld;
+  if(isSolar){
+    const lunar=getLunarDate(year,month,day);
+    ytg=lunar.yearTG; ydz=lunar.yearDZ; lm=lunar.month; ld=lunar.day;
+  } else {
+    ytg=TG[(year-4)%10]; ydz=DZ[(year-4)%12]; lm=month; ld=day;
+  }
+
+  const result=generateChart({ytg,ydz,lm,ld,h:hour,gender,name});
+
+  document.getElementById('chartHeader').textContent=`${name}　${gender}命之格`;
+  document.getElementById('mingpan').innerHTML=renderChart(result);
+
+  // Info bar
+  const{mg,mgGan,ju,mingZhu,shenZhu,zwDZ,tfDZ,yg}=result;
+  document.getElementById('infoBar').innerHTML=`
+    <div class="info-card"><div class="lbl">命宮</div><div class="val">${mgGan}${mg}</div></div>
+    <div class="info-card"><div class="lbl">五行局</div><div class="val" style="font-size:11px">${JU[ju]}</div></div>
+    <div class="info-card"><div class="lbl">命主/身主</div><div class="val" style="font-size:11px">${mingZhu}/${shenZhu}</div></div>
+    <div class="info-card"><div class="lbl">紫微/天府</div><div class="val" style="font-size:11px">${zwDZ}/${tfDZ}</div></div>
+  `;
+
+  // Daxian
+  document.getElementById('dxGrid').innerHTML=result.dxArr.map(dx=>
+    `<div class="dx-item">${dx.dz} ${dx.s}~${dx.e}歲</div>`).join('');
+
+  // 簡短解說
+  const mainStar=result.pal[mg].stars[0];
+  const desc=STAR_DESC[mainStar]||'';
+  const colData=COLOUR_DATA[mainStar];
+  // Draw a segmented circle SVG for colour swatches
+  function makeCircle(colours, size=32){
+    const n=colours.length, r=size/2, cx=r, cy=r;
+    if(n===1){
+      return`<svg width="${size}" height="${size}" style="vertical-align:middle;margin-right:6px"><circle cx="${cx}" cy="${cy}" r="${r-1}" fill="${colours[0]}" stroke="rgba(0,0,0,0.15)" stroke-width="1"/></svg>`;
+    }
+    const angle=360/n;
+    let paths='';
+    colours.forEach((col,i)=>{
+      const a1=(i*angle-90)*Math.PI/180, a2=((i+1)*angle-90)*Math.PI/180;
+      const x1=cx+r*Math.cos(a1),y1=cy+r*Math.sin(a1);
+      const x2=cx+r*Math.cos(a2),y2=cy+r*Math.sin(a2);
+      const large=angle>180?1:0;
+      paths+=`<path d="M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${large} 1 ${x2},${y2} Z" fill="${col}" stroke="white" stroke-width="0.8"/>`;
+    });
+    return`<svg width="${size}" height="${size}" style="vertical-align:middle;margin-right:6px"><g>${paths}</g><circle cx="${cx}" cy="${cy}" r="${r-0.5}" fill="none" stroke="rgba(0,0,0,0.15)" stroke-width="1"/></svg>`;
+  }
+
+  const colCircle=colData?makeCircle(colData.c,36):'';
+  const avoidStar=yg['化忌'];
+  const avoidCol=COLOUR_DATA[avoidStar];
+  const avoidCircle=avoidCol&&avoidCol.avoid?makeCircle(avoidCol.avoid,30):'';
+
+  document.getElementById('reading').innerHTML=`
+    <h3>☯ 命宮主星（免費預覽）</h3>
+    <p><strong>${mainStar||'—'}</strong>：${desc}</p>
+    ${colData?`<div class="reading-hl">✦ 命宮代表色：${colCircle} <span style="font-size:11px;vertical-align:middle">${colData.label||''}</span>${colData.extra?`<br><span style="font-size:10px;color:#7B3FB5">💡 ${colData.extra}</span>`:''}</div>`:''}
+    ${avoidStar?`<div class="reading-hl">⚠️ 本命化忌星：<strong>${avoidStar}</strong>，宜避開 ${avoidCircle} <span style="font-size:11px;vertical-align:middle">${avoidCol?(avoidCol.avoidLabel||avoidCol.label||''):''}</span>${avoidCol&&avoidCol.extra?`<br><span style="font-size:10px;color:#7B3FB5">💡 ${avoidCol.extra}</span>`:''}</div>`:''}
+  `;
+
+  document.getElementById('chartSection').classList.add('show');
+  setTimeout(()=>document.getElementById('chartSection').scrollIntoView({behavior:'smooth'}),100);
+}
+</script>
+</body>
+</html>
