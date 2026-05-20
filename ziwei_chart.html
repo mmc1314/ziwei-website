@@ -643,7 +643,7 @@ const COLOUR_DATA={
   // 紫微：黑+紫+黃（三等分圓）
   紫微:{c:['#1A1A2E','#7B3FB5','#F0D040'],label:'黑+紫+黃'},
   // 天機：淺藍/綠+白（同一圓）
-  天機:{c:['#5BAED6','#6BBF8A','#F5F5F5'],label:'淺藍/綠+白',avoid:['#5BAED6','#6BBF8A','#F5F5F5']},
+  天機:{c:[['#5BAED6','#F5F5F5'],['#6BBF8A','#F5F5F5']],label:'淺藍+白 / 綠+白',multi:true,avoid:[['#5BAED6','#F5F5F5'],['#6BBF8A','#F5F5F5']],avoidLabel:'化忌避免淺藍+白 / 綠+白'},
   // 太陽：紅
   太陽:{c:['#E85050'],label:'紅',avoid:['#F0D040','#5BAED6']},
   // 武曲：紅+白
@@ -888,10 +888,10 @@ function doGenerate(name,gender,isSolar,year,month,day,hour){
     return`<svg width="${size}" height="${size}" style="vertical-align:middle;margin-right:6px"><g>${paths}</g><circle cx="${cx}" cy="${cy}" r="${r-0.5}" fill="none" stroke="rgba(0,0,0,0.15)" stroke-width="1"/></svg>`;
   }
 
-  const colCircle=colData?makeCircle(colData.c,36):'';
+  const colCircle=colData?(colData.multi?colData.c.map(c=>makeCircle(c,36)).join(''):makeCircle(colData.c,36)):'';
   const avoidStar=yg['化忌'];
   const avoidCol=COLOUR_DATA[avoidStar];
-  const avoidCircle=avoidCol&&avoidCol.avoid?makeCircle(avoidCol.avoid,30):'';
+  const avoidCircle=avoidCol&&avoidCol.avoid?(avoidCol.multi?avoidCol.avoid.map(c=>makeCircle(c,30)).join(''):makeCircle(avoidCol.avoid,30)):'';
 
   // ── 免費版：所有主星列表 ──
   const ALL_MAIN=['紫微','天機','太陽','武曲','天同','廉貞','天府','太陰','貪狼','巨門','天相','天梁','七殺','破軍'];
@@ -909,20 +909,20 @@ function doGenerate(name,gender,isSolar,year,month,day,hour){
     const shBg=sh==='化祿'?'background:#e8f5e9;color:#2e7d32':sh==='化權'?'background:#fff3e0;color:#e65100':sh==='化科'?'background:#e3f2fd;color:#1565c0':sh==='化忌'?'background:#fce4ec;color:#b71c1c':'';
     const shBadge=sh?`<span style="font-size:10px;padding:1px 5px;border-radius:8px;margin-left:4px;${shBg}">${sh}</span>`:'';
     const colD=COLOUR_DATA[s];
-    const circle=colD?makeCircle(colD.c,18):'';
+    const circleHtml=colD?(colD.multi?colD.c.map(c=>makeCircle(c,18)).join(''):makeCircle(colD.c,18)):'';
     return`<div style="display:flex;align-items:flex-start;gap:8px;padding:8px 10px;border-bottom:1px solid rgba(180,140,220,0.15);flex-wrap:wrap">
       <div style="min-width:48px;font-weight:700;color:#5B3A8C;font-size:13px">${s}${shBadge}</div>
       <div style="flex:1;min-width:160px">
         <span style="font-size:11px;color:#9370BB;background:rgba(180,140,220,0.12);padding:1px 7px;border-radius:10px;margin-right:6px">${info.palace}（${info.dz}）</span>
         <span style="font-size:12px;color:#4a3060;line-height:1.6">${STAR_DESC[s]||''}</span>
       </div>
-      <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#7B5AB8;white-space:nowrap">${circle}${colD?colD.label:''}</div>
+      <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#7B5AB8;white-space:nowrap">${circleHtml}${colD?colD.label:''}</div>
     </div>`;
   }).join('');
 
   const jiItems=ALL_MAIN.filter(s=>starPalaceMap[s]&&starPalaceMap[s].sihua==='化忌').map(s=>{
     const colD=COLOUR_DATA[s];
-    const avoidC=colD&&colD.avoid?makeCircle(colD.avoid,16):'';
+    const avoidC=colD&&colD.avoid?(colD.multi?colD.avoid.map(c=>makeCircle(c,16)).join(''):makeCircle(colD.avoid,16)):'';
     return`<div style="font-size:12px;color:#8B1A1A;padding:3px 0">⚠️ <strong>${s}化忌</strong>（在${starPalaceMap[s].palace}）：${colD&&colD.avoid?`宜避開 ${avoidC} ${colD.avoidLabel||'該配色'}`:''} ${colD&&colD.extra?`・${colD.extra}`:''}</div>`;
   }).join('');
 
