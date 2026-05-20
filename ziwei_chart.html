@@ -34,7 +34,7 @@ select:focus,input:focus{border-color:var(--gold)}
 /* CHART */
 .chart-section{display:none}
 .chart-section.show{display:block}
-.chart-header{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#fff;text-align:center;padding:9px;font-family:'Noto Serif TC',serif;font-size:15px;font-weight:700;letter-spacing:4px;border-radius:10px 10px 0 0}
+.chart-header{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#fff;text-align:center;padding:10px 12px 12px;font-family:'Noto Serif TC',serif;font-size:15px;font-weight:700;letter-spacing:4px;border-radius:10px 10px 0 0;line-height:1.6}
 .chart-wrap{border:2px solid var(--gold);border-radius:0 0 10px 10px;background:var(--card);overflow:hidden;box-shadow:0 4px 24px rgba(216,184,74,0.1)}
 
 /* 4x4 GRID */
@@ -107,6 +107,42 @@ select:focus,input:focus{border-color:var(--gold)}
   .info-bar{grid-template-columns:1fr 1fr}
   .pricing-grid{grid-template-columns:1fr}
 }
+
+/* Palace star table */
+.palace-table{margin-top:14px;background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.palace-table-title{font-family:'Noto Serif TC',serif;font-size:12px;color:var(--gold);letter-spacing:2px;padding:9px 12px 7px;border-bottom:1px solid var(--border)}
+.pt-grid{display:grid;grid-template-columns:repeat(12,1fr);border-top:1px solid var(--border)}
+@media(max-width:700px){.pt-grid{grid-template-columns:repeat(6,1fr)}}
+.pt-header-row{display:grid;grid-template-columns:repeat(12,1fr)}
+@media(max-width:700px){.pt-header-row{grid-template-columns:repeat(6,1fr)}}
+.pt-cell{padding:8px 4px;border-right:1px solid var(--border2);border-bottom:1px solid var(--border2);text-align:center;min-height:36px;display:flex;align-items:center;justify-content:center}
+.pt-cell:last-child{border-right:none}
+.pt-pal-cell{padding:7px 4px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);text-align:center;background:linear-gradient(135deg,rgba(216,184,74,0.08),rgba(216,184,74,0.03))}
+.pt-pal-cell:last-child{border-right:none}
+.pt-pal{font-size:10px;color:var(--gold-dim,#8B6914);font-weight:700;letter-spacing:1px;font-family:'Noto Serif TC',serif}
+.pt-star-name{font-size:12px;font-family:'Noto Serif TC',serif;color:var(--text);font-weight:700;padding:2px 0}
+.pt-star-name.lu{color:var(--lu)}.pt-star-name.quan{color:var(--quan)}.pt-star-name.ke{color:var(--ke)}.pt-star-name.ji{color:var(--ji)}
+.pt-star-tag{font-size:8px;vertical-align:super;margin-left:1px}
+.pt-stars-col{display:flex;flex-direction:column;align-items:center;gap:2px;width:100%}
+.pt-empty{color:var(--muted);font-size:16px;opacity:0.3}
+
+/* Upsell section */
+.upsell-section{margin-top:14px;border-radius:10px;overflow:hidden;border:1px solid var(--border)}
+.upsell-teaser{padding:16px 16px 14px;background:linear-gradient(135deg,#FFF9EE,#F5EEFF)}
+.upsell-teaser-title{font-family:'Noto Serif TC',serif;font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:1px}
+.upsell-teaser-text{font-size:12px;color:var(--muted);line-height:1.9;margin-bottom:10px}
+.upsell-teaser-text strong{color:var(--text)}
+.upsell-blur{filter:blur(3px);pointer-events:none;user-select:none;font-size:12px;color:var(--muted);line-height:1.8;padding:0 0 8px}
+.upsell-cta{background:linear-gradient(135deg,#5B3A8C,#3D2060);padding:18px 16px;text-align:center}
+.upsell-cta-title{font-family:'Noto Serif TC',serif;font-size:15px;font-weight:700;color:var(--gold2);letter-spacing:2px;margin-bottom:4px}
+.upsell-cta-sub{font-size:11px;color:rgba(255,255,255,0.65);margin-bottom:14px}
+.upsell-price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;max-width:480px;margin-left:auto;margin-right:auto;margin-bottom:14px}
+.upsell-price-item{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:10px 6px;text-align:center}
+.upsell-price-name{font-size:11px;color:rgba(255,255,255,0.75);margin-bottom:4px}
+.upsell-price-amt{font-size:16px;font-weight:700;color:var(--gold2);font-family:'Noto Serif TC',serif}
+.upsell-price-type{font-size:9px;color:rgba(255,255,255,0.5);margin-top:2px}
+.btn-upsell{display:inline-block;background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--text);border:none;padding:11px 32px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Serif TC',serif;letter-spacing:2px;text-decoration:none}
+
 </style>
 </head>
 <body>
@@ -117,7 +153,7 @@ select:focus,input:focus{border-color:var(--gold)}
   <div class="form-grid">
     <div class="form-group"><label>姓名</label><input id="iName" placeholder="請輸入姓名"></div>
     <div class="form-group"><label>性別</label>
-      <select id="iGender"><option value="">請選擇</option><option value="男">男 Male</option><option value="女">女 Female</option></select>
+      <select id="iGender"><option value="">請選擇</option><option value="男">男</option><option value="女">女</option></select>
     </div>
     <div class="form-group"><label>曆法</label>
       <div class="cal-toggle"><button class="cal-btn active" id="btnSolar" onclick="setCalType('solar')">西曆</button><button class="cal-btn" id="btnLunar" onclick="setCalType('lunar')">農曆</button></div>
@@ -125,21 +161,28 @@ select:focus,input:focus{border-color:var(--gold)}
     <div class="form-group"><label>年份</label><select id="iYear"></select></div>
     <div class="form-group"><label>月份</label>
       <select id="iMonth"><option value="">月</option>
-      <option value="1">正月/1月</option><option value="2">二月/2月</option><option value="3">三月/3月</option>
-      <option value="4">四月/4月</option><option value="5">五月/5月</option><option value="6">六月/6月</option>
-      <option value="7">七月/7月</option><option value="8">八月/8月</option><option value="9">九月/9月</option>
-      <option value="10">十月/10月</option><option value="11">十一月/11月</option><option value="12">十二月/12月</option>
+      <option value="1">01月</option><option value="2">02月</option><option value="3">03月</option>
+      <option value="4">04月</option><option value="5">05月</option><option value="6">06月</option>
+      <option value="7">07月</option><option value="8">08月</option><option value="9">09月</option>
+      <option value="10">10月</option><option value="11">11月</option><option value="12">12月</option>
       </select>
     </div>
     <div class="form-group"><label>日期</label><select id="iDay"><option value="">日</option></select></div>
     <div class="form-group full"><label>出生時辰</label>
       <select id="iHour"><option value="">請選擇時辰</option>
-      <option value="子">子時 23:00~00:59</option><option value="丑">丑時 01:00~02:59</option>
-      <option value="寅">寅時 03:00~04:59</option><option value="卯">卯時 05:00~06:59</option>
-      <option value="辰">辰時 07:00~08:59</option><option value="巳">巳時 09:00~10:59</option>
-      <option value="午">午時 11:00~12:59</option><option value="未">未時 13:00~14:59</option>
-      <option value="申">申時 15:00~16:59</option><option value="酉">酉時 17:00~18:59</option>
-      <option value="戌">戌時 19:00~20:59</option><option value="亥">亥時 21:00~22:59</option>
+      <option value="子">00:00~00:59 (早子)</option>
+      <option value="丑">01:00~02:59 (丑)</option>
+      <option value="寅">03:00~04:59 (寅)</option>
+      <option value="卯">05:00~06:59 (卯)</option>
+      <option value="辰">07:00~08:59 (辰)</option>
+      <option value="巳">09:00~10:59 (巳)</option>
+      <option value="午">11:00~12:59 (午)</option>
+      <option value="未">13:00~14:59 (未)</option>
+      <option value="申">15:00~16:59 (申)</option>
+      <option value="酉">17:00~18:59 (酉)</option>
+      <option value="戌">19:00~20:59 (戌)</option>
+      <option value="亥">21:00~22:59 (亥)</option>
+      <option value="子">23:00~23:59 (晚子)</option>
       </select>
     </div>
     <div class="form-group full"><button class="btn-gen" onclick="onGenerate()">✦ 立即起盤</button></div>
@@ -154,16 +197,26 @@ select:focus,input:focus{border-color:var(--gold)}
   <div class="reading" id="reading"></div>
 
   <div id="paidReading" style="display:none"></div>
-  <div class="lock-box">
-    <div class="icon">🔒</div>
-    <h3>深度解盤 · 風水指引 · 每日穿搭</h3>
-    <p>解鎖完整十二宮詳析、每日色彩穿搭指引、風水植物方位建議</p>
-    <div class="pricing-grid">
-      <div class="price-item"><div class="pname">深度解盤</div><div class="pprice">$68</div><div class="ptype">CAD 一次性</div></div>
-      <div class="price-item"><div class="pname">每日穿搭</div><div class="pprice">$19</div><div class="ptype">CAD /月</div></div>
-      <div class="price-item"><div class="pname">風水方位</div><div class="pprice">$48</div><div class="ptype">CAD 一次性</div></div>
+  <div class="palace-table" id="palaceTable" style="display:none">
+    <div class="palace-table-title">◈ 星曜宮位對照</div>
+    <div class="pt-grid" id="ptGrid"></div>
+  </div>
+  <div class="upsell-section" id="upsellSection" style="display:none">
+    <div class="upsell-teaser">
+      <div class="upsell-teaser-title" id="upsellTitle">【命宮論賦性】你的命格解析</div>
+      <div class="upsell-teaser-text" id="upsellTeaser"></div>
+      <div class="upsell-blur" id="upsellBlur">命宮主星深藏的潛力、感情路的模式、財運的規律、事業發展的方向……以及你這一生最需要突破的課題，深度解盤將一一為你揭示。你的每顆星在每個宮位的交叉影響，都蘊藏著獨一無二的人生密碼。</div>
     </div>
-    <button class="btn-up">✦ 了解更多</button>
+    <div class="upsell-cta">
+      <div class="upsell-cta-title">✦ 深度解盤 · 風水指引 · 每日穿搭</div>
+      <div class="upsell-cta-sub">解鎖完整十二宮詳析、每日色彩穿搭指引、風水植物方位建議</div>
+      <div class="upsell-price-grid">
+        <div class="upsell-price-item"><div class="upsell-price-name">深度解盤</div><div class="upsell-price-amt">$68</div><div class="upsell-price-type">CAD 一次性</div></div>
+        <div class="upsell-price-item"><div class="upsell-price-name">每日穿搭</div><div class="upsell-price-amt">$19</div><div class="upsell-price-type">CAD /月</div></div>
+        <div class="upsell-price-item"><div class="upsell-price-name">風水方位</div><div class="upsell-price-amt">$48</div><div class="upsell-price-type">CAD 一次性</div></div>
+      </div>
+      <button class="btn-upsell" onclick="window.location.href='ziwei_website.html'">✦ 了解更多</button>
+    </div>
   </div>
 </div>
 
@@ -730,13 +783,13 @@ function renderChart(r){
 // 表單邏輯
 // ═══════════════════════════════════════════
 const yr=document.getElementById('iYear');
-for(let y=1901;y<=2026;y++){const o=document.createElement('option');o.value=y;o.textContent=y;if(y===1990)o.selected=true;yr.appendChild(o);}
+for(let y=1901;y<=2026;y++){const o=document.createElement('option');o.value=y;o.textContent=y+'年';if(y===1990)o.selected=true;yr.appendChild(o);}
 document.getElementById('iMonth').addEventListener('change',()=>{
   const m=+document.getElementById('iMonth').value||1;
   const days=[4,6,9,11].includes(m)?30:m===2?29:31;
   const d=document.getElementById('iDay');const cur=d.value;
   d.innerHTML='<option value="">日</option>';
-  for(let i=1;i<=days;i++){const o=document.createElement('option');o.value=i;o.textContent=i;d.appendChild(o);}
+  for(let i=1;i<=days;i++){const o=document.createElement('option');o.value=i;o.textContent=String(i).padStart(2,'0')+'日';d.appendChild(o);}
   if(cur&&+cur<=days)d.value=cur;
 });
 function setCalType(t){
@@ -745,15 +798,39 @@ function setCalType(t){
 }
 
 function onGenerate(){
-  const name=document.getElementById('iName').value||'命主';
+  const name=document.getElementById('iName').value.trim()||'命主';
   const gender=document.getElementById('iGender').value;
   const year=+document.getElementById('iYear').value;
   const month=+document.getElementById('iMonth').value;
   const day=+document.getElementById('iDay').value;
   const hour=document.getElementById('iHour').value;
   const isSolar=document.getElementById('btnSolar').classList.contains('active');
-  if(!year||!month||!day||!hour||!gender){alert('請填寫所有必填資料');return;}
-
+  if(!year||!month||!day||!hour||!gender){alert('請填寫所有必填欄位');return;}
+  // Show confirmation dialog
+  const sel=document.getElementById('iHour');
+  const hourLabel=sel.options[sel.selectedIndex].text;
+  const calLabel=isSolar?'西元':'農曆';
+  const overlay=document.createElement('div');
+  overlay.id='confirmOverlay';
+  overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9999;display:flex;align-items:center;justify-content:center';
+  overlay.innerHTML=`<div style="background:#fff;border-radius:16px;padding:28px 26px 22px;max-width:340px;width:90%;font-family:'Noto Sans TC',sans-serif;box-shadow:0 8px 40px rgba(0,0,0,0.35)">
+    <div style="font-family:'Noto Serif TC',serif;font-size:16px;font-weight:700;color:#5B3A8C;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(180,140,220,0.3)">請確認您提供的資料是否正確：</div>
+    <div style="font-size:14px;line-height:2.4;color:#2c1a3a">
+      <div><span style="color:#aaa;display:inline-block;width:52px">姓名：</span>${name}</div>
+      <div><span style="color:#aaa;display:inline-block;width:52px">性別：</span>${gender}</div>
+      <div><span style="color:#aaa;display:inline-block;width:52px">生辰：</span><span style="color:#5B3A8C;font-weight:700">${calLabel} ${year}年${String(month).padStart(2,'0')}月${String(day).padStart(2,'0')}日</span></div>
+      <div style="padding-left:54px;color:#5B3A8C;font-weight:700">${hourLabel}</div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:20px">
+      <button id="confirmOK" style="flex:1;padding:12px;background:linear-gradient(135deg,#D8B84A,#F2D060);border:none;border-radius:8px;font-size:14px;font-weight:700;color:#1E1432;cursor:pointer;font-family:'Noto Serif TC',serif;letter-spacing:2px">確定</button>
+      <button id="confirmCancel" style="flex:1;padding:12px;background:#f0f0f0;border:none;border-radius:8px;font-size:14px;color:#666;cursor:pointer">取消</button>
+    </div>
+  </div>`;
+  document.body.appendChild(overlay);
+  document.getElementById('confirmCancel').onclick=()=>overlay.remove();
+  document.getElementById('confirmOK').onclick=()=>{overlay.remove();doGenerate(name,gender,isSolar,year,month,day,hour);};
+}
+function doGenerate(name,gender,isSolar,year,month,day,hour){
   let ytg,ydz,lm,ld;
   if(isSolar){
     const lunar=solarToLunar(year,month,day);
@@ -764,7 +841,16 @@ function onGenerate(){
 
   const result=generateChart({ytg,ydz,lm,ld,h:hour,gender,name});
 
-  document.getElementById('chartHeader').textContent=`${name}　${gender}命之格`;
+  // ── 需求1: 格式化標題 ──
+  const solarStr=isSolar?`西元 ${year}年${String(month).padStart(2,'0')}月${String(day).padStart(2,'0')}日`:`農曆 ${year}年${String(month).padStart(2,'0')}月${String(day).padStart(2,'0')}日`;
+  const lunarStr=`農曆 ${ytg}${ydz}年${lm}月${ld}日`;
+  const hourSel=document.getElementById('iHour');
+  const hourTxt=hourSel.options[hourSel.selectedIndex].text;
+  document.getElementById('chartHeader').innerHTML=`
+    <div style="font-size:17px;font-weight:700;letter-spacing:3px">${name} <span style="font-size:13px;opacity:0.85">（${gender}）</span></div>
+    <div style="font-size:12px;opacity:0.85;margin-top:3px;font-weight:400">${isSolar?solarStr:''} ${isSolar?hourTxt:''}</div>
+    <div style="font-size:12px;opacity:0.85;font-weight:400">${lunarStr} ${hourTxt}</div>
+  `;
   document.getElementById('mingpan').innerHTML=renderChart(result);
 
   // Info bar
@@ -852,8 +938,89 @@ function onGenerate(){
   // ── 付費版詳細解說 ──
   generatePaidReading(result, yg, mg);
 
+  // ── 需求4: 星宮對照表 ──
+  buildPalaceTable(result, mg);
+
+  // ── 需求5: Upsell section ──
+  buildUpsell(result, mg, name, gender);
+
   document.getElementById('chartSection').classList.add('show');
   setTimeout(()=>document.getElementById('chartSection').scrollIntoView({behavior:'smooth'}),100);
+}
+
+// ── 星宮對照表 ──
+function buildPalaceTable(result, mg){
+  const ALL_MAIN=['紫微','天機','太陽','武曲','天同','廉貞','天府','太陰','貪狼','巨門','天相','天梁','七殺','破軍'];
+  const PAL_ORDER=['命宮','兄弟','夫妻','子女','財帛','疾厄','遷移','部屬','事業','田宅','福德','父母'];
+  // build palace→stars map
+  const palMap={};
+  PAL_ORDER.forEach(p=>palMap[p]={stars:[],sihua:{},dz:''});
+  DZ.forEach(d=>{
+    const p=result.pal[d];
+    palMap[p.name]={stars:p.stars.filter(s=>ALL_MAIN.includes(s)),sihua:{...p.sihua},dz:d};
+  });
+  const shCls={化祿:'lu',化權:'quan',化科:'ke',化忌:'ji'};
+  const shTag={化祿:'祿',化權:'權',化科:'科',化忌:'忌'};
+  // Row 1: palace names
+  const palHeaders=PAL_ORDER.map(palName=>{
+    const isMing=palName==='命宮';
+    return`<div class="pt-pal-cell"><div class="pt-pal" style="${isMing?'color:var(--gold);':''}">${palName}</div></div>`;
+  }).join('');
+  // Row 2+: stars (find max star count to determine rows needed)
+  const palStars=PAL_ORDER.map(palName=>{
+    const info=palMap[palName];
+    return info.stars.map(s=>{
+      const sh=info.sihua[s];
+      const cls=sh?shCls[sh]:'';
+      const tag=sh?`<span class="pt-star-tag ${cls}" style="font-size:7px">${shTag[sh]}</span>`:'';
+      return`<div class="pt-star-name ${cls}">${s}${tag}</div>`;
+    });
+  });
+  const maxRows=Math.max(...palStars.map(a=>a.length),1);
+  let starRowsHtml='';
+  for(let r=0;r<maxRows;r++){
+    const rowCells=palStars.map(stars=>{
+      const star=stars[r]||'';
+      return`<div class="pt-cell">${star||''}</div>`;
+    }).join('');
+    starRowsHtml+=`<div style="display:contents">${rowCells}</div>`;
+  }
+  document.getElementById('ptGrid').innerHTML=
+    `<div style="display:contents">${palHeaders}</div>${starRowsHtml}`;
+  document.getElementById('palaceTable').style.display='block';
+}
+
+// ── Upsell section ──
+const UPSELL_DATA={
+  紫微:['你是大器晚成或少年早發','你的命宮坐有帝星紫微，天生帶有一股不怒自威的氣質。你最大的特色是高雅端莊，自帶貴氣，身邊總有貴人提攜。<br><br>你的命格注定不凡——'],
+  天機:['你的智慧，藏在細節裡','你的命宮坐有智慧之星天機，你是一個思慮細膩、善於謀略的人，腦筋永遠在轉。<br><br>你的命格告訴你——'],
+  太陽:['你的名氣，將帶你走向更遠','你的命宮坐有名氣之星太陽，天生外向博愛，走到哪裡都能引起注意，先有名聲再有財富。<br><br>你的命格注定——'],
+  武曲:['大器晚成，財路踏實而長遠','你的命宮坐有正財星武曲，你是一個踏實、目標清晰、行動力強的人，財運靠自己一步一腳印。<br><br>你最需要注意的是——'],
+  天同:['你的福氣，比你想象的更深','你的命宮坐有福星天同，天生有福，生活中總能化解困難，貴人自然而來。<br><br>你的命格隱藏著——'],
+  廉貞:['亦正亦邪，你的命格充滿張力','你的命宮坐有廉貞星，你是一個有宰相之才的人，聰明利落，凡事要求規則，但也因此充滿矛盾張力。<br><br>你的一生命運——'],
+  天府:['財福壽三全，你的命格注定豐厚','你的命宮坐有天府星，天生帶有財庫、福氣與長壽的格局，衣食住行從不匱乏。<br><br>你的命格深處——'],
+  太陰:['細膩如月，你的情感世界深不可測','你的命宮坐有月亮之星太陰，你天生細心溫柔，情感豐富，對美感有獨特的要求。<br><br>你最需要了解的是——'],
+  貪狼:['你的魅力，是你最大的武器','你的命宮坐有大桃花星貪狼，天生多才多藝，魅力四射，社交能力極強，人生充滿精彩。<br><br>你的命格告訴你——'],
+  巨門:['沉默背後，是你最深刻的智慧','你的命宮坐有研究之星巨門，你習慣深思熟慮後才表達，看似沉默，實則思想深刻。<br><br>你的一生命運——'],
+  天相:['守信如玉，你的命格自帶貴氣','你的命宮坐有印星天相，守信是你的核心特質，也是你運勢的關鍵。<br><br>你的命格深處——'],
+  天梁:['遇難呈祥，你是天生的解難高手','你的命宮坐有蔭星天梁，天生有蔭庇他人的能量，越有挑戰的環境越能發光。<br><br>你的一生命格——'],
+  七殺:['行動力是你的天賜利器','你的命宮坐有將軍星七殺，天生衝勁十足，赤子之心，行動力超強。<br><br>你的命格揭示——'],
+  破軍:['先破後成，你的命格注定開創','你的命宮坐有前鋒星破軍，天生不喜穩定，一生至少三次大破大立，越破越強。<br><br>你最需要知道的是——'],
+};
+function buildUpsell(result, mg, name, gender){
+  const mgStars=result.pal[mg].stars;
+  const mainStar=mgStars[0]||'';
+  const data=UPSELL_DATA[mainStar]||['【命宮論賦性】你的命格解析','你的命盤已排好，命宮主星蘊藏著你一生的密碼。<br><br>深度解盤將為你揭示——'];
+  const [title,teaser]=data;
+  const genderLabel=gender==='女'?'妳':'你';
+  const sihuaDesc=Object.entries(result.pal[mg].sihua).map(([s,sh])=>`<strong>${s}${sh}</strong>`).join('、');
+  const sihuaNote=sihuaDesc?`（本命 ${sihuaDesc}）`:'';
+  document.getElementById('upsellTitle').textContent=`【命宮論賦性】${title}`;
+  document.getElementById('upsellTeaser').innerHTML=`
+    <div style="margin-bottom:6px"><strong style="color:var(--text)">${genderLabel}的命宮主星：<span style="color:var(--accent)">${mgStars.join('＋')||'—'}</span></strong> ${sihuaNote}</div>
+    <div style="color:var(--muted);line-height:1.9">${teaser}</div>
+  `;
+  document.getElementById('upsellSection').style.display='block';
 }
 
 // ── 付費版詳細解說生成函數 ──
