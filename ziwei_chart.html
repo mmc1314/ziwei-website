@@ -178,8 +178,8 @@ function solarToLunar(sy,sm,sd){
   for(const ly of [sy, sy-1]){
     const rec=LY[ly]; if(!rec) continue;
     const [cm,cd,mb,lm,mc]=rec;
-    const cny=new Date(ly,cm-1,cd);
-    const diff=Math.floor((new Date(sy,sm-1,sd)-cny)/86400000);
+    const cny=Date.UTC(ly,cm-1,cd);
+    const diff=Math.round((Date.UTC(sy,sm-1,sd)-cny)/86400000);
     if(diff<0) continue;
     let month=1,cum=0,leapUsed=false;
     const tg='甲乙丙丁戊己庚辛壬癸'[(ly-4)%10];
