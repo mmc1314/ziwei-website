@@ -143,6 +143,53 @@ select:focus,input:focus{border-color:var(--gold)}
 .upsell-price-type{font-size:9px;color:rgba(255,255,255,0.5);margin-top:2px}
 .btn-upsell{display:inline-block;background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--text);border:none;padding:11px 32px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Serif TC',serif;letter-spacing:2px;text-decoration:none}
 
+
+/* ── Daily Colour Guide ── */
+.daily-section{margin-top:14px;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.daily-header{background:linear-gradient(135deg,#1a3a6a,#2a5a9a);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+.daily-title{font-family:'Noto Serif TC',serif;font-size:14px;font-weight:700;color:#E8D080;letter-spacing:2px}
+.daily-date{font-size:11px;color:rgba(255,255,255,0.65)}
+.daily-body{padding:14px 16px;background:#FAFBFF}
+.daily-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px}
+.daily-col-card{padding:10px 12px;border-radius:8px;text-align:center}
+.daily-col-card.nian{background:#f0f6ff;border-left:3px solid #2196f3}
+.daily-col-card.yue{background:#f5f0ff;border-left:3px solid #9c27b0}
+.daily-col-card.ri{background:#fff8e1;border-left:3px solid #ff9800}
+.dccard-lbl{font-size:9px;font-weight:700;letter-spacing:2px;margin-bottom:3px}
+.nian .dccard-lbl{color:#1565c0}.yue .dccard-lbl{color:#6a1a9a}.ri .dccard-lbl{color:#e65100}
+.dccard-gong{font-size:10px;color:#888;margin-bottom:2px}
+.dccard-gan{font-size:13px;font-weight:700;color:#1E1432;font-family:'Noto Serif TC',serif}
+.dccard-sh{display:flex;flex-direction:column;gap:2px;margin-top:6px}
+.dcsh-item{font-size:10px;display:flex;justify-content:space-between;align-items:center;gap:4px}
+.dcsh-type{padding:1px 5px;border-radius:4px;font-size:9px;font-weight:700}
+.lu .dcsh-type{background:#e8f5e9;color:#2e7d32}
+.quan .dcsh-type{background:#fff3e0;color:#e65100}
+.ke .dcsh-type{background:#e3f2fd;color:#1565c0}
+.ji .dcsh-type{background:#fce4ec;color:#b71c1c}
+.dcsh-star{font-family:'Noto Serif TC',serif;font-weight:700;font-size:11px}
+.dcsh-pal{font-size:9px;color:#aaa}
+.daily-divider{border:none;border-top:1px solid rgba(0,0,0,0.06);margin:10px 0}
+.colour-today{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.colour-today-lbl{font-size:11px;font-weight:700;color:#1E1432;letter-spacing:1px;flex-shrink:0}
+.colour-chips{display:flex;gap:6px;flex-wrap:wrap}
+.colour-chip-day{display:flex;align-items:center;gap:4px;padding:3px 10px 3px 5px;border-radius:16px;border:1px solid rgba(0,0,0,0.1);background:#fff;font-size:11px;font-weight:600}
+.colour-dot-day{width:14px;height:14px;border-radius:50%;border:1px solid rgba(0,0,0,0.1)}
+.avoid-today{margin-top:8px;display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap;background:#fff5f5;border-radius:8px;padding:8px 10px;border-left:3px solid #f44336}
+.avoid-today-lbl{font-size:11px;font-weight:700;color:#b71c1c;flex-shrink:0}
+.avoid-chips{display:flex;gap:5px;flex-wrap:wrap}
+.daily-chart-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(0,0,0,0.06);border-radius:8px;overflow:hidden;margin-top:12px}
+.dc-cell{background:#fff;padding:7px 6px;text-align:center;cursor:pointer;transition:background 0.15s}
+.dc-cell:hover{background:#f0f6ff}
+.dc-cell.active-day{background:#fff8e0;border:1px solid #D8B84A}
+.dc-cell.center-cell{background:#f8f4ff;grid-column:2/4;grid-row:2/4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.dc-cell-pal{font-size:8px;color:#9370BB;font-weight:700;letter-spacing:1px;margin-bottom:2px}
+.dc-cell-deg{font-size:9px;color:#bbb;margin-bottom:3px}
+.dc-cell-stars{font-size:11px;font-family:'Noto Serif TC',serif;font-weight:700;color:#1E1432;line-height:1.5}
+.dc-cell-stars .ji-star{color:#b71c1c}
+.dc-cell-stars .lu-star{color:#2e7d32}
+.dc-cell-stars .quan-star{color:#e65100}
+.dc-cell-stars .ke-star{color:#1565c0}
+
 </style>
 </head>
 <body>
@@ -197,16 +244,9 @@ select:focus,input:focus{border-color:var(--gold)}
   <div class="reading" id="reading"></div>
 
   <div id="paidReading" style="display:none"></div>
-  <div class="palace-table" id="palaceTable" style="display:none">
-    <div class="palace-table-title">◈ 星曜宮位對照</div>
-    <div class="pt-grid" id="ptGrid"></div>
-  </div>
+  <div id="palaceTable" style="display:none"></div>
   <div class="upsell-section" id="upsellSection" style="display:none">
-    <div class="upsell-teaser">
-      <div class="upsell-teaser-title" id="upsellTitle">【命宮論賦性】你的命格解析</div>
-      <div class="upsell-teaser-text" id="upsellTeaser"></div>
-      <div class="upsell-blur" id="upsellBlur">命宮主星深藏的潛力、感情路的模式、財運的規律、事業發展的方向……以及你這一生最需要突破的課題，深度解盤將一一為你揭示。你的每顆星在每個宮位的交叉影響，都蘊藏著獨一無二的人生密碼。</div>
-    </div>
+
     <div class="upsell-cta">
       <div class="upsell-cta-title">✦ 深度解盤 · 風水指引 · 每日穿搭</div>
       <div class="upsell-cta-sub">解鎖完整十二宮詳析、每日色彩穿搭指引、風水植物方位建議</div>
@@ -216,6 +256,26 @@ select:focus,input:focus{border-color:var(--gold)}
         <div class="upsell-price-item"><div class="upsell-price-name">風水方位</div><div class="upsell-price-amt">$48</div><div class="upsell-price-type">CAD 一次性</div></div>
       </div>
       <button class="btn-upsell" onclick="window.location.href='ziwei_website.html'">✦ 了解更多</button>
+    </div>
+  </div>
+  <div class="daily-section" id="dailySection" style="display:none">
+    <div class="daily-header">
+      <div class="daily-title">✦ 今日穿搭顏色</div>
+      <div class="daily-date" id="dailyDateLabel"></div>
+    </div>
+    <div class="daily-body">
+      <div class="daily-row" id="dailySihuaRow"></div>
+      <hr class="daily-divider">
+      <div class="colour-today" id="colourTodayWear">
+        <div class="colour-today-lbl">今日可穿</div>
+        <div class="colour-chips" id="wearChips"></div>
+      </div>
+      <div class="avoid-today" id="avoidTodayWear">
+        <div class="avoid-today-lbl">⚠️ 今日忌穿</div>
+        <div class="avoid-chips" id="avoidChips"></div>
+      </div>
+      <div style="font-size:11px;color:#888;margin-top:10px;margin-bottom:10px">今日十二宮（以流日命宮重排）</div>
+      <div class="daily-chart-grid" id="dailyChartGrid"></div>
     </div>
   </div>
 </div>
@@ -228,6 +288,24 @@ select:focus,input:focus{border-color:var(--gold)}
 // ═══════════════════════════════════════════
 // [cnyMonth, cnyDay, monthBits, leapMonth, monthCount]
 const LY={1900:[1,31,2413,8,13],1901:[2,19,2396,0,12],1902:[2,8,5294,0,12],1903:[1,29,2637,5,13],1904:[2,16,6732,0,12],1905:[2,4,6954,0,12],1906:[1,25,3413,4,13],1907:[2,13,2772,0,12],1908:[2,2,4954,0,12],1909:[1,22,2397,2,13],1910:[2,10,2396,0,12],1911:[1,30,5275,6,13],1912:[2,18,5274,0,12],1913:[2,6,6730,0,12],1914:[1,26,6821,5,13],1915:[2,14,5800,0,12],1916:[2,3,6868,0,12],1917:[1,23,4826,2,13],1918:[2,11,4790,0,12],1919:[2,1,2359,7,13],1920:[2,20,2350,0,12],1921:[2,8,5270,0,12],1922:[1,28,5707,5,13],1923:[2,16,3402,0,12],1924:[2,5,3496,0,12],1925:[1,24,5557,4,13],1926:[2,13,1388,0,12],1927:[2,2,4782,0,12],1928:[1,23,2351,2,13],1929:[2,10,2350,0,12],1930:[1,30,3222,6,13],1931:[2,17,6804,0,12],1932:[2,6,7498,0,12],1933:[1,26,3497,5,13],1934:[2,14,2906,0,12],1935:[2,4,1388,0,12],1936:[1,24,4718,3,13],1937:[2,11,4700,0,12],1938:[1,31,6445,7,13],1939:[2,19,6442,0,12],1940:[2,8,6804,0,12],1941:[1,27,6986,6,13],1942:[2,15,5802,0,12],1943:[2,5,2772,0,12],1944:[1,25,5467,4,13],1945:[2,13,1210,0,12],1946:[2,2,4698,0,12],1947:[1,22,6443,2,13],1948:[2,10,5418,0,12],1949:[1,29,5781,7,13],1950:[2,17,3476,0,12],1951:[2,6,5802,0,12],1952:[1,27,2741,5,13],1953:[2,14,2484,0,12],1954:[2,3,5302,0,12],1955:[1,24,2647,3,13],1956:[2,12,2646,0,12],1957:[1,31,5418,8,13],1958:[2,18,7466,0,12],1959:[2,8,3412,0,12],1960:[1,28,5546,6,13],1961:[2,15,5482,0,12],1962:[2,5,2412,0,12],1963:[1,25,5294,4,13],1964:[2,13,5294,0,12],1965:[2,2,2636,0,12],1966:[1,21,7462,3,13],1967:[2,9,6954,0,12],1968:[1,30,2901,7,13],1969:[2,17,2772,0,12],1970:[2,6,4826,0,12],1971:[1,27,2397,5,13],1972:[2,15,2394,0,12],1973:[2,3,5274,0,12],1974:[1,23,6733,4,13],1975:[2,11,6730,0,12],1976:[1,31,6821,8,13],1977:[2,18,5800,0,12],1978:[2,7,5844,0,12],1979:[1,28,4826,6,13],1980:[2,16,4790,0,12],1981:[2,5,2358,0,12],1982:[1,25,5271,4,13],1983:[2,13,5270,0,12],1984:[2,2,5707,10,13],1985:[2,20,3402,0,12],1986:[2,9,3496,0,12],1987:[1,29,5556,6,13],1988:[2,17,5484,0,12],1989:[2,6,4782,0,12],1990:[1,27,2351,5,13],1991:[2,15,2350,0,12],1992:[2,4,3222,0,12],1993:[1,23,3402,3,13],1994:[2,10,7498,0,12],1995:[1,31,3429,8,13],1996:[2,19,2904,0,12],1997:[2,7,5484,0,12],1998:[1,28,4717,5,13],1999:[2,16,4700,0,12],2000:[2,5,6444,0,12],2001:[1,24,6805,4,13],2002:[2,12,6804,0,12],2003:[2,1,6986,0,12],2004:[1,22,2901,2,13],2005:[2,9,2772,0,12],2006:[1,29,5467,7,13],2007:[2,18,1210,0,12],2008:[2,7,4698,0,12],2009:[1,26,6443,5,13],2010:[2,14,5418,0,12],2011:[2,3,5780,0,12],2012:[1,23,5802,4,13],2013:[2,10,5546,0,12],2014:[1,31,2741,9,13],2015:[2,19,2420,0,12],2016:[2,8,5302,0,12],2017:[1,28,2647,6,13],2018:[2,16,2646,0,12],2019:[2,5,5414,0,12],2020:[1,25,3733,4,13],2021:[2,12,3412,0,12],2022:[2,1,5546,0,12],2023:[1,22,2485,2,13],2024:[2,10,2412,0,12],2025:[1,29,5294,6,13],2026:[2,17,5276,0,12],2027:[2,6,6732,0,12],2028:[1,26,7462,5,13],2029:[2,13,6822,0,12],2030:[2,3,2900,0,12]};
+
+// ── Global makeCircle (used by daily colour and reading sections) ──
+function makeCircle(colours, size=32){
+  const n=colours.length, r=size/2, cx=r, cy=r;
+  if(n===1){
+    return`<svg width="${size}" height="${size}" style="vertical-align:middle;margin-right:6px"><circle cx="${cx}" cy="${cy}" r="${r-1}" fill="${colours[0]}" stroke="rgba(0,0,0,0.15)" stroke-width="1"/></svg>`;
+  }
+  const angle=360/n;
+  let paths='';
+  colours.forEach((col,i)=>{
+    const a1=(i*angle-90)*Math.PI/180, a2=((i+1)*angle-90)*Math.PI/180;
+    const x1=cx+r*Math.cos(a1),y1=cy+r*Math.sin(a1);
+    const x2=cx+r*Math.cos(a2),y2=cy+r*Math.sin(a2);
+    const large=angle>180?1:0;
+    paths+=`<path d="M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${large} 1 ${x2},${y2} Z" fill="${col}" stroke="white" stroke-width="0.8"/>`;
+  });
+  return`<svg width="${size}" height="${size}" style="vertical-align:middle;margin-right:6px"><g>${paths}</g><circle cx="${cx}" cy="${cy}" r="${r-0.5}" fill="none" stroke="rgba(0,0,0,0.15)" stroke-width="1"/></svg>`;
+}
 
 function solarToLunar(sy,sm,sd){
   for(const ly of [sy, sy-1]){
@@ -350,6 +428,94 @@ const STAR_DESC={
   天梁:'蔭星，喜幫助人，遇難呈祥，靈性強，越漂泊越穩定。',
   七殺:'將軍星，行動力強，有衝勁赤子心，心急易出錯，需人執手尾。',
   破軍:'前鋒星，開創性強，先破後成，一生至少三次大起伏，留不住錢宜置業。',
+};
+
+// 命宮主星免費解說（標題＋性格＋注意＋穿搭顏色建議）
+const MING_READING={
+  紫微:{
+    title:'你是天生的領袖，自帶皇者氣場',
+    p1:'你的命宮坐有帝星紫微，天生不怒自威，氣質高雅，待人有禮，孝順斯文。你走到哪裡都自帶一股讓人臣服的氣場，身邊不乏貴人相助。你對自己及他人的要求都高，做事有原則，適合管理或決策崗位。',
+    p2:'此命格最需要注意的是：自尊心過強，有時容易顯得自視甚高，令人難以親近。建議學習放下身段，聆聽不同聲音，才能讓貴人運持續發揮。',
+    colour:'穿搭上，以<strong>黑色、紫色、黃色</strong>自由配搭最能呼應你的命格能量——無論是上衣、外套、褲子、襪子還是鞋子，在整體造型中融入這三色，都能加持你的氣場與運勢。',
+  },
+  天機:{
+    title:'你的智慧，藏在細節與思考之中',
+    p1:'你的命宮坐有智慧星天機，大智若愚，腦筋永遠在轉動。你思慮細膩，善於謀略，適合幕後策劃、研究或語言學習等需要深度思考的工作。你做軍師比做老闆更出色，是別人背後最重要的智囊。',
+    p2:'此命格最需要注意的是：容易想太多而產生焦慮，有時過於理性而忽略情感表達。建議適時放鬆思緒，讓大腦休息，才能保持判斷力清晰。',
+    colour:'穿搭上，<strong>淺藍色配白色</strong>或<strong>綠色配白色</strong>是你的能量配色——兩種搭法都適合你，可以按心情交替選擇，融入日常衣著的任何一層。化忌年份則需整套避開這兩種配色。',
+  },
+  太陽:{
+    title:'你的名氣，將帶你走向更廣闊的舞台',
+    p1:'你的命宮坐有名氣星太陽，天生外向博愛，樂於付出，不計個人得失。你先有名聲，後有財富——多走動、多曝光，運氣自然越來越好。你適合從事公眾性強的工作，如政界、傳媒、教育或公關。',
+    p2:'此命格最需要注意的是：行為容易引起他人關注，有時會招惹是非。若命宮太陽落在夜間宮位（亥、子、丑），更容易被誤解冤枉，宜多積德行善，必要時可拜義父以化解。',
+    colour:'穿搭上，<strong>紅色</strong>是你的主力能量色，從內到外大膽使用都能為你加持名氣與人緣。化忌時避免全紅，改以<strong>黃色</strong>代替，同樣可維持好運。',
+  },
+  武曲:{
+    title:'大器晚成，財路踏實而長遠',
+    p1:'你的命宮坐有正財星武曲，你是一個目標清晰、踏實、行動力強的人。財運靠自己一步一腳印，最適合金融、採購、執法或任何與金錢管理相關的行業。你說話直接，不善談情，但做事可靠，讓人放心。',
+    p2:'此命格最需要注意的是：感情表達能力較弱，容易讓身邊人感到疏離。女命更需特別經營感情關係。化忌年份切忌為他人合夥，只做能力範圍內的事，避免因財起糾紛。',
+    colour:'穿搭上，<strong>紅色配白色</strong>是你的財運配色，兩色自由搭配於衣著各層，能呼應武曲的正財能量。化忌時整套避開紅白搭配。',
+  },
+  天同:{
+    title:'你的福氣，比你想象中更深厚',
+    p1:'你的命宮坐有福星天同，天生有福，貴人自然而來，生活中的困難往往能輕鬆化解。你性格圓融，協調能力強，能讓身邊的人感到輕鬆愉快。最適合在福德宮位的你，享受生活是你的天賦。',
+    p2:'此命格最需要注意的是：天性偏懶，容易安於現狀，需要外在的壓力才能發奮向上。有趣的是，天同化忌反而能激發你的上進心——壓力是你的動力來源。',
+    colour:'穿搭上，日常以<strong>啡色</strong>為主色；需要努力拼搏時換上<strong>紅色</strong>提振動力；想放鬆休息時則穿<strong>淺藍色或綠色</strong>舒緩身心——三種顏色按狀態靈活切換。',
+  },
+  廉貞:{
+    title:'亦正亦邪，你的命格充滿張力與才華',
+    p1:'你的命宮坐有廉貞星，你是一個有宰相之才的人——聰明利落，凡事要求規則，桃花磁場強。你對自己和他人的要求都高，做事有手段，適合法律、軍警或任何需要紀律的行業。',
+    p2:'此命格最需要注意的是：耐性不足，遇事容易急躁，有時因規則感太強而令人窒息。感情上更需要學會包容，廉貞在夫妻宮容易引起波折。化忌年份需特別注意官非與感情糾紛。',
+    colour:'穿搭上，<strong>淺藍色或綠色配黃色</strong>是你的能量配色，兩色自由搭配於衣著各層。化忌年份整套避開淺藍綠+黃的搭配。',
+  },
+  天府:{
+    title:'財福壽三全，你天生享有豐厚的命格',
+    p1:'你的命宮坐有天府星，是財、福、壽三合一的格局。一生衣食無憂，財運穩健，大小財都能把握。你理財能力強，性格靈活，懂得應對進退，身邊總有貴人守護。',
+    p2:'此命格最需要注意的是：有時過於保守，錯失投資或拓展的機遇。天府人應在穩健的基礎上，適度把握機遇，讓財庫越積越豐。',
+    colour:'穿搭上，<strong>黃色配紅色</strong>是你的財富能量配色，兩色自由融入衣著各層——無論上衣、外套、褲子還是配件，都能呼應天府的豐厚氣場。',
+  },
+  太陰:{
+    title:'細膩如月，你的情感世界深不可測',
+    p1:'你的命宮坐有月亮星太陰，你天生細心溫柔，情感豐富，對美感與整潔有獨特要求。你重視家庭，適合投資不動產，女性緣佳，身邊常有貴人相助。太陰廟旺者，一生財運與情感都較為順遂。',
+    p2:'此命格最需要注意的是：情緒容易受外界影響，敏感度高，有時為小事過度煩惱。太陰遇陀羅者需特別注意健康，勿讓自己過度操心。化忌年份情緒特別波動，需學會放鬆。',
+    colour:'穿搭上，<strong>黃色配白色</strong>是你的月光能量配色，柔和而典雅，融入衣著各層都能呼應太陰的細膩氣質。化忌年份整套避開黃白搭配。',
+  },
+  貪狼:{
+    title:'你的魅力，是你一生最大的財富',
+    p1:'你的命宮坐有大桃花星貪狼，天生多才多藝，魅力四射，社交能力極強。你喜歡研究各種事物，享受酒食交際，人生充滿色彩。適合藝術、市場推廣、教育或任何需要人際魅力的行業。',
+    p2:'此命格最需要注意的是：慾望旺盛，容易貪多嚼不爛；感情上桃花過旺，需懂得取捨。有信仰或精神寄託對貪狼人非常重要，能幫助在挫折後重新站起來。',
+    colour:'穿搭上，<strong>紅色配淺藍色或綠色</strong>是你的桃花能量配色，兩色搭配融入衣著各層，既展現魅力又能穩定能量。化忌年份改穿全紅，避開淺藍綠。',
+  },
+  巨門:{
+    title:'沉默背後，是你最深刻的智慧與力量',
+    p1:'你的命宮坐有研究星巨門，你是一個習慣深思熟慮的人——先聽、再消化、再表達，你的每一個想法都經過深度思考。你適合研究、法律、媒體或任何需要深度分析的工作，說話雖不多，卻字字有份量。',
+    p2:'此命格最需要注意的是：過於封閉容易讓人誤解，需要主動表達才能讓別人真正了解你。巨門主暗，居家及工作環境應保持光亮，多開燈有助化解暗氣，帶旺運勢。',
+    colour:'穿搭上，<strong>啡色</strong>是你的主色，沉穩內斂；日常建議多加入<strong>光亮色系</strong>作點綴，為自己帶來光明能量。化忌年份整套改穿紅色。',
+  },
+  天相:{
+    title:'守信如玉，你的命格自帶貴氣與口福',
+    p1:'你的命宮坐有印星天相，守信是你最重要的特質，也是你一生運勢的關鍵。你為人真誠，有口福，衣食住行從不匱乏，身邊常有可靠的人相伴。天相坐命者，面圓有福，一生貴人不缺。',
+    p2:'此命格最需要注意的是：心情直接影響運氣——心情好，萬事順；心情差，阻礙自然來。學會保持好心情，遠離負能量的環境和人，是天相人最重要的功課。切記守信，失信則衰運至。',
+    colour:'穿搭上，<strong>紅色配白色</strong>是你的貴氣能量配色，兩色自由融入衣著各層，清爽而有格調，能呼應天相守信重義的氣質。',
+  },
+  天梁:{
+    title:'遇難呈祥，你是天生的解難高手',
+    p1:'你的命宮坐有蔭星天梁，天生有蔭庇他人的能量。你老成持重，喜歡解決問題，越有挑戰的環境越能發光。信仰對你非常重要，靈性覺察力特別強。一生遇難呈祥，越漂泊越穩定，向外走是你的福地。',
+    p2:'此命格最需要注意的是：幫人要等對方主動求助，否則好心做壞事，費力不討好。一生不能太過順遂，磨難是你成長的養分，不要逃避挑戰。',
+    colour:'穿搭上，<strong>黃色</strong>是你的蔭庇能量色，從內到外大膽使用，能加持你的蔭庇力與貴人運。化忌年份改換<strong>淺藍色或綠色</strong>全套穿搭。',
+  },
+  七殺:{
+    title:'行動力是你的天賜利器',
+    p1:'你的命宮坐有將軍星七殺，天生衝勁十足，赤子之心，行動力超強。你做事雷厲風行，敢衝敢拼，適合創業或任何需要開拓性的工作。你的情緒透明，喜怒哀樂全寫在臉上，真實不造作。',
+    p2:'此命格最需要注意的是：心急容易判斷失誤，行動過快往往需要他人幫忙收尾。學習三思而後行，配合有耐心的夥伴，才能將你的衝勁轉化為持久的成功。',
+    colour:'穿搭上，<strong>淺藍色或綠色配白色</strong>是你的主力配色；同時建議日常多加入<strong>黑色或深藍色</strong>作為搭配——深色能收殺氣、穩情緒，讓你的行動力更加精準有效。',
+  },
+  破軍:{
+    title:'先破後成，你的命格注定開創新局',
+    p1:'你的命宮坐有前鋒星破軍，天生不喜穩定，破舊立新是你的天命。一生至少三次大破大立，每一次的破壞都是更大成功的前奏。你能幹、豪爽、不拘小節，適合獨立創業或任何需要開創精神的工作。',
+    p2:'此命格最需要注意的是：財來財去，留不住錢——建議盡早置業，以不動產固定財富。性格任性，難以合夥，凡事按自己方式行事雖痛快，但需學會與他人協作才能走得更遠。',
+    colour:'穿搭上，<strong>淺藍色或綠色</strong>是你一生的輔助色，建議每天的衣著都融入這個色系；日常配色以<strong>啡色</strong>為主，兩色交替搭配各層衣物。化忌年份整套改穿淺藍綠。',
+  },
 };
 
 // ═══════════════════════════════════════════
@@ -926,23 +1092,61 @@ function doGenerate(name,gender,isSolar,year,month,day,hour){
     return`<div style="font-size:12px;color:#8B1A1A;padding:3px 0">⚠️ <strong>${s}化忌</strong>（在${starPalaceMap[s].palace}）：${colD&&colD.avoid?`宜避開 ${avoidC} ${colD.avoidLabel||'該配色'}`:''} ${colD&&colD.extra?`・${colD.extra}`:''}</div>`;
   }).join('');
 
-  document.getElementById('reading').innerHTML=`
-    <div style="padding:4px 0 12px">
-      <div style="font-family:'Noto Serif TC',serif;font-size:14px;font-weight:700;color:#5B3A8C;letter-spacing:2px;padding:0 0 8px;border-bottom:1px solid rgba(180,140,220,0.3);margin-bottom:8px">✦ 命盤主星一覽（免費預覽）</div>
-      ${starRows}
-      ${jiItems?`<div style="margin-top:12px;padding:10px 12px;background:rgba(255,220,220,0.15);border-radius:8px;border-left:3px solid #c0392b"><div style="font-size:12px;font-weight:700;color:#8B1A1A;margin-bottom:4px">本命四化忌提示</div>${jiItems}</div>`:''}
-      <div style="margin-top:14px;padding:10px 12px;background:rgba(180,140,220,0.08);border-radius:8px;font-size:12px;color:#7B5AB8;text-align:center">🔓 解鎖深度解盤，查看十二宮詳細分析 · 四化影響 · 健康提示</div>
-    </div>
-  `;
+  // ── 免費版：命宮主星解說 ──
+  const mingData=MING_READING[mainStar];
+  const gLabel=gender==='女'?'妳':'你';
+  const sihuaList=Object.entries(result.pal[mg].sihua);
+  const sihuaBadges=sihuaList.map(([s,sh])=>{
+    const bg=sh==='化祿'?'#e8f5e9;color:#2e7d32':sh==='化權'?'#fff3e0;color:#e65100':sh==='化科'?'#e3f2fd;color:#1565c0':'#fce4ec;color:#b71c1c';
+    return`<span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;background:${bg};margin-right:4px">${s}${sh}</span>`;
+  }).join('');
+
+  // Four changes summary
+  const sihuaSummaryItems=['化祿','化權','化科','化忌'].map(sh=>{
+    const star=yg[sh]||'—';
+    const star2=sh==='化忌'&&yg['化忌2']?`、${yg['化忌2']}`:'';
+    const col=sh==='化祿'?'#2e7d32':sh==='化權'?'#e65100':sh==='化科'?'#1565c0':'#b71c1c';
+    const bg=sh==='化祿'?'#f1f8f2':sh==='化權'?'#fffbf0':sh==='化科'?'#f0f6ff':'#fdf0f0';
+    return`<div style="padding:8px 10px;border-radius:8px;background:${bg};border-left:3px solid ${col}">
+      <div style="font-size:9px;font-weight:700;letter-spacing:2px;color:${col}">${sh}</div>
+      <div style="font-size:14px;font-weight:700;color:#1E1432;font-family:'Noto Serif TC',serif">${star}${star2}</div>
+    </div>`;
+  }).join('');
+
+  if(mingData){
+    document.getElementById('reading').innerHTML=`
+      <div style="padding:8px 0 14px">
+        <div style="font-family:'Noto Serif TC',serif;font-size:10px;letter-spacing:3px;color:var(--muted,#888);margin-bottom:4px">【命宮論賦性】</div>
+        <div style="font-family:'Noto Serif TC',serif;font-size:18px;font-weight:900;color:#1E1432;line-height:1.4;margin-bottom:12px">${mingData.title}</div>
+        <div style="margin-bottom:10px">
+          <span style="font-size:12px;font-weight:700;color:#2c1a3a">${gLabel}的命宮主星：<span style="color:#5B3A8C">${result.pal[mg].stars.join('＋')}</span></span>
+          ${sihuaBadges?`<span style="margin-left:6px">${sihuaBadges}</span>`:''}
+        </div>
+        <p style="font-size:13px;color:#2c1a3a;line-height:1.9;margin-bottom:10px">${mingData.p1}</p>
+        <p style="font-size:13px;color:#2c1a3a;line-height:1.9;margin-bottom:14px">${mingData.p2}</p>
+        <div style="background:rgba(216,184,74,0.08);border-left:3px solid #D8B84A;padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;color:#2c1a3a;line-height:1.9;margin-bottom:16px">
+          <div style="font-size:10px;font-weight:700;color:#8B6914;letter-spacing:2px;margin-bottom:4px">✦ 穿搭顏色建議</div>
+          ${mingData.colour}
+        </div>
+        <div style="font-family:'Noto Serif TC',serif;font-size:11px;color:var(--gold,#D8B84A);letter-spacing:2px;margin-bottom:8px">◈ 本命四化</div>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:16px">${sihuaSummaryItems}</div>
+        <div style="padding:12px 14px;background:rgba(91,58,140,0.06);border-radius:10px;text-align:center;border:1px solid rgba(91,58,140,0.15)">
+          <div style="font-family:'Noto Serif TC',serif;font-size:13px;font-weight:700;color:#5B3A8C;margin-bottom:4px">🔓 深度解盤</div>
+          <div style="font-size:11px;color:#888;line-height:1.7">十二宮詳細分析 · 四化影響 · 各宮星曜解說<br>每日穿搭色彩指引 · 風水方位建議</div>
+        </div>
+      </div>
+    `;
+  } else {
+    document.getElementById('reading').innerHTML=`<div style="padding:8px 0;font-size:13px;color:#888">命盤已排好，如需深度解說請聯絡我們。</div>`;
+  }
 
   // ── 付費版詳細解說 ──
   generatePaidReading(result, yg, mg);
 
   // ── 需求4: 星宮對照表 ──
-  buildPalaceTable(result, mg);
-
   // ── 需求5: Upsell section ──
   buildUpsell(result, mg, name, gender);
+  buildDailyColour(result);
 
   document.getElementById('chartSection').classList.add('show');
   setTimeout(()=>document.getElementById('chartSection').scrollIntoView({behavior:'smooth'}),100);
@@ -1008,18 +1212,7 @@ const UPSELL_DATA={
   破軍:['先破後成，你的命格注定開創','你的命宮坐有前鋒星破軍，天生不喜穩定，一生至少三次大破大立，越破越強。<br><br>你最需要知道的是——'],
 };
 function buildUpsell(result, mg, name, gender){
-  const mgStars=result.pal[mg].stars;
-  const mainStar=mgStars[0]||'';
-  const data=UPSELL_DATA[mainStar]||['【命宮論賦性】你的命格解析','你的命盤已排好，命宮主星蘊藏著你一生的密碼。<br><br>深度解盤將為你揭示——'];
-  const [title,teaser]=data;
-  const genderLabel=gender==='女'?'妳':'你';
-  const sihuaDesc=Object.entries(result.pal[mg].sihua).map(([s,sh])=>`<strong>${s}${sh}</strong>`).join('、');
-  const sihuaNote=sihuaDesc?`（本命 ${sihuaDesc}）`:'';
-  document.getElementById('upsellTitle').textContent=`【命宮論賦性】${title}`;
-  document.getElementById('upsellTeaser').innerHTML=`
-    <div style="margin-bottom:6px"><strong style="color:var(--text)">${genderLabel}的命宮主星：<span style="color:var(--accent)">${mgStars.join('＋')||'—'}</span></strong> ${sihuaNote}</div>
-    <div style="color:var(--muted);line-height:1.9">${teaser}</div>
-  `;
+  // Upsell now just shows the CTA pricing section
   document.getElementById('upsellSection').style.display='block';
 }
 
@@ -1123,6 +1316,276 @@ function generatePaidReading(result, yg, mg){
   document.getElementById('paidReading').innerHTML=html;
   document.getElementById('paidReading').style.display='block';
 }
+
+// ══════════════════════════════════════════
+// 每日穿搭顏色算法
+// ══════════════════════════════════════════
+const SIHUA_TBL={
+  甲:{祿:'廉貞',權:'破軍',科:'武曲',忌:'太陽'},
+  乙:{祿:'天機',權:'天梁',科:'紫微',忌:'太陰'},
+  丙:{祿:'天同',權:'天機',科:'文昌',忌:'廉貞'},
+  丁:{祿:'太陰',權:'天同',科:'天機',忌:'巨門'},
+  戊:{祿:'貪狼',權:'太陰',科:'右弼',忌:'天機'},
+  己:{祿:'武曲',權:'貪狼',科:'天梁',忌:'文曲',忌2:'破軍'},
+  庚:{祿:'太陽',權:'武曲',科:'天相',忌:'天同'},
+  辛:{祿:'巨門',權:'太陽',科:'文曲',忌:'文昌',忌2:'七殺'},
+  壬:{祿:'天梁',權:'紫微',科:'左輔',忌:'武曲'},
+  癸:{祿:'破軍',權:'巨門',科:'太陰',忌:'貪狼'},
+};
+const PAL_DEG={子:0,丑:30,寅:60,卯:90,辰:120,巳:150,午:180,未:210,申:240,酉:270,戌:300,亥:330};
+const SHCLS={化祿:'lu',化權:'quan',化科:'ke',化忌:'ji'};
+const SHLAB={化祿:'祿',化權:'權',化科:'科',化忌:'忌'};
+const LY_DAILY={
+  2025:[1,29,5176,0,12],2026:[2,17,2395,6,13],2027:[2,6,4862,0,12],
+  2028:[1,26,3730,0,12],2029:[2,13,4782,0,12],2030:[2,3,2391,0,12],
+};
+
+function getTodayLunar(){
+  const now=new Date();
+  const sy=now.getFullYear(),sm=now.getMonth()+1,sd=now.getDate();
+  for(const ly of[sy,sy-1]){
+    const rec=LY[ly]||LY_DAILY[ly];if(!rec)continue;
+    const[cm,cd,mb,lm,mc]=rec;
+    const cny=Date.UTC(ly,cm-1,cd);
+    const diff=Math.round((Date.UTC(sy,sm-1,sd)-cny)/86400000);
+    if(diff<0)continue;
+    let month=1,cum=0,leapUsed=false;
+    const tg='甲乙丙丁戊己庚辛壬癸'[(ly-4)%10];
+    const dz='子丑寅卯辰巳午未申酉戌亥'[(ly-4)%12];
+    for(let i=0;i<mc;i++){
+      const days=((mb>>(12-i))&1)?30:29;
+      if(diff<cum+days)return{sy,sm,sd,ly,lm:month,ld:diff-cum+1,ytg:tg,ydz:dz};
+      cum+=days;
+      if(lm>0&&month===lm&&!leapUsed)leapUsed=true;
+      else month++;
+    }
+  }
+  return null;
+}
+
+function getLiuNianMing(liuNianDz,birthLm,birthH){
+  const hourNum={子:1,丑:2,寅:3,卯:4,辰:5,巳:6,午:7,未:8,申:9,酉:10,戌:11,亥:12};
+  const step1=DZ[(dzi(liuNianDz)-birthLm+1+120)%12];
+  return DZ[(dzi(step1)+hourNum[birthH]-1)%12];
+}
+
+function getPalGan(mgDZ,mgGan){
+  const g={};
+  DZ.forEach(d=>{g[d]=TG[(TG.indexOf(mgGan)+(dzi(d)-dzi(mgDZ)+12)%12)%10];});
+  return g;
+}
+
+function buildDailyColour(result){
+  const today=getTodayLunar();
+  if(!today)return;
+  const{sy,sm,sd,ly,lm:todayLm,ld:todayLd,ytg:liuYtg,ydz:liuYdz}=today;
+
+  // 流年命宮
+  const liuNianMing=getLiuNianMing(liuYdz,result.lm,result.h);
+  // 流月宮 = 流年命宮 + (月-1)，閏月同宮再走一次
+  const liuYueDZ=DZ[(dzi(liuNianMing)+(todayLm-1))%12];
+  // 流日宮 = 流月宮 + (日-1)
+  const liuRiDZ=DZ[(dzi(liuYueDZ)+(todayLd-1))%12];
+
+  // 宮干
+  const palGan=getPalGan(result.mg,result.mgGan);
+  const liuNianTg=liuYtg;
+  const liuYueTg=palGan[liuYueDZ];
+  const liuRiTg=palGan[liuRiDZ];
+
+  // 三層四化
+  const nianSH=SIHUA_TBL[liuNianTg]||{};
+  const yueSH=SIHUA_TBL[liuYueTg]||{};
+  const riSH=SIHUA_TBL[liuRiTg]||{};
+
+  // 建立本命 star→{dz,name,sub} 映射（含輔星）
+  const starMap={};
+  DZ.forEach(d=>{
+    const p=result.pal[d];
+    [...p.stars,...p.sub].forEach(s=>{
+      if(!starMap[s])starMap[s]={dz:d,name:p.name};
+    });
+  });
+
+  // 日期標籤
+  const weekdays=['日','一','二','三','四','五','六'];
+  const now=new Date(sy,sm-1,sd);
+  const lunarMonthNames=['正月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+  const lunarDayNames=['初一','初二','初三','初四','初五','初六','初七','初八','初九','初十',
+    '十一','十二','十三','十四','十五','十六','十七','十八','十九','二十',
+    '廿一','廿二','廿三','廿四','廿五','廿六','廿七','廿八','廿九','三十'];
+  document.getElementById('dailyDateLabel').textContent=
+    `${sy}年${sm}月${sd}日（週${weekdays[now.getDay()]}）農曆${lunarMonthNames[todayLm-1]}${lunarDayNames[todayLd-1]}`;
+
+  // 三列四化顯示
+  const shCls={化祿:'lu',化權:'quan',化科:'ke',化忌:'ji'};
+  const shLab={化祿:'祿',化權:'權',化科:'科',化忌:'忌'};
+  const renderSH=(sh,tg)=>{
+    // SIHUA_TBL uses 祿/權/科/忌 as keys
+    const typeMap=[['祿','化祿','lu'],['權','化權','quan'],['科','化科','ke'],['忌','化忌','ji']];
+    const rows=typeMap.map(([key,label,cls])=>{
+      const s=sh[key]||''; const loc=s?starMap[s]:null;
+      const col=s?COLOUR_DATA[s]:null;
+      const colDots=col?(col.multi?col.c.map(c=>makeCircle(Array.isArray(c)?c:[c],12)).join(''):makeCircle(col.c,12)):'';
+      return`<div class="dcsh-item ${cls}">
+        <span class="dcsh-type">${label.slice(1)}</span>
+        <span class="dcsh-star">${s||'—'}</span>
+        <span class="dcsh-pal">${loc?loc.name:''}</span>
+        <span style="display:inline-flex;align-items:center;gap:1px;margin-left:2px">${colDots}</span>
+      </div>`;
+    });
+    if(sh.忌2){
+      const s=sh.忌2; const loc=starMap[s]; const col=COLOUR_DATA[s];
+      const colDots=col?(col.multi?col.c.map(c=>makeCircle(Array.isArray(c)?c:[c],12)).join(''):makeCircle(col.c,12)):'';
+      rows.push(`<div class="dcsh-item ji"><span class="dcsh-type">忌</span><span class="dcsh-star">${s}</span><span class="dcsh-pal">${loc?loc.name:''}</span><span style="display:inline-flex;align-items:center;gap:1px;margin-left:2px">${colDots}</span></div>`);
+    }
+    return rows.join('');
+  };
+
+  // Get today palace names from result
+  const nianMingPalName=result.pal[liuNianMing]?.name||'';
+  const yuePalName=result.pal[liuYueDZ]?.name||'';
+  const riPalName=result.pal[liuRiDZ]?.name||'';
+  document.getElementById('dailySihuaRow').innerHTML=`
+    <div class="daily-col-card nian">
+      <div class="dccard-lbl">流年 ${liuNianTg}</div>
+      <div class="dccard-gong">命宮 ${nianMingPalName}(${liuNianMing}) ${PAL_DEG[liuNianMing]}°</div>
+      <div class="dccard-sh">${renderSH(nianSH,liuNianTg)}</div>
+    </div>
+    <div class="daily-col-card yue">
+      <div class="dccard-lbl">流月 ${liuYueTg}</div>
+      <div class="dccard-gong">流月宮 ${yuePalName}(${liuYueDZ}) ${PAL_DEG[liuYueDZ]}°</div>
+      <div class="dccard-sh">${renderSH(yueSH,liuYueTg)}</div>
+    </div>
+    <div class="daily-col-card ri">
+      <div class="dccard-lbl">流日 ${liuRiTg}</div>
+      <div class="dccard-gong">流日命宮 ${riPalName}(${liuRiDZ}) ${PAL_DEG[liuRiDZ]}°</div>
+      <div class="dccard-sh">${renderSH(riSH,liuRiTg)}</div>
+    </div>
+  `;
+
+  // ── 可穿顏色：流日祿為主，流年月科祿為輔 ──
+  const wearStars=new Set();
+  const avoidStarsMap=new Map(); // star -> reason
+
+  // 本命忌穿（固定）— 破軍一生穿藍綠，忌啡；廉貞化忌忌淺藍綠+黃等
+  // 根據命宮主星的長期忌色
+  const destinyAvoidCols=[];
+  // 破軍特殊：一生忌啡（因為一生穿淺藍綠）
+  if(starMap['破軍']){destinyAvoidCols.push({label:'啡（破軍本命）',colours:['#A07850']});}
+  // 七殺：多穿黑深藍，日常避免太鮮艷
+  // 本命化忌星的顏色
+  const destinyJiStar=result.yg?.化忌;
+  if(destinyJiStar){
+    const c=COLOUR_DATA[destinyJiStar];
+    if(c&&c.avoid) destinyAvoidCols.push({label:destinyJiStar+'忌（本命）',colours:c.avoid});
+  }
+
+  // 流年月日四化
+  [
+    {sh:nianSH,layer:'流年'+liuNianTg},
+    {sh:yueSH,layer:'流月'+liuYueTg},
+    {sh:riSH,layer:'流日'+liuRiTg},
+  ].forEach(({sh,layer})=>{
+    if(sh.祿)wearStars.add(sh.祿);
+    if(sh.科)wearStars.add(sh.科);
+    if(sh.忌){
+      avoidStarsMap.set(sh.忌,layer);
+      wearStars.delete(sh.忌);
+    }
+    if(sh.忌2){
+      avoidStarsMap.set(sh.忌2,layer);
+      wearStars.delete(sh.忌2);
+    }
+  });
+  const riLuStar=riSH.化祿;
+
+  function renderChips(stars,isAvoid){
+    return[...stars].map(s=>{
+      const col=COLOUR_DATA[s];if(!col)return'';
+      const colours=col.multi?col.c:col.c?[col.c]:[];
+      const circleArr=col.multi?col.c:[col.c];
+      const circles=circleArr.map(c=>{
+        const colors=Array.isArray(c)?c:[c];
+        return makeCircle(colors,16);
+      }).join('');
+      const label=isAvoid?(col.avoidLabel||col.label):col.label;
+      return`<div class="colour-chip-day">${circles}<span>${s} ${label||''}</span></div>`;
+    }).join('');
+  }
+
+  document.getElementById('wearChips').innerHTML=renderChips(wearStars,false)||'<span style="font-size:12px;color:#888">—</span>';
+
+  // Build avoid chips: destiny + flow ji
+  let avoidHtml='';
+  // Destiny avoid colours
+  destinyAvoidCols.forEach(({label,colours})=>{
+    const circles=colours.map(c=>makeCircle([c],16)).join('');
+    avoidHtml+=`<div class="colour-chip-day" style="border-color:rgba(176,32,32,0.3)">${circles}<span style="color:#b71c1c">${label}</span></div>`;
+  });
+  // Flow ji stars
+  avoidStarsMap.forEach((layer,star)=>{
+    const col=COLOUR_DATA[star];
+    if(!col)return;
+    const avoidCols=col.avoid||col.c;
+    const circles=col.multi
+      ?(avoidCols).map(c=>makeCircle(Array.isArray(c)?c:[c],16)).join('')
+      :makeCircle(Array.isArray(avoidCols)?avoidCols:[avoidCols],16);
+    const label=col.avoidLabel||col.label||'';
+    avoidHtml+=`<div class="colour-chip-day" style="border-color:rgba(176,32,32,0.3)">${circles}<span style="color:#b71c1c">${star}忌 ${label}<span style="font-size:9px;color:#aaa;margin-left:3px">(${layer})</span></span></div>`;
+  });
+  document.getElementById('avoidChips').innerHTML=avoidHtml||'<span style="font-size:12px;color:#888">無特別忌穿</span>';
+
+  // 今日十二宮格（以流日為命宮重排）
+  const PAL_NAMES=['命宮','兄弟','夫妻','子女','財帛','疾厄','遷移','部屬','事業','田宅','福德','父母'];
+  const allSH={...nianSH,...yueSH,...riSH};
+  const GRID_POS=['巳','午','未','申','辰',null,null,'酉','卯',null,null,'戌','寅','丑','子','亥'];
+  const todayPalNames={};
+  DZ.forEach((d,i)=>{
+    const idx=((dzi(liuRiDZ)-i)+12)%12;
+    todayPalNames[d]=PAL_NAMES[idx];
+  });
+
+  let gridHtml='';
+  GRID_POS.forEach((d,pos)=>{
+    if(!d){
+      if(pos===5){
+        // Center cell spans 2x2 - show today summary
+        gridHtml+=`<div class="dc-cell center-cell">
+          <div style="font-family:'Noto Serif TC',serif;font-size:11px;color:#5B3A8C;font-weight:700">今日命宮</div>
+          <div style="font-size:13px;font-weight:900;color:#D8B84A;font-family:'Noto Serif TC',serif">${liuRiDZ}宮</div>
+          <div style="font-size:9px;color:#888">${PAL_DEG[liuRiDZ]}°</div>
+          <div style="font-size:10px;color:#5B3A8C;margin-top:2px">${liuRiTg}干</div>
+        </div>`;
+      }
+      return;
+    }
+    // Get stars for this cell
+    const p=result.pal[d];
+    let cellStars=[...p.stars,...p.sub.filter(s=>!['(身)'].includes(s))];
+    // Empty palace borrows from opposite
+    if(p.stars.length===0){
+      const oppD=DZ[(dzi(d)+6)%12];
+      cellStars=[...result.pal[oppD].stars,...result.pal[oppD].sub.filter(s=>!['(身)'].includes(s)),'(借)'];
+    }
+    const isToday=d===liuRiDZ;
+    const palName=todayPalNames[d];
+    const starsHtml=cellStars.filter(s=>s!=='(借)').slice(0,4).map(s=>{
+      const sh=allSH[s]?allSH[s]:'';
+      const cls=sh?SHCLS[sh]+'-star':'';
+      return`<span class="${cls}">${s}</span>`;
+    }).join(' ');
+    const borrowed=cellStars.includes('(借)');
+    gridHtml+=`<div class="dc-cell${isToday?' active-day':''}">
+      <div class="dc-cell-pal">${palName}</div>
+      <div class="dc-cell-deg">${PAL_DEG[d]}°${borrowed?' (借)':''}</div>
+      <div class="dc-cell-stars">${starsHtml||'—'}</div>
+    </div>`;
+  });
+  document.getElementById('dailyChartGrid').innerHTML=gridHtml;
+  document.getElementById('dailySection').style.display='block';
+}
+
 </script>
 </body>
 </html>
