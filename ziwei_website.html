@@ -23,7 +23,7 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 ::-webkit-scrollbar-thumb{background:var(--gold2);border-radius:3px}
 
 /* LANG BAR */
-.lang-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:7px 40px;display:flex;justify-content:flex-end;gap:16px;align-items:center;position:sticky;top:0;z-index:100}
+
 .lang-btn{font-size:12px;color:var(--muted);cursor:pointer;padding:3px 10px;border-radius:12px;border:1px solid transparent;transition:all 0.2s;background:none;font-family:'Noto Sans TC',sans-serif}
 .lang-btn.active,.lang-btn:hover{color:var(--gold);border-color:var(--border);background:var(--card)}
 .lang-sep{color:var(--border)}
@@ -278,7 +278,6 @@ footer{padding:48px 40px 32px;border-top:1px solid var(--border);background:var(
   .services-grid,.colour-demo,.consult-grid,.footer-grid,.form-grid{grid-template-columns:1fr}
   .pricing-grid,.fengshui-grid{grid-template-columns:1fr}
   .stats-bar{flex-wrap:wrap;gap:20px;padding:24px 20px}.stat{border-right:none;padding:0 20px}
-  .lang-bar{padding:8px 20px}
   .chart-page{padding:40px 20px}
   .mingpan{grid-template-columns:repeat(4,1fr)}
   .palace{min-height:80px;padding:8px 6px}
@@ -585,17 +584,7 @@ select:focus,input:focus{border-color:var(--gold)}
 </head>
 <body>
 
-<!-- LANGUAGE BAR -->
-<div class="lang-bar">
-  <div class="lang-bar-inner">
-    <span class="lang-label">語言</span>
-    <button class="lang-btn active" onclick="setLang('zh-TW')">繁體</button>
-    <span>|</span>
-    <button class="lang-btn" onclick="setLang('zh-CN')">简体</button>
-    <span>|</span>
-    <button class="lang-btn" onclick="setLang('en')">English</button>
-  </div>
-</div>
+
 
 <!-- ══════════════ HOME PAGE ══════════════ -->
 <div id="homePage" class="page active">
@@ -680,8 +669,8 @@ select:focus,input:focus{border-color:var(--gold)}
       <h3 data-key="colour_how_title">計算邏輯</h3>
       <p data-key="colour_how_desc">綜合三層分析：命宮主星代表色、流月四化忌色、流日四化忌色，找出今日最有利於您的顏色組合。若當天要見客戶、談生意、約會，可針對對應宮位選色。</p>
       <div class="date-display">
-        <div><div class="date-main">2026年5月8日</div><div class="date-sub">農曆三月廿二</div></div>
-        <div class="date-ganzhi">壬日 · 癸月<br><span style="font-size:10px;color:var(--muted)">丙午年</span></div>
+        <div><div class="date-main" id="demoDateMain">—</div><div class="date-sub" id="demoDateLunar">—</div></div>
+        <div class="date-ganzhi" id="demoDateGanzhi">— · —<br><span style="font-size:10px;color:var(--muted)" id="demoDateYear">—</span></div>
       </div>
       <p style="font-size:12px;color:var(--muted);line-height:1.8"><span data-key="colour_note_text">⚠️ 每日色彩指引為會員付費功能，以下為示例</span></p>
     </div>
@@ -708,10 +697,9 @@ select:focus,input:focus{border-color:var(--gold)}
         <div class="colour-label" data-key="colour_avoid_label">✗ 今日忌穿色</div>
         <div class="avoid-chips">
           <div class="chip chip-x" style="position:relative"><div style="width:44px;height:44px;border-radius:50%;background:conic-gradient(#E05050 0deg 180deg,#F5F5F5 180deg 360deg);border:1px solid #ddd;box-shadow:0 2px 8px rgba(0,0,0,0.1)"></div><div class="chip-name" data-key="ca1">紅+白</div></div>
-          <div class="chip chip-x" style="position:relative"><div style="width:44px;height:44px;border-radius:50%;background:#C49A3C;box-shadow:0 2px 8px rgba(0,0,0,0.1)"></div><div class="chip-name" data-key="ca3">啡色</div></div>
         </div>
       </div>
-      <div class="colour-reason"><strong data-key="reason_label">原因：</strong><span data-key="reason_text">壬日武曲化忌（忌紅+白）· 癸月貪狼化忌（忌淺藍+紅）· 命宮巨門（忌啡）</span></div>
+      <div class="colour-reason"><strong data-key="reason_label">原因：</strong><span data-key="reason_text">壬日武曲化忌（忌紅+白）· 癸月貪狼化忌（忌淺藍+紅）</span></div>
     </div>
   </div>
 </section>
@@ -872,7 +860,7 @@ select:focus,input:focus{border-color:var(--gold)}
   </div>
   <div class="footer-bottom">
     <span class="footer-copy">© 2026 紫微命盤 · Zi Wei Astrology · 版權所有</span>
-    <div class="footer-langs"><span onclick="setLang('zh-TW')">繁體中文</span><span onclick="setLang('zh-CN')">简体中文</span><span onclick="setLang('en')">English</span></div>
+    
   </div>
 </footer>
 </div><!-- end homePage -->
@@ -2533,19 +2521,45 @@ function dRender(result){
 // ══════════════════════════════════════════
 // I18N
 // ══════════════════════════════════════════
-function setLang(lang){
-  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll(`.lang-btn[onclick="setLang('${lang}')"]`).forEach(b=>b.classList.add('active'));
-  const t=T[lang]||T['zh-TW'];
-  document.querySelectorAll('[data-key]').forEach(el=>{
-    const k=el.getAttribute('data-key');
-    if(t[k]!==undefined)el.innerHTML=t[k];
-  });
-}
 
 
 // Init
 dUpdateDateBar();
+
+// ── Demo date (always today) ──
+(function(){
+  const now=new Date();
+  const sy=now.getFullYear(),sm=now.getMonth()+1,sd=now.getDate();
+  const weekdays=['日','一','二','三','四','五','六'];
+  const lunarMonthNames=['正月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+  const lunarDayNames=['初一','初二','初三','初四','初五','初六','初七','初八','初九','初十','十一','十二','十三','十四','十五','十六','十七','十八','十九','二十','廿一','廿二','廿三','廿四','廿五','廿六','廿七','廿八','廿九','三十'];
+  // Solar date
+  const dm=document.getElementById('demoDateMain');
+  if(dm)dm.textContent=`${sy}年${sm}月${sd}日`;
+  // Lunar date
+  const ld=dGetLunar(now);
+  const dl=document.getElementById('demoDateLunar');
+  if(dl&&ld)dl.textContent=`農曆${lunarMonthNames[ld.lm-1]}${lunarDayNames[ld.ld-1]}`;
+  // Ganzhi - use today's palGan from a generic chart if available, otherwise show year only
+  const dg=document.getElementById('demoDateGanzhi');
+  const dy=document.getElementById('demoDateYear');
+  if(ld){
+    const TG_NAMES=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+    const DZ_NAMES=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+    const yTg=TG_NAMES[(sy-4)%10];
+    const yDz=DZ_NAMES[(sy-4)%12];
+    // Monthly stem: use 五虎遁月 from year stem
+    const mBase={甲:2,己:2,乙:4,庚:4,丙:6,辛:6,丁:8,壬:8,戊:0,癸:0};
+    const mTg=TG_NAMES[(mBase[yTg]+(ld.lm-1))%10];
+    // Day ganzhi: 甲子日=1900-01-01 as base
+    const base=new Date(Date.UTC(1900,0,1));
+    const todayUTC=new Date(Date.UTC(sy,sm-1,sd));
+    const dayDiff=Math.round((todayUTC-base)/86400000);
+    const dTg=TG_NAMES[dayDiff%10];
+    const dDz=DZ_NAMES[dayDiff%12];
+    if(dg)dg.innerHTML=`${dTg}日 · ${mTg}月<br><span style="font-size:10px;color:var(--muted)">${yTg}${yDz}年</span>`;
+  }
+})();
 </script>
 </body>
 </html>
