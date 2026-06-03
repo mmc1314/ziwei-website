@@ -203,7 +203,7 @@ footer{padding:48px 40px 32px;border-top:1px solid var(--border);background:var(
 .form-hint{font-size:11px;color:var(--muted);margin-top:4px}
 .cal-toggle{display:flex;background:var(--bg);border:1px solid var(--border);border-radius:10px;overflow:hidden}
 .cal-btn{flex:1;padding:11px;font-size:13px;cursor:pointer;border:none;background:transparent;color:var(--muted);font-family:'Noto Sans TC',sans-serif;transition:all 0.2s}
-.cal-btn.active{background:linear-gradient(135deg,#5B3A8C,#7B3FB5);color:#fff;font-weight:600}
+.cal-btn.active{background:linear-gradient(135deg,#9B59B6,#B07FD4);color:#fff;font-weight:600}
 .form-submit{width:100%;padding:16px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:700;font-family:'Noto Serif TC',serif;cursor:pointer;letter-spacing:2px;transition:all 0.3s;margin-top:8px;box-shadow:0 4px 20px var(--shadow)}
 .form-submit:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(184,134,11,0.3)}
 
@@ -416,7 +416,7 @@ select,input{border:1px solid var(--border);border-radius:8px;padding:9px 12px;f
 select:focus,input:focus{border-color:var(--gold)}
 .cal-toggle{display:flex;border:1px solid var(--border);border-radius:8px;overflow:hidden}
 .cal-btn{flex:1;padding:9px;font-size:12px;cursor:pointer;border:none;background:transparent;color:var(--muted);font-family:'Noto Sans TC',sans-serif;transition:all .2s}
-.cal-btn.active{background:linear-gradient(135deg,#5B3A8C,#7B3FB5);color:#fff;font-weight:600}
+.cal-btn.active{background:linear-gradient(135deg,#9B59B6,#B07FD4);color:#fff;font-weight:600}
 .btn-gen{width:100%;padding:13px;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;border-radius:10px;font-size:15px;font-weight:700;font-family:'Noto Serif TC',serif;color:#fff;cursor:pointer;letter-spacing:2px;transition:all .3s;box-shadow:0 4px 16px rgba(216,184,74,0.3);margin-top:4px}
 .btn-gen:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(216,184,74,0.4)}
 
@@ -679,38 +679,33 @@ select:focus,input:focus{border-color:var(--gold)}
       <div class="colour-good">
         <div class="colour-label" data-key="colour_good_label">✦ 今日有利穿搭色</div>
         <div class="colour-chips">
-          <div class="chip"><div class="chip-circle" style="background:conic-gradient(#5BAED6 0deg 180deg, #6BBF8A 180deg 360deg)"></div><div class="chip-name" data-key="c1">藍+綠</div></div>
-          <div class="chip"><svg width="44" height="44" viewBox="0 0 44 44" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,0.15))">
-  <circle cx="22" cy="22" r="21" fill="none" stroke="white" stroke-width="2"/>
-  <path d="M22 22 L22 1 A21 21 0 0 1 39.19 32.5 Z" fill="#5C4A8A"/>
-  <path d="M22 22 L39.19 32.5 A21 21 0 0 1 4.81 32.5 Z" fill="#B08AE0"/>
-  <path d="M22 22 L4.81 32.5 A21 21 0 0 1 22 1 Z" fill="#F2C843"/>
-  <circle cx="22" cy="22" r="21" fill="none" stroke="white" stroke-width="1.5"/>
-</svg><div class="chip-name" data-key="c2">黑+紫+黃</div></div>
-          <div class="chip"><div class="chip-circle" style="background:#F0C840"></div><div class="chip-name" data-key="c3">黃</div></div>
-          <div class="chip"><div class="chip-circle" style="background:#E05050"></div><div class="chip-name" data-key="c4">紅</div></div>
-          <div class="chip"><div class="chip-circle" style="background:conic-gradient(#E05050 0deg 180deg,#F5F5F5 180deg 360deg);border:1px solid #ddd"></div><div class="chip-name" data-key="c5">紅+白</div></div>
+          <div class="chip"><div class="chip-circle" style="background:conic-gradient(#5BAED6 0deg 180deg,#6BBF8A 180deg 360deg)"></div><div class="chip-name">藍+綠</div></div>
+          <div class="chip"><svg width="44" height="44" viewBox="0 0 44 44" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,0.15))"><circle cx="22" cy="22" r="21" fill="none" stroke="white" stroke-width="2"/><path d="M22 22 L22 1 A21 21 0 0 1 39.19 32.5 Z" fill="#5C4A8A"/><path d="M22 22 L39.19 32.5 A21 21 0 0 1 4.81 32.5 Z" fill="#B08AE0"/><path d="M22 22 L4.81 32.5 A21 21 0 0 1 22 1 Z" fill="#F2C843"/><circle cx="22" cy="22" r="21" fill="none" stroke="white" stroke-width="1.5"/></svg><div class="chip-name">黑+紫+黃</div></div>
+          <div class="chip"><div class="chip-circle" style="background:#F0C840"></div><div class="chip-name">黃</div></div>
+          <div class="chip"><div class="chip-circle" style="background:#E05050"></div><div class="chip-name">紅</div></div>
         </div>
       </div>
       <div class="divider"></div>
       <div>
         <div class="colour-label" data-key="colour_avoid_label">✗ 今日忌穿色</div>
         <div class="avoid-chips">
-          <div class="chip chip-x" style="position:relative"><div style="width:44px;height:44px;border-radius:50%;background:conic-gradient(#E05050 0deg 180deg,#F5F5F5 180deg 360deg);border:1px solid #ddd;box-shadow:0 2px 8px rgba(0,0,0,0.1)"></div><div class="chip-name" data-key="ca1">紅+白</div></div>
+          <div class="chip chip-x"><div style="width:44px;height:44px;border-radius:50%;background:conic-gradient(#E05050 0deg 180deg,#F5F5F5 180deg 360deg);border:1px solid #ddd;box-shadow:0 2px 8px rgba(0,0,0,0.1)"></div><div class="chip-name">紅+白</div></div>
+          <div class="chip chip-x"><div style="width:44px;height:44px;border-radius:50%;background:conic-gradient(#5BAED6 0deg 180deg,#E05050 180deg 360deg);border:1px solid #ddd;box-shadow:0 2px 8px rgba(0,0,0,0.1)"></div><div class="chip-name">藍+紅</div></div>
+          <div class="chip chip-x"><div style="width:44px;height:44px;border-radius:50%;background:conic-gradient(#6BBF8A 0deg 180deg,#E05050 180deg 360deg);border:1px solid #ddd;box-shadow:0 2px 8px rgba(0,0,0,0.1)"></div><div class="chip-name">綠+紅</div></div>
+          <div class="chip chip-x"><div style="width:44px;height:44px;border-radius:50%;background:conic-gradient(#5BAED6 0deg 180deg,#F5F5F5 180deg 360deg);border:1px solid #ddd;box-shadow:0 2px 8px rgba(0,0,0,0.1)"></div><div class="chip-name">藍+白</div></div>
         </div>
       </div>
-      <div class="colour-reason"><strong data-key="reason_label">原因：</strong><span data-key="reason_text">壬日武曲化忌（忌紅+白）· 癸月貪狼化忌（忌淺藍+紅）</span></div>
     </div>
   </div>
 </section>
 <section class="section" id="freeChartSection">
   <div class="section-header">
-    <div class="section-tag" style="color:#7B3FB5"><span>——</span> 立即體驗 <span>——</span></div>
-    <h2 class="section-title" data-key="form_section_title" style="color:#3D2060">免費起盤</h2>
+    <div class="section-tag" style="color:#B07FD4"><span>——</span> 立即體驗 <span>——</span></div>
+    <h2 class="section-title" data-key="form_section_title" style="color:#7B52A0">免費起盤</h2>
     <p class="section-sub" data-key="form_section_sub">輸入生辰資料，即時生成你的紫微斗數命盤</p>
   </div>
-  <div class="form-card" style="max-width:560px;margin:0 auto;border-top:3px solid #7B3FB5;box-shadow:0 4px 32px rgba(91,58,140,0.12)">
-    <div class="form-title" data-key="form_title" style="color:#5B3A8C;font-family:'Noto Serif TC',serif;letter-spacing:2px">✦ 出生資料</div>
+  <div class="form-card" style="max-width:560px;margin:0 auto;border-top:3px solid #B07FD4;box-shadow:0 4px 32px rgba(155,89,182,0.12)">
+    <div class="form-title" data-key="form_title" style="color:#9B59B6;font-family:'Noto Serif TC',serif;letter-spacing:2px">✦ 出生資料</div>
     <div class="form-grid">
       <div class="form-group">
         <label class="form-label" data-key="label_name">姓名 <span>*</span></label>
@@ -769,7 +764,7 @@ select:focus,input:focus{border-color:var(--gold)}
         </select>
       </div>
       <div class="form-group full">
-        <button class="form-submit" onclick="onGenerate()" data-key="btn_generate" style="background:linear-gradient(135deg,#5B3A8C,#7B3FB5);letter-spacing:2px">✦ 立即起盤</button>
+        <button class="form-submit" onclick="onGenerate()" data-key="btn_generate" style="background:linear-gradient(135deg,#9B59B6,#B07FD4);letter-spacing:2px">✦ 立即起盤</button>
       </div>
     </div>
   </div>
@@ -1567,7 +1562,7 @@ const COLOUR_DATA={
   // 太陰：黃+白
   太陰:{c:['#F0D040','#F5F5F5'],label:'黃+白',avoid:['#F0D040','#F5F5F5']},
   // 貪狼：紅+淺藍/綠（同一圓）
-  貪狼:{c:['#E85050','#5BAED6','#6BBF8A'],label:'紅+淺藍/綠',avoid:['#E85050']},
+  貪狼:{c:['#E85050','#5BAED6','#6BBF8A'],label:'紅+淺藍/綠',multi:false,avoid:[['#E85050','#5BAED6'],['#E85050','#6BBF8A']],avoidLabel:'忌藍+紅 / 綠+紅',avoidMulti:true},
   // 巨門：啡，多穿光亮色
   巨門:{c:['#A07850'],label:'啡',avoid:['#E85050'],avoidLabel:'全紅',extra:'多穿光亮色'},
   // 天相：紅+白
@@ -2273,8 +2268,9 @@ function buildDailyColour(result){
     const col=COLOUR_DATA[star];
     if(!col)return;
     const avoidCols=col.avoid||col.c;
-    const circles=col.multi
-      ?(avoidCols).map(c=>makeCircle(Array.isArray(c)?c:[c],16)).join('')
+    const circles=col.avoidMulti
+      ?avoidCols.map(c=>makeCircle(Array.isArray(c)?c:[c],16)).join('')
+      :col.multi?(avoidCols).map(c=>makeCircle(Array.isArray(c)?c:[c],16)).join('')
       :makeCircle(Array.isArray(avoidCols)?avoidCols:[avoidCols],16);
     const label=col.avoidLabel||col.label||'';
     avoidHtml+=`<div class="colour-chip-day" style="border-color:rgba(176,32,32,0.3)">${circles}<span style="color:#b71c1c">${star}忌 ${label}<span style="font-size:9px;color:#aaa;margin-left:3px">(${layer})</span></span></div>`;
@@ -2491,7 +2487,9 @@ function dRender(result){
 
   function dChip(star,isAvoid,layer=''){
     const col=COLOUR_DATA[star];if(!col)return'';
-    const circles=(col.multi?col.c:[col.c]).map(c=>makeCircle(Array.isArray(c)?c:[c],18)).join('');
+    let circles;
+    if(isAvoid&&col.avoidMulti){circles=(col.avoid).map(c=>makeCircle(Array.isArray(c)?c:[c],18)).join('');}
+    else{circles=(col.multi?col.c:[col.c]).map(c=>makeCircle(Array.isArray(c)?c:[c],18)).join('');}
     const label=isAvoid?(col.avoidLabel||col.label):col.label;
     const src=layer?`<span class="d-chip-src">${layer}</span>`:'';
     return`<div class="d-chip${isAvoid?' avoid-chip':''}">${circles}<span>${star} ${label||''}${src}</span></div>`;
