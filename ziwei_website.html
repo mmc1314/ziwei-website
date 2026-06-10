@@ -2593,8 +2593,23 @@ dUpdateDateBar();
     </div>
     <div id="authError" style="display:none;background:#ffeaea;border:1px solid #ffbbbb;border-radius:10px;padding:10px 14px;font-size:13px;color:#c0392b;margin-bottom:16px"></div>
     <div id="authSuccess" style="display:none;background:#eaffea;border:1px solid #bbffbb;border-radius:10px;padding:10px 14px;font-size:13px;color:#2e7d52;margin-bottom:16px"></div>
-    <input id="authEmail" type="email" placeholder="電郵地址" style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:12px;font-size:14px;margin-bottom:12px;font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);outline:none">
-    <input id="authPassword" type="password" placeholder="密碼（最少6位）" style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:12px;font-size:14px;margin-bottom:20px;font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);outline:none">
+
+    <div id="registerFields" style="display:none">
+      <input id="authName" type="text" placeholder="姓名" style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:12px;font-size:14px;margin-bottom:12px;font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);outline:none;box-sizing:border-box">
+      <select id="authGender" style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:12px;font-size:14px;margin-bottom:12px;font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);outline:none;cursor:pointer;box-sizing:border-box">
+        <option value="">性別</option>
+        <option value="female">女</option>
+        <option value="male">男</option>
+      </select>
+      <div style="display:flex;gap:8px;margin-bottom:12px">
+        <input id="authBirthYear" type="number" placeholder="出生年 (YYYY)" min="1920" max="2010" style="flex:2;padding:12px 16px;border:1px solid var(--border);border-radius:12px;font-size:14px;font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);outline:none;box-sizing:border-box">
+        <input id="authBirthMonth" type="number" placeholder="月" min="1" max="12" style="flex:1;padding:12px 16px;border:1px solid var(--border);border-radius:12px;font-size:14px;font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);outline:none;box-sizing:border-box">
+        <input id="authBirthDay" type="number" placeholder="日" min="1" max="31" style="flex:1;padding:12px 16px;border:1px solid var(--border);border-radius:12px;font-size:14px;font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);outline:none;box-sizing:border-box">
+      </div>
+    </div>
+
+    <input id="authEmail" type="email" placeholder="電郵地址" style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:12px;font-size:14px;margin-bottom:12px;font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);outline:none;box-sizing:border-box">
+    <input id="authPassword" type="password" placeholder="密碼（最少6位）" style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:12px;font-size:14px;margin-bottom:20px;font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);outline:none;box-sizing:border-box">
     <button id="authSubmitBtn" onclick="onAuthSubmit()" style="width:100%;padding:14px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Noto Sans TC',sans-serif;letter-spacing:1px"></button>
     <div style="text-align:center;margin-top:16px;font-size:13px;color:var(--muted)">
       <span id="authSwitchText"></span>
@@ -2646,6 +2661,7 @@ function updateAuthModalUI() {
   document.getElementById('authSubmitBtn').textContent = isLogin ? '登入' : '立即註冊';
   document.getElementById('authSwitchText').textContent = isLogin ? '還沒有帳戶？' : '已有帳戶？';
   document.getElementById('authSwitchBtn').textContent = isLogin ? '立即註冊' : '返回登入';
+  document.getElementById('registerFields').style.display = isLogin ? 'none' : 'block';
 }
 
 async function onAuthSubmit() {
@@ -2664,6 +2680,17 @@ async function onAuthSubmit() {
     return;
   }
 
+  if (_authMode === 'register') {
+    const name = document.getElementById('authName').value.trim();
+    const gender = document.getElementById('authGender').value;
+    const by = document.getElementById('authBirthYear').value;
+    const bm = document.getElementById('authBirthMonth').value;
+    const bd = document.getElementById('authBirthDay').value;
+    if (!name) { errEl.textContent = '請填寫姓名'; errEl.style.display = 'block'; return; }
+    if (!gender) { errEl.textContent = '請選擇性別'; errEl.style.display = 'block'; return; }
+    if (!by || !bm || !bd) { errEl.textContent = '請填寫完整出生日期'; errEl.style.display = 'block'; return; }
+  }
+
   btn.textContent = '處理中...';
   btn.disabled = true;
 
@@ -2672,21 +2699,29 @@ async function onAuthSubmit() {
     if (_authMode === 'login') {
       result = await _supabase.auth.signInWithPassword({ email, password });
     } else {
-      result = await _supabase.auth.signUp({ email, password });
+      const name = document.getElementById('authName').value.trim();
+      const gender = document.getElementById('authGender').value;
+      const by = parseInt(document.getElementById('authBirthYear').value);
+      const bm = parseInt(document.getElementById('authBirthMonth').value);
+      const bd = parseInt(document.getElementById('authBirthDay').value);
+      result = await _supabase.auth.signUp({
+        email, password,
+        options: { data: { display_name: name, gender, birth_year: by, birth_month: bm, birth_day: bd } }
+      });
     }
 
     if (result.error) {
       errEl.textContent = translateAuthError(result.error.message);
       errEl.style.display = 'block';
     } else if (_authMode === 'register' && !result.data.session) {
-      sucEl.textContent = '請查收確認電郵，點擊連結後即可登入！';
+      sucEl.textContent = '請查收【紫微命盤】確認電郵，點擊連結後即可登入！';
       sucEl.style.display = 'block';
     } else {
       closeAuthModal();
       setUserUI(result.data.user);
     }
   } catch(e) {
-    errEl.textContent = '連線錯誤，請稍後再試';
+    errEl.textContent = '連線錯誤，請稍後再試：' + e.message;
     errEl.style.display = 'block';
   }
 
