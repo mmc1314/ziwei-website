@@ -353,7 +353,7 @@ footer{padding:48px 40px 32px;border-top:1px solid var(--border);background:var(
 .d-sh-head{padding:8px 10px;text-align:center}
 .d-sh-card.nian .d-sh-head{background:#2563EB;color:#fff}
 .d-sh-card.yue .d-sh-head{background:#7C3AED;color:#fff}
-.d-sh-card.ri .d-sh-head{background:#D97706;color:#fff}
+.d-sh-card.ri .d-sh-head{background:var(--purple,#5B3A8C);color:#fff}
 .d-sh-head-layer{font-size:11px;font-weight:700;letter-spacing:1px}
 .d-sh-head-gong{font-size:9px;opacity:0.75;margin-top:1px}
 .d-sh-body{padding:8px 10px;background:#fff}
@@ -361,7 +361,7 @@ footer{padding:48px 40px 32px;border-top:1px solid var(--border);background:var(
 .d-sh-row:last-child{border-bottom:none}
 .d-sh-badge{font-size:9px;font-weight:700;padding:1px 5px;border-radius:5px;flex-shrink:0}
 .d-sh-row.lu .d-sh-badge{background:#dcfce7;color:#166534}
-.d-sh-row.quan .d-sh-badge{background:#fff7ed;color:#9a3412}
+.d-sh-row.quan .d-sh-badge{background:#fff7ed;color:#5B3A8C}
 .d-sh-row.ke .d-sh-badge{background:#eff6ff;color:#1d4ed8}
 .d-sh-row.ji .d-sh-badge{background:#fef2f2;color:#991b1b}
 .d-sh-star{font-family:'Noto Serif TC',serif;font-size:11px;font-weight:700;color:#1E1432}
@@ -390,7 +390,7 @@ footer{padding:48px 40px 32px;border-top:1px solid var(--border);background:var(
 .d-cell-pal{font-size:8px;color:#5B3A8C;font-weight:700;letter-spacing:1px;margin-bottom:1px}
 .d-cell-deg{font-size:8px;color:#bbb}
 .d-cell-stars{font-size:10px;font-family:'Noto Serif TC',serif;font-weight:700;line-height:1.5;margin-top:2px}
-.d-cell-stars .lu-s{color:#166534}.d-cell-stars .quan-s{color:#9a3412}.d-cell-stars .ke-s{color:#1d4ed8}.d-cell-stars .ji-s{color:#991b1b}
+.d-cell-stars .lu-s{color:#166534}.d-cell-stars .quan-s{color:#5B3A8C}.d-cell-stars .ke-s{color:#1d4ed8}.d-cell-stars .ji-s{color:#991b1b}
 
 @media(max-width:500px){.d-sihua-row{grid-template-columns:1fr}.daily-nav{flex-wrap:wrap}}
 </style>
@@ -546,14 +546,14 @@ select:focus,input:focus{border-color:var(--gold)}
 .daily-col-card.yue{background:#f5f0ff;border-left:3px solid #9c27b0}
 .daily-col-card.ri{background:#fff8e1;border-left:3px solid #ff9800}
 .dccard-lbl{font-size:9px;font-weight:700;letter-spacing:2px;margin-bottom:3px}
-.nian .dccard-lbl{color:#1565c0}.yue .dccard-lbl{color:#6a1a9a}.ri .dccard-lbl{color:#e65100}
+.nian .dccard-lbl{color:#1565c0}.yue .dccard-lbl{color:#6a1a9a}.ri .dccard-lbl{color:#5B3A8C}
 .dccard-gong{font-size:10px;color:#888;margin-bottom:2px}
 .dccard-gan{font-size:13px;font-weight:700;color:#1E1432;font-family:'Noto Serif TC',serif}
 .dccard-sh{display:flex;flex-direction:column;gap:2px;margin-top:6px}
 .dcsh-item{font-size:10px;display:flex;justify-content:space-between;align-items:center;gap:4px}
 .dcsh-type{padding:1px 5px;border-radius:4px;font-size:9px;font-weight:700}
 .lu .dcsh-type{background:#e8f5e9;color:#2e7d32}
-.quan .dcsh-type{background:#fff3e0;color:#e65100}
+.quan .dcsh-type{background:#f5f0ff;color:#5B3A8C}
 .ke .dcsh-type{background:#e3f2fd;color:#1565c0}
 .ji .dcsh-type{background:#fce4ec;color:#b71c1c}
 .dcsh-star{font-family:'Noto Serif TC',serif;font-weight:700;font-size:11px}
@@ -577,7 +577,7 @@ select:focus,input:focus{border-color:var(--gold)}
 .dc-cell-stars{font-size:11px;font-family:'Noto Serif TC',serif;font-weight:700;color:#1E1432;line-height:1.5}
 .dc-cell-stars .ji-star{color:#b71c1c}
 .dc-cell-stars .lu-star{color:#2e7d32}
-.dc-cell-stars .quan-star{color:#e65100}
+.dc-cell-stars .quan-star{color:#5B3A8C}
 .dc-cell-stars .ke-star{color:#1565c0}
 
 
@@ -1840,7 +1840,7 @@ function doGenerate(name,gender,isSolar,year,month,day,hour){
     const info=starPalaceMap[s];
     if(!info) return '';
     const sh=info.sihua;
-    const shBg=sh==='化祿'?'background:#e8f5e9;color:#2e7d32':sh==='化權'?'background:#fff3e0;color:#e65100':sh==='化科'?'background:#e3f2fd;color:#1565c0':sh==='化忌'?'background:#fce4ec;color:#b71c1c':'';
+    const shBg=sh==='化祿'?'background:#e8f5e9;color:#2e7d32':sh==='化權'?'background:#f5f0ff;color:#5B3A8C':sh==='化科'?'background:#e3f2fd;color:#1565c0':sh==='化忌'?'background:#fce4ec;color:#b71c1c':'';
     const shBadge=sh?`<span style="font-size:10px;padding:1px 5px;border-radius:8px;margin-left:4px;${shBg}">${sh}</span>`:'';
     const colD=COLOUR_DATA[s];
     const circleHtml=colD?(colD.multi?colD.c.map(c=>makeCircle(c,18)).join(''):makeCircle(colD.c,18)):'';
@@ -1865,7 +1865,7 @@ function doGenerate(name,gender,isSolar,year,month,day,hour){
   const gLabel=gender==='女'?'妳':'你';
   const sihuaList=Object.entries(result.pal[mg].sihua);
   const sihuaBadges=sihuaList.map(([s,sh])=>{
-    const bg=sh==='化祿'?'#e8f5e9;color:#2e7d32':sh==='化權'?'#fff3e0;color:#e65100':sh==='化科'?'#e3f2fd;color:#1565c0':'#fce4ec;color:#b71c1c';
+    const bg=sh==='化祿'?'#e8f5e9;color:#2e7d32':sh==='化權'?'#fff3e0;color:#5B3A8C':sh==='化科'?'#e3f2fd;color:#1565c0':'#fce4ec;color:#b71c1c';
     return`<span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;background:${bg};margin-right:4px">${s}${sh}</span>`;
   }).join('');
 
@@ -1873,7 +1873,7 @@ function doGenerate(name,gender,isSolar,year,month,day,hour){
   const sihuaSummaryItems=['化祿','化權','化科','化忌'].map(sh=>{
     const star=yg[sh]||'—';
     const star2=sh==='化忌'&&yg['化忌2']?`、${yg['化忌2']}`:'';
-    const col=sh==='化祿'?'#2e7d32':sh==='化權'?'#e65100':sh==='化科'?'#1565c0':'#b71c1c';
+    const col=sh==='化祿'?'#2e7d32':sh==='化權'?'#5B3A8C':sh==='化科'?'#1565c0':'#b71c1c';
     const bg=sh==='化祿'?'#f1f8f2':sh==='化權'?'#fffbf0':sh==='化科'?'#f0f6ff':'#fdf0f0';
     return`<div style="padding:8px 10px;border-radius:8px;background:${bg};border-left:3px solid ${col}">
       <div style="font-size:9px;font-weight:700;letter-spacing:2px;color:${col}">${sh}</div>
@@ -2000,14 +2000,14 @@ function generatePaidReading(result, yg, mg){
 
   const ALL_MAIN=['紫微','天機','太陽','武曲','天同','廉貞','天府','太陰','貪狼','巨門','天相','天梁','七殺','破軍'];
   const sihuaNames={化祿:'祿',化權:'權',化科:'科',化忌:'忌'};
-  const sihuaBg={化祿:'#e8f5e9;color:#2e7d32',化權:'#fff3e0;color:#e65100',化科:'#e3f2fd;color:#1565c0',化忌:'#fce4ec;color:#b71c1c'};
+  const sihuaBg={化祿:'#e8f5e9;color:#2e7d32',化權:'#fff3e0;color:#5B3A8C',化科:'#e3f2fd;color:#1565c0',化忌:'#fce4ec;color:#b71c1c'};
 
   // 四化匯總
   const sihuaSummary=['化祿','化權','化科','化忌'].map(sh=>{
     const star=yg[sh]||'—';
     const star2=sh==='化忌'&&yg['化忌2']?`、${yg['化忌2']}`:''
     return`<div style="padding:8px 12px;border-radius:8px;background:${sh==='化祿'?'#f1f8f2':sh==='化權'?'#fffbf0':sh==='化科'?'#f0f6ff':'#fdf0f0'};border-left:3px solid ${sh==='化祿'?'#4caf50':sh==='化權'?'#ff9800':sh==='化科'?'#2196f3':'#f44336'}">
-      <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:${sh==='化祿'?'#2e7d32':sh==='化權'?'#e65100':sh==='化科'?'#1565c0':'#b71c1c'};margin-bottom:2px">${sh}</div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:${sh==='化祿'?'#2e7d32':sh==='化權'?'#5B3A8C':sh==='化科'?'#1565c0':'#b71c1c'};margin-bottom:2px">${sh}</div>
       <div style="font-size:14px;font-weight:700;color:#2c1a3a">${star}${star2}</div>
     </div>`;
   }).join('');
@@ -2027,7 +2027,7 @@ function generatePaidReading(result, yg, mg){
       const shBadge=sh?`<span style="font-size:10px;padding:1px 6px;border-radius:8px;background:${sihuaBg[sh]};margin-left:4px">${sh}</span>`:'';
       const sihuaDesc=sh&&detail&&detail.四化&&detail.四化[sh.slice(1)]?
         `<div style="margin-top:6px;padding:6px 10px;border-radius:6px;background:${sh==='化祿'?'#f1f8f2':sh==='化權'?'#fffbf0':sh==='化科'?'#f0f6ff':'#fdf0f0'};font-size:12px;color:#4a3060">
-          <span style="font-weight:700;color:${sh==='化祿'?'#2e7d32':sh==='化權'?'#e65100':sh==='化科'?'#1565c0':'#b71c1c'}">${sh}影響：</span>${detail.四化[sh.slice(1)]}
+          <span style="font-weight:700;color:${sh==='化祿'?'#2e7d32':sh==='化權'?'#5B3A8C':sh==='化科'?'#1565c0':'#b71c1c'}">${sh}影響：</span>${detail.四化[sh.slice(1)]}
         </div>`:''
       const colD=COLOUR_DATA[s];
       const colInfo=colD?`<div style="font-size:11px;color:#7B5AB8;margin-top:4px">代表色：${colD.label}${sh==='化忌'&&colD.avoid?` ｜ 化忌：${colD.avoidLabel||'避開代表色'}`:''}</div>`:''
