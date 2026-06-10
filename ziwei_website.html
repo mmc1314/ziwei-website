@@ -356,7 +356,7 @@ footer{padding:48px 40px 32px;border-top:1px solid var(--border);background:var(
 .d-sh-card.ri .d-sh-head{background:var(--purple,#5B3A8C);color:#fff}
 .d-sh-head-layer{font-size:11px;font-weight:700;letter-spacing:1px}
 .d-sh-head-gong{font-size:9px;opacity:0.75;margin-top:1px}
-.d-sh-body{padding:8px 10px;background:#fff}
+.d-sh-body{padding:8px 10px;background:#FFFDF4}
 .d-sh-row{display:flex;justify-content:space-between;align-items:center;padding:3px 0;border-bottom:1px solid rgba(0,0,0,0.05)}
 .d-sh-row:last-child{border-bottom:none}
 .d-sh-badge{font-size:9px;font-weight:700;padding:1px 5px;border-radius:5px;flex-shrink:0}
@@ -985,7 +985,7 @@ select:focus,input:focus{border-color:var(--gold)}
 </div><!-- end paywallPage -->
 
 <!-- ══════════════ DAILY PAGE ══════════════ -->
-<div id="dailyPage" class="page">
+<div id="dailyPage" class="page" style="background:var(--bg,#FFFDF4)">
 <nav style="position:relative;top:0">
   <div class="logo"><span class="logo-main">紫微命盤</span><span class="logo-sub">ZI WEI ASTROLOGY</span></div>
   <div class="nav-links">
@@ -2488,8 +2488,14 @@ function dRender(result){
   const liuNianMing=getLiuNianMing(liuYdz,result.lm,result.h);
   const liuYueDZ=DZ[(dzi(liuNianMing)+(todayLm-1))%12];
   const liuRiDZ=DZ[(dzi(liuYueDZ)+(todayLd-1))%12];
+  const sy=dCurrentDate.getFullYear(),sm=dCurrentDate.getMonth()+1,sd=dCurrentDate.getDate();
   const palGan=getPalGan(result.mg,result.mgGan);
-  const liuNianTg=liuYtg,liuYueTg=palGan[liuYueDZ],liuRiTg=palGan[liuRiDZ];
+  const liuNianTg=liuYtg,liuYueTg=palGan[liuYueDZ];
+  // 流日天干：用實際日柱天干
+  const _refDay=Date.UTC(1900,0,31);
+  const _todayUTC=Date.UTC(sy,sm-1,sd);
+  const _dayDiff=Math.round((_todayUTC-_refDay)/86400000);
+  const liuRiTg='甲乙丙丁戊己庚辛壬癸'[((_dayDiff%10)+10)%10];
   const nianSH=SIHUA_TBL[liuNianTg]||{},yueSH=SIHUA_TBL[liuYueTg]||{},riSH=SIHUA_TBL[liuRiTg]||{};
 
   const starMap={};
@@ -2509,14 +2515,29 @@ function dRender(result){
   document.getElementById('dSihuaRow').innerHTML=dSHCard(nianSH,liuNianTg,liuNianMing,'流年','nian')+dSHCard(yueSH,liuYueTg,liuYueDZ,'流月','yue')+dSHCard(riSH,liuRiTg,liuRiDZ,'流日','ri');
 
   // Wear/avoid
-  const wearStars=new Set(),avoidMap=new Map(),destinyAvoid=[];
-  if(starMap['破軍']) destinyAvoid.push({label:'啡（破軍本命）',cols:['#A07850']});
+  const wearStars=new Set(),avoidMap=new Map(),destinyAvoidCols=new Set();
+
+  // 本命忌穿（終生）
+  const destinyAvoidList=[];
+  const mingMainStar=result.pal[result.mg]?.stars[0];
+  if(mingMainStar==='破軍'){
+    destinyAvoidList.push({label:'啡（破軍本命）',cols:['#A07850']});
+    destinyAvoidCols.add('#A07850');
+  }
   const dJi=result.yg?.化忌;
-  if(dJi){const c=COLOUR_DATA[dJi];if(c&&c.avoid)destinyAvoid.push({label:dJi+'忌（本命）',cols:c.avoid});}
+  if(dJi){const c=COLOUR_DATA[dJi];if(c&&c.avoid){c.avoid.forEach(av=>destinyAvoidCols.add(av));destinyAvoidList.push({label:dJi+'忌（本命）',cols:c.avoid});}}
+
   [{sh:nianSH,layer:'流年'+liuNianTg},{sh:yueSH,layer:'流月'+liuYueTg},{sh:riSH,layer:'流日'+liuRiTg}].forEach(({sh,layer})=>{
     if(sh.祿)wearStars.add(sh.祿);if(sh.科)wearStars.add(sh.科);
     if(sh.忌){avoidMap.set(sh.忌,layer);wearStars.delete(sh.忌);}
     if(sh.忌2){avoidMap.set(sh.忌2,layer);wearStars.delete(sh.忌2);}
+  });
+
+  // 從可穿顏色中移除本命忌穿顏色
+  const finalWearStars=[...wearStars].filter(s=>{
+    const col=COLOUR_DATA[s];if(!col)return true;
+    const starCols=col.multi?col.c.flat():[col.c].flat();
+    return !starCols.some(c=>destinyAvoidCols.has(c));
   });
 
   function dChip(star,isAvoid,layer=''){
@@ -2528,8 +2549,8 @@ function dRender(result){
     const src=layer?`<span class="d-chip-src">${layer}</span>`:'';
     return`<div class="d-chip${isAvoid?' avoid-chip':''}">${circles}<span>${star} ${label||''}${src}</span></div>`;
   }
-  document.getElementById('dWearChips').innerHTML=[...wearStars].map(s=>dChip(s,false)).join('')||'<span style="color:#888;font-size:12px">—</span>';
-  let avHtml=destinyAvoid.map(({label,cols})=>`<div class="d-chip avoid-chip">${cols.map(c=>makeCircle([c],18)).join('')}<span style="color:#991b1b">${label}</span></div>`).join('');
+  document.getElementById('dWearChips').innerHTML=finalWearStars.map(s=>dChip(s,false)).join('')||'<span style="color:#888;font-size:12px">今日宜穿命宮主色或中性色（白、米、灰）</span>';
+  let avHtml=destinyAvoidList.map(({label,cols})=>`<div class="d-chip avoid-chip">${cols.map(c=>makeCircle([c],18)).join('')}<span style="color:#be123c">${label}</span></div>`).join('');
   avoidMap.forEach((layer,star)=>{avHtml+=dChip(star,true,layer);});
   document.getElementById('dAvoidChips').innerHTML=avHtml||'<span style="color:#888;font-size:12px">無特別忌穿</span>';
 
