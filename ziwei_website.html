@@ -874,8 +874,12 @@ select:focus,input:focus{border-color:var(--gold)}
     <a onclick="showPage('paywallPage')" style="cursor:pointer" data-key="nav_colour">每日穿搭</a>
   </div>
   <div class="nav-right">
-    <button class="btn-login" onclick="openAuthModal('login')" data-key="btn_login">登入</button>
-    <button class="btn-join" onclick="openAuthModal('register')" data-key="btn_join">立即加入</button>
+    <button class="btn-login" id="chartNavLoginBtn" onclick="openAuthModal('login')" data-key="btn_login">登入</button>
+    <button class="btn-join" id="chartNavJoinBtn" onclick="openAuthModal('register')" data-key="btn_join">立即加入</button>
+    <div id="chartNavUserArea" style="display:none;align-items:center;gap:10px">
+      <span id="chartNavUserName" style="font-size:13px;color:var(--gold)"></span>
+      <button class="btn-login" onclick="onLogout()">登出</button>
+    </div>
   </div>
 </nav>
 <div class="chart-page-wrap">
@@ -2740,12 +2744,19 @@ function translateAuthError(msg) {
 function setUserUI(user) {
   _currentUser = user;
   const email = user?.email || '';
-  const name = email.split('@')[0];
+  const displayName = user?.user_metadata?.display_name || email.split('@')[0];
+  // Home nav
   document.getElementById('navLoginBtn').style.display = 'none';
   document.getElementById('navJoinBtn').style.display = 'none';
   const ua = document.getElementById('navUserArea');
   ua.style.display = 'flex';
-  document.getElementById('navUserName').textContent = '✦ ' + name;
+  document.getElementById('navUserName').textContent = '✦ ' + displayName;
+  // Chart page nav
+  document.getElementById('chartNavLoginBtn').style.display = 'none';
+  document.getElementById('chartNavJoinBtn').style.display = 'none';
+  const cua = document.getElementById('chartNavUserArea');
+  cua.style.display = 'flex';
+  document.getElementById('chartNavUserName').textContent = '✦ ' + displayName;
 }
 
 async function onLogout() {
@@ -2754,6 +2765,9 @@ async function onLogout() {
   document.getElementById('navLoginBtn').style.display = '';
   document.getElementById('navJoinBtn').style.display = '';
   document.getElementById('navUserArea').style.display = 'none';
+  document.getElementById('chartNavLoginBtn').style.display = '';
+  document.getElementById('chartNavJoinBtn').style.display = '';
+  document.getElementById('chartNavUserArea').style.display = 'none';
 }
 
 // Check session on load
