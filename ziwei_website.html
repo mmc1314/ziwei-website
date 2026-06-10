@@ -903,7 +903,7 @@ select:focus,input:focus{border-color:var(--gold)}
         </div>
       </div>
     </div>
-    <div class="daily-section" id="dailySection" style="display:none">
+    <div class="daily-section" id="dailySection" style="display:none!important">
       <div class="daily-header">
         <div class="daily-title">✦ 今日穿搭顏色</div>
         <div class="daily-date" id="dailyDateLabel"></div>
@@ -2243,17 +2243,22 @@ function buildDailyColour(result){
   const wearStars=new Set();
   const avoidStarsMap=new Map(); // star -> reason
 
-  // 本命忌穿（固定）— 破軍一生穿藍綠，忌啡；廉貞化忌忌淺藍綠+黃等
-  // 根據命宮主星的長期忌色
+  // 本命忌穿（固定）
   const destinyAvoidCols=[];
-  // 破軍特殊：一生忌啡（因為一生穿淺藍綠）
-  if(starMap['破軍']){destinyAvoidCols.push({label:'啡（破軍本命）',colours:['#A07850']});}
-  // 七殺：多穿黑深藍，日常避免太鮮艷
-  // 本命化忌星的顏色
+  const destinyAvoidHexSet=new Set();
+  // 破軍特殊：一生忌啡
+  if(starMap['破軍']){
+    destinyAvoidCols.push({label:'啡（破軍本命）',colours:['#A07850']});
+    destinyAvoidHexSet.add('#A07850');
+  }
+  // 本命化忌星
   const destinyJiStar=result.yg?.化忌;
   if(destinyJiStar){
     const c=COLOUR_DATA[destinyJiStar];
-    if(c&&c.avoid) destinyAvoidCols.push({label:destinyJiStar+'忌（本命）',colours:c.avoid});
+    if(c&&c.avoid){
+      c.avoid.forEach(av=>{if(Array.isArray(av))av.forEach(x=>destinyAvoidHexSet.add(x));else destinyAvoidHexSet.add(av);});
+      destinyAvoidCols.push({label:destinyJiStar+'忌（本命）',colours:c.avoid});
+    }
   }
 
   // 流年月日四化
@@ -2273,6 +2278,14 @@ function buildDailyColour(result){
       wearStars.delete(sh.忌2);
     }
   });
+
+  // 從可穿裡移除本命忌穿顏色的星
+  const filteredWearStars=new Set([...wearStars].filter(s=>{
+    const col=COLOUR_DATA[s]; if(!col) return true;
+    const cols=col.multi?col.c.flat():(Array.isArray(col.c)?col.c:[col.c]);
+    return !cols.some(c=>destinyAvoidHexSet.has(c));
+  }));
+
   const riLuStar=riSH.化祿;
 
   function renderChips(stars,isAvoid){
@@ -2289,7 +2302,7 @@ function buildDailyColour(result){
     }).join('');
   }
 
-  document.getElementById('wearChips').innerHTML=renderChips(wearStars,false)||'<span style="font-size:12px;color:#888">—</span>';
+  document.getElementById('wearChips').innerHTML=renderChips(filteredWearStars,false)||'<span style="font-size:12px;color:#888">今日宜穿白、米、灰等中性色</span>';
 
   // Build avoid chips: destiny + flow ji
   let avoidHtml='';
