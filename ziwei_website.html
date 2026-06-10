@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>紫微斗數 · 命盤起盤與每日穿搭</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700;900&family=Noto+Sans+TC:wght@300;400;500&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -602,8 +603,12 @@ select:focus,input:focus{border-color:var(--gold)}
     <a data-key="nav_contact">聯絡我們</a>
   </div>
   <div class="nav-right">
-    <button class="btn-login" data-key="btn_login">登入</button>
-    <button class="btn-join" data-key="btn_join">立即加入</button>
+    <button class="btn-login" id="navLoginBtn" onclick="openAuthModal('login')" data-key="btn_login">登入</button>
+    <button class="btn-join" id="navJoinBtn" onclick="openAuthModal('register')" data-key="btn_join">立即加入</button>
+    <div id="navUserArea" style="display:none;align-items:center;gap:10px">
+      <span id="navUserName" style="font-size:13px;color:var(--gold)"></span>
+      <button class="btn-login" onclick="onLogout()">登出</button>
+    </div>
   </div>
 </nav>
 <section class="hero">
@@ -869,8 +874,8 @@ select:focus,input:focus{border-color:var(--gold)}
     <a onclick="showPage('paywallPage')" style="cursor:pointer" data-key="nav_colour">每日穿搭</a>
   </div>
   <div class="nav-right">
-    <button class="btn-login" onclick="showPage('paywallPage')" data-key="btn_login">登入</button>
-    <button class="btn-join" onclick="showPage('paywallPage')" data-key="btn_join">立即加入</button>
+    <button class="btn-login" onclick="openAuthModal('login')" data-key="btn_login">登入</button>
+    <button class="btn-join" onclick="openAuthModal('register')" data-key="btn_join">立即加入</button>
   </div>
 </nav>
 <div class="chart-page-wrap">
@@ -2369,8 +2374,7 @@ function onPay(){
 }
 
 function onLogin(){
-  // TODO: integrate auth here
-  alert('登入功能即將推出！');
+  openAuthModal('login');
 }
 
 // ══════════════════════════════════════════
@@ -2559,5 +2563,157 @@ dUpdateDateBar();
   }
 })();
 </script>
-</body>
-</html>
+<!-- AUTH MODAL -->
+<div id="authModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);align-items:center;justify-content:center">
+  <div style="background:var(--card);border-radius:20px;padding:40px;width:100%;max-width:420px;margin:20px;box-shadow:0 20px 60px rgba(0,0,0,0.3);position:relative">
+    <button onclick="closeAuthModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted)">✕</button>
+    <div style="text-align:center;margin-bottom:28px">
+      <div style="font-family:'Noto Serif TC',serif;font-size:22px;font-weight:900;background:linear-gradient(135deg,var(--gold),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent">紫微命盤</div>
+      <div id="authModalTitle" style="font-size:16px;color:var(--text);margin-top:8px;font-weight:500"></div>
+    </div>
+    <div id="authError" style="display:none;background:#ffeaea;border:1px solid #ffbbbb;border-radius:10px;padding:10px 14px;font-size:13px;color:#c0392b;margin-bottom:16px"></div>
+    <div id="authSuccess" style="display:none;background:#eaffea;border:1px solid #bbffbb;border-radius:10px;padding:10px 14px;font-size:13px;color:#2e7d52;margin-bottom:16px"></div>
+    <input id="authEmail" type="email" placeholder="電郵地址" style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:12px;font-size:14px;margin-bottom:12px;font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);outline:none">
+    <input id="authPassword" type="password" placeholder="密碼（最少6位）" style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:12px;font-size:14px;margin-bottom:20px;font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);outline:none">
+    <button id="authSubmitBtn" onclick="onAuthSubmit()" style="width:100%;padding:14px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Noto Sans TC',sans-serif;letter-spacing:1px"></button>
+    <div style="text-align:center;margin-top:16px;font-size:13px;color:var(--muted)">
+      <span id="authSwitchText"></span>
+      <span id="authSwitchBtn" onclick="toggleAuthMode()" style="color:var(--gold);cursor:pointer;font-weight:500;margin-left:4px"></span>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+// SUPABASE AUTH
+// ══════════════════════════════════════════
+const SUPABASE_URL = 'https://vhzsfcrdvsushjlhnnkr.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZoenNmY3JkdnN1c2hqbGhubmtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExMDMzNzUsImV4cCI6MjA5NjY3OTM3NX0.1NAC_gSHPDqimkryby9VxB_6OrigOQkd5ZyBDPLr1ag';
+
+// Init Supabase client
+let _supabase;
+try {
+  _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+} catch(e) {}
+
+let _authMode = 'login'; // 'login' | 'register'
+let _currentUser = null;
+
+function openAuthModal(mode) {
+  _authMode = mode || 'login';
+  updateAuthModalUI();
+  document.getElementById('authModal').style.display = 'flex';
+  document.getElementById('authEmail').value = '';
+  document.getElementById('authPassword').value = '';
+  document.getElementById('authError').style.display = 'none';
+  document.getElementById('authSuccess').style.display = 'none';
+}
+
+function closeAuthModal() {
+  document.getElementById('authModal').style.display = 'none';
+}
+
+function toggleAuthMode() {
+  _authMode = _authMode === 'login' ? 'register' : 'login';
+  updateAuthModalUI();
+  document.getElementById('authError').style.display = 'none';
+  document.getElementById('authSuccess').style.display = 'none';
+}
+
+function updateAuthModalUI() {
+  const isLogin = _authMode === 'login';
+  document.getElementById('authModalTitle').textContent = isLogin ? '登入帳戶' : '建立帳戶';
+  document.getElementById('authSubmitBtn').textContent = isLogin ? '登入' : '立即註冊';
+  document.getElementById('authSwitchText').textContent = isLogin ? '還沒有帳戶？' : '已有帳戶？';
+  document.getElementById('authSwitchBtn').textContent = isLogin ? '立即註冊' : '返回登入';
+}
+
+async function onAuthSubmit() {
+  const email = document.getElementById('authEmail').value.trim();
+  const password = document.getElementById('authPassword').value;
+  const errEl = document.getElementById('authError');
+  const sucEl = document.getElementById('authSuccess');
+  const btn = document.getElementById('authSubmitBtn');
+
+  errEl.style.display = 'none';
+  sucEl.style.display = 'none';
+
+  if (!email || !password) {
+    errEl.textContent = '請填寫電郵和密碼';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  btn.textContent = '處理中...';
+  btn.disabled = true;
+
+  try {
+    let result;
+    if (_authMode === 'login') {
+      result = await _supabase.auth.signInWithPassword({ email, password });
+    } else {
+      result = await _supabase.auth.signUp({ email, password });
+    }
+
+    if (result.error) {
+      errEl.textContent = translateAuthError(result.error.message);
+      errEl.style.display = 'block';
+    } else if (_authMode === 'register' && !result.data.session) {
+      sucEl.textContent = '請查收確認電郵，點擊連結後即可登入！';
+      sucEl.style.display = 'block';
+    } else {
+      closeAuthModal();
+      setUserUI(result.data.user);
+    }
+  } catch(e) {
+    errEl.textContent = '連線錯誤，請稍後再試';
+    errEl.style.display = 'block';
+  }
+
+  btn.textContent = _authMode === 'login' ? '登入' : '立即註冊';
+  btn.disabled = false;
+}
+
+function translateAuthError(msg) {
+  if (msg.includes('Invalid login')) return '電郵或密碼錯誤';
+  if (msg.includes('Email not confirmed')) return '請先確認電郵';
+  if (msg.includes('User already registered')) return '此電郵已註冊，請直接登入';
+  if (msg.includes('Password should be')) return '密碼至少需要6位';
+  return msg;
+}
+
+function setUserUI(user) {
+  _currentUser = user;
+  const email = user?.email || '';
+  const name = email.split('@')[0];
+  document.getElementById('navLoginBtn').style.display = 'none';
+  document.getElementById('navJoinBtn').style.display = 'none';
+  const ua = document.getElementById('navUserArea');
+  ua.style.display = 'flex';
+  document.getElementById('navUserName').textContent = '✦ ' + name;
+}
+
+async function onLogout() {
+  await _supabase.auth.signOut();
+  _currentUser = null;
+  document.getElementById('navLoginBtn').style.display = '';
+  document.getElementById('navJoinBtn').style.display = '';
+  document.getElementById('navUserArea').style.display = 'none';
+}
+
+// Check session on load
+(async function() {
+  if (!_supabase) return;
+  const { data } = await _supabase.auth.getSession();
+  if (data?.session?.user) setUserUI(data.session.user);
+  _supabase.auth.onAuthStateChange((event, session) => {
+    if (session?.user) setUserUI(session.user);
+  });
+})();
+
+// Close modal on backdrop click
+document.getElementById('authModal').addEventListener('click', function(e) {
+  if (e.target === this) closeAuthModal();
+});
+</script>
+</body></html>
