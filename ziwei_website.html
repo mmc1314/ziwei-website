@@ -2160,7 +2160,13 @@ function buildDailyColour(result){
   const palGan=getPalGan(result.mg,result.mgGan);
   const liuNianTg=liuYtg;
   const liuYueTg=palGan[liuYueDZ];
-  const liuRiTg=palGan[liuRiDZ];
+  // 流日天干：用實際日柱天干（以1900-01-31甲子日為基準）
+  const _refDay=Date.UTC(1900,0,31);
+  const _todayUTC=Date.UTC(sy,sm-1,sd);
+  const _dayDiff=Math.round((_todayUTC-_refDay)/86400000);
+  const liuRiTg='甲乙丙丁戊己庚辛壬癸'[((_dayDiff%10)+10)%10];
+  // 流日地支（實際日柱地支）
+  const liuRiActualDZ='子丑寅卯辰巳午未申酉戌亥'[((_dayDiff%12)+12)%12];
 
   // 三層四化
   const nianSH=SIHUA_TBL[liuNianTg]||{};
